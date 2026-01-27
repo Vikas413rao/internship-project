@@ -329,7 +329,7 @@ const handleclosedialog =() =>{
       </Tooltip>
     </Box>
     {!nextopen ?(
-    <Box  sx={{position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
+    <Box  sx={{position:'absolute',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
           <Typography sx={{textDecoration:'underline',fontSize:14,pl:3,pt:2}}>User Steps:</Typography>
           <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>    To fetch all locators in one go,click on Scrape UI. </Typography>
           <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>     Right click on UI control to fetch individual locators.</Typography>
@@ -345,7 +345,7 @@ const handleclosedialog =() =>{
           <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>    <Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Scrape UI.</Typography>
           
     </Box>):(
-     <Box  sx={{position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5}}>
+     <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>
       <Box sx={{display:'flex',alignItems:'center'}}>
           <TextField id="outlined-basic" placeholder="Search"  variant="outlined" sx={{width:250,pt:1,ml:2}}InputProps={{disableUnderline:true,startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),sx:{px:1,fontSize:12,height:30,bgcolor:'white'}}} />
             <Box>
@@ -372,7 +372,7 @@ const handleclosedialog =() =>{
         <DialogContent>
            <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr",columnGap: 3,rowGap: 1,mt: 1,}}>
     {AllColumns.map(col => (
-      <FormControlLabel key={col.key} control={<Checkbox checked={selectedColumns.includes(col.key)} onChange={()=> handleColumns(col.key)}/>} label={col.label} />
+      <FormControlLabel key={col.label} control={<Checkbox checked={draftColumns.includes(col.key)} onChange={()=> handleColumns(col.key)}/>} label={col.label} />
     ))}
     </Box>
         </DialogContent>
@@ -382,7 +382,7 @@ const handleclosedialog =() =>{
         </DialogActions>
       </Dialog>
             </Box>
-          <Box sx={{width:500,mt:1,ml:2, overflowX: "hidden","&::-webkit-scrollbar": {display: "none",},scrollbarWidth:"none"}}>
+          <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:0,overflowY:'auto',overflowX: "hidden","&::-webkit-scrollbar": {display: "none",},scrollbarWidth:"none"}}>
           <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto"}}>
       <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
         <TableHead sx={{bgcolor:'#2F8BCC'}}>
@@ -396,22 +396,26 @@ const handleclosedialog =() =>{
         <TableBody>
          
             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              {selectedColumns.includes('contenName') && (
-              <TableCell sx={{fontSize:12}}>Name
-              </TableCell> )}
-              {selectedColumns.includes('controlType') && (
-              <TableCell sx={{fontSize:12}} > <FormControl width={20}>
+              {AllColumns.filter(col => selectedColumns.includes(col.key)).map(col => (
+              <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+              
+              {col.key === 'controlType' && (
+               <FormControl width={20}>
        
         <NativeSelect
         >
           <option value={10}>TextBox</option>
           <option value={20}>DropDown</option>
         </NativeSelect>
-      </FormControl></TableCell> )}
-      {selectedColumns.includes('Xpath') && (
-              <TableCell  ><Link href="#" variant="body2" sx={{fontSize:12}}>
+      </FormControl>)}
+      {col.key === 'Xpath' && (
+             <Link href="#" variant="body2" sx={{fontSize:12}}>
   XPath Link
-</Link></TableCell> )}
+</Link>
+ )}
+  {!['contentName','controlType','Xpath'].includes(col.key) && '-'}
+</TableCell>
+      ))}
 
               <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
             </TableRow>
@@ -422,7 +426,7 @@ const handleclosedialog =() =>{
     
     </Box>
     
-    <Box sx={{px:2,py:1,mt:19,display:'flex',alignItems:'center',gap:2,borderTop:'1px solid rgba(0,0,0,0.25)',width:'300'}}>
+    <Box sx={{flexShrink:0,px:2,py:1,mt:19,display:'flex',alignItems:'center',gap:2,borderTop:'1px solid rgba(0,0,0,0.25)',backgroundColor:'#f5f5f5'}}>
     <Box sx={{display:'flex',alignItems:'center',gap:2}}>
     <Button variant='contained' size='small' sx={{top:3}} >+ Row</Button>
     <Typography sx={{fontSize:12,color:'red'}}>Error will be displayed here</Typography>
