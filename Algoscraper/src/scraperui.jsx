@@ -42,6 +42,16 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
+const AllColumns = [
+    {key:'contentName',label:'Content Name',default:true},
+    {key:'controlType',label:'Control Type',default:true},
+    {key:'Xpath',label:'Xpath',default:true},
+    {key:'pageName',label:'Page Name', default:false},
+    {key:'controlValue',label:'Control Value',default:false},
+    {key:'appUrl',label:'App URL',default:false },
+    {key:'featureName',label:'Feature Name',default:false},
+    {key:'nodeName',label:'Node Name',default:false},
+  ];
 export default function Scraperui() {
     const [openStartdialog,setOpenstartdialog] = useState(false);
     const [openSessiondialog,setOpensessiondialog] = useState(false);
@@ -49,15 +59,17 @@ const [Open,setopen] = useState(false);
 const [opendialog,setopendialog]=useState(false);
 const [openedit,setopenedit]= useState(false);
   const [opencheck,setopencheck] = useState(false);
-  const [checked, setChecked] = useState(true);
-
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.default).map(c=>c.key));
+  const[draftColumns,setdraftColumns]=useState(selectedColumns);
+  const handleColumns =(key)=>{
+    setdraftColumns(prev =>prev.includes(key) ? prev.filter(c=>c !== key):[...prev,key]);
   };
   const handleclickcheck = ()=>{
     setopencheck(true);
+    setdraftColumns(selectedColumns);
   }
   const handleclosecheck = () =>{
+    setdraftColumns(selectedColumns);
     setopencheck(false);
   }
 const handlestartedit = () =>{
@@ -359,23 +371,14 @@ const handleclosedialog =() =>{
     </IconButton></DialogTitle>
         <DialogContent>
            <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr",columnGap: 3,rowGap: 1,mt: 1,}}>
-    
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Control Type" />
-      <FormControlLabel control={<Checkbox />} label="Page Name" />
-
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Control Name" />
-      <FormControlLabel control={<Checkbox />} label="Control Value" />
-
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Xpath" />
-      <FormControlLabel control={<Checkbox />} label="App URL" />
-
-      <FormControlLabel control={<Checkbox />} label="Feature Name" />
-      <FormControlLabel control={<Checkbox />} label="Node Name" />
+    {AllColumns.map(col => (
+      <FormControlLabel key={col.key} control={<Checkbox checked={selectedColumns.includes(col.key)} onChange={()=> handleColumns(col.key)}/>} label={col.label} />
+    ))}
     </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleclosecheck} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info'  sx={{right:10}}>Apply Changes</Button>
+              <Button variant='contained' color='info'  sx={{right:10}} onClick={()=>{setselectedcolumns(draftColumns);setopencheck(false);}}>Apply Changes</Button>
         </DialogActions>
       </Dialog>
             </Box>
@@ -384,36 +387,32 @@ const handleclosedialog =() =>{
       <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
         <TableHead sx={{bgcolor:'#2F8BCC'}}>
           <TableRow>
-            <TableCell sx={{color:'white',fontSize:12,width: 70}}>Content Name</TableCell>
-            <TableCell sx={{color:'white',fontSize:12,width: 50}}>Control Type</TableCell>
-            <TableCell sx={{color:'white',fontSize:12, width: 40 }}>XPath</TableCell>
-            <TableCell sx={{color:'white',fontSize:12,width: 20 }}></TableCell>
+          {AllColumns.filter(col=> selectedColumns.includes(col.key)).map(col => (
+            <TableCell sx={{color:'white',fontSize:12,width: 70}}>{col.label}</TableCell>
+          ))}
             <TableCell sx={{color:'white',fontSize:12,width: 20 }}>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
          
             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              {selectedColumns.includes('contenName') && (
               <TableCell sx={{fontSize:12}}>Name
-              </TableCell>
+              </TableCell> )}
+              {selectedColumns.includes('controlType') && (
               <TableCell sx={{fontSize:12}} > <FormControl width={20}>
        
         <NativeSelect
-          defaultValue={30}
-          inputProps={{
-            
-            id: 'uncontrolled-native',
-          }}
         >
           <option value={10}>TextBox</option>
           <option value={20}>DropDown</option>
-          <option value={30}>Thirty</option>
         </NativeSelect>
-      </FormControl></TableCell>
+      </FormControl></TableCell> )}
+      {selectedColumns.includes('Xpath') && (
               <TableCell  ><Link href="#" variant="body2" sx={{fontSize:12}}>
   XPath Link
-</Link></TableCell>
-<TableCell></TableCell>
+</Link></TableCell> )}
+
               <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
             </TableRow>
          
