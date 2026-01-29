@@ -1,5 +1,4 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -40,7 +39,7 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
@@ -55,6 +54,7 @@ const AllColumns = [
 export default function Scraperui() {
     const [openStartdialog,setOpenstartdialog] = useState(false);
     const [openSessiondialog,setOpensessiondialog] = useState(false);
+    const navigate = useNavigate(); 
 const [Open,setopen] = useState(false);
 const [opendialog,setopendialog]=useState(false);
 const [openedit,setopenedit]= useState(false);
@@ -100,6 +100,7 @@ const handleclosedialog =() =>{
       const handleConfirm = () =>{
         
         setopen(false);
+        navigate('/');
       }
 
     const pagelist =[
@@ -331,9 +332,10 @@ const handleclosedialog =() =>{
     {!nextopen ?(
     <Box  sx={{position:'absolute',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
           <Typography sx={{textDecoration:'underline',fontSize:14,pl:3,pt:2}}>User Steps:</Typography>
-          <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>    To fetch all locators in one go,click on Scrape UI. </Typography>
-          <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>     Right click on UI control to fetch individual locators.</Typography>
-          <Typography sx={{fontSize:12,pl:5,pt:1,display:'flex',alignItems:'center'}}><CircleIcon sx={{fontSize:9,gap:7}}/>     Click on <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 600,fontSize: 14,color: "#6b6b6b",lineHeight: 1,}} >
+          <ul style={{paddingLeft:45,margin:0}}>
+          <li><Typography sx={{fontSize:12}}>To fetch all locators in one go,click on Scrape UI. </Typography></li>
+          <li><Typography sx={{fontSize:12}}>Right click on UI control to fetch individual locators.</Typography></li>
+          <li><Typography sx={{fontSize:12,display:'flex',alignItems:'center'}}>Click on <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 600,fontSize: 14,color: "#6b6b6b",lineHeight: 1,}} >
         algo
       </Typography>
       <Typography sx={{fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
@@ -341,8 +343,8 @@ const handleclosedialog =() =>{
       </Typography>
       <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
         A
-      </Typography>for the project to be created in algoQA</Typography>
-          <Typography sx={{fontSize:12,pl:5,pt:1}}><CircleIcon sx={{fontSize:9,gap:7}}/>    <Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Scrape UI.</Typography>
+      </Typography>for the project to be created in algoQA</Typography></li>
+          <li><Typography sx={{fontSize:12}}><Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Scrape UI.</Typography> </li></ul>
           
     </Box>):(
      <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>

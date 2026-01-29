@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Pingcard from './pingcard.jsx';
+import Recording from './recording.jsx';
 import Scraperui from './scraperui.jsx';
 export default function App() {
   
@@ -13,7 +14,7 @@ export default function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/scraperui' element={<Scraperui/>}/>
            <Route path='/pingcard' element={<Pingcard/>}/>
-
+          <Route path='/recording' element={<Recording/>}/>
         </Routes>
       
     </>
