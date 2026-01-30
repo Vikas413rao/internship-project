@@ -329,7 +329,8 @@ const handleclosedialog =() =>{
       </Dialog>
       </Tooltip>
     </Box>
-    {!nextopen ?(
+    {!nextopen  ? (
+      <>
     <Box  sx={{position:'absolute',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
           <Typography sx={{textDecoration:'underline',fontSize:14,pl:3,pt:2}}>User Steps:</Typography>
           <ul style={{paddingLeft:45,margin:0}}>
@@ -346,7 +347,9 @@ const handleclosedialog =() =>{
       </Typography>for the project to be created in algoQA</Typography></li>
           <li><Typography sx={{fontSize:12}}><Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Scrape UI.</Typography> </li></ul>
           
-    </Box>):(
+    </Box>
+    </>):(
+      <>
      <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>
       <Box sx={{display:'flex',alignItems:'center'}}>
           <TextField id="outlined-basic" placeholder="Search"  variant="outlined" sx={{width:250,pt:1,ml:2}}InputProps={{disableUnderline:true,startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),sx:{px:1,fontSize:12,height:30,bgcolor:'white'}}} />
@@ -439,6 +442,7 @@ const handleclosedialog =() =>{
          </Box>
          </Box> 
      </Box>
+     </>
     )}
     </Box>
     </Box>
