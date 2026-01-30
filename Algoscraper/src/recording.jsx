@@ -45,9 +45,9 @@ const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
     {key:'controlType',label:'Control Type',default:true},
     {key:'Xpath',label:'Xpath',default:true},
-    {key:'pageName',label:'Page Name', default:false},
-    {key:'controlValue',label:'Control Value',default:false},
-    {key:'appUrl',label:'App URL',default:false },
+    {key:'pageName',label:'Page Name', default:true},
+    {key:'controlValue',label:'Control Value',default:true},
+    {key:'appUrl',label:'App URL',default:true },
     {key:'featureName',label:'Feature Name',default:false},
     {key:'nodeName',label:'Node Name',default:false},
   ];
@@ -102,6 +102,43 @@ export default function Recording() {
     const handleclosedialog =() =>{
       setopendialog(false);
     }
+    const [opensetting,setopensetting]=useState(false);
+    
+    const handleopensetting = () =>{
+      setopensetting(true);
+    }
+    const handleclosesetting = ()=>{
+      setopensetting(false);
+    }
+    const [openscenario, setOpenscenario] = useState(false);
+const [scenarioName, setScenarioName] = useState("");
+const [scenarioOutline, setScenarioOutline] = useState("");
+const [scenarioList, setScenarioList] = useState([]); 
+const handleopenscenario = () => {
+  setOpenscenario(true);
+};
+
+const handleclosescenario = () => {
+  setOpenscenario(false);
+  setScenarioName("");
+  setScenarioOutline("");
+};
+
+const handlesavescinario = () => {
+  if (!scenarioName.trim()){
+    alert("Scenario name is required");
+    return;
+  }
+  const newscenario ={
+    id:Date.now(),
+    name:scenarioName,
+    outline:scenarioOutline,
+  };
+  setScenarioList((prev)=>[...prev,newscenario]);
+  handleclosescenario();
+};
+
+
     return (
     <div>
             <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
@@ -323,13 +360,54 @@ export default function Recording() {
         </DialogActions>
       </Dialog>
        </Box>
-       <Box component='section' sx={{height:30,width:527,bgcolor:'whitesmoke',ml:0.3,mr:0.5,mt:0.5,display:'flex',alignItems:'center'}}>
+       <Box component='section' sx={{height:30,width:527,bgcolor:'whitesmoke',ml:0.3,mr:0.5,mt:0.5,display:'flex',alignItems:'center',position:'relative',zIndex:10}}>
                 <Typography sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
-                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:180}} ><SettingsIcon sx={{color:'#2F8BCC'}}/></Button>
-                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,left:185}} ><RadioButtonCheckedIcon sx={{color:'red'}}/></Button>
-                <Button><CropSquareOutlinedIcon />
-                <EditOutlinedIcon sx={{right:10}}/>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:200}} onClick={handleopensetting}><SettingsIcon sx={{color:'#2F8BCC'}}/></Button>
+                 <Dialog open={opensetting} onClose={handleclosesetting}>
+        <DialogTitle>Settings
+          <IconButton onClick={handleclosesetting} sx={{position:'absolute',right:8,top:8}}><CloseIcon sx={{color:'red'}}/></IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <FormGroup>
+  <FormControlLabel control={<Checkbox defaultChecked />} label="Enable Mouse hover event" />
+  <FormControlLabel  control={<Checkbox />} label="Enable scroll event" />
+  </FormGroup>
+        </DialogContent>
+      </Dialog>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,left:210}} ><RadioButtonCheckedIcon sx={{color:'red'}}/></Button>
+                <Button size='small' sx={{minWidth:0,widt:30,bgcolor:'white',height:25,left:220,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleopenscenario}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
                 </Button>
+                 <Dialog open={openscenario} onClose={handleclosescenario} >
+        <DialogTitle sx={{fontSize:15}}>Edit Scenario</DialogTitle>
+        <DialogContent>
+          <FormGroup sx={{p:2,gap:2,width:360}}>
+             <TextField
+             placeholder="Enter Scenario Name"
+          id="outlined-size-small"
+          size="small"
+          value={scenarioName}
+          onChange={(e)=>setScenarioName(e.target.value)}
+        />
+           <TextField
+          id="outlined-multiline-static"
+          placeholder="Scenario Outline"
+          value={scenarioOutline}
+          onChange={(e)=>setScenarioOutline(e.target.value)}
+          required
+          multiline
+          rows={4}
+        />
+        </FormGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleclosescenario}>Cancel</Button>
+          <Button onClick={handlesavescinario} variant='contained'>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:230}}><DeleteOutlineOutlinedIcon /></Button>
        </Box>
             <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>
                   <Box sx={{display:'flex',alignItems:'center'}}>
@@ -368,9 +446,11 @@ export default function Recording() {
                     </DialogActions>
                   </Dialog>
                         </Box>
-                      <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:0,overflowY:'auto',overflowX: "hidden","&::-webkit-scrollbar": {display: "none",},scrollbarWidth:"none"}}>
-                      <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto"}}>
-                  <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
+                      <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:250,overflowY:'auto', overflowX: 'auto',"&::-webkit-scrollbar": {display:'none'},scrollbarWidth:"none"}}>
+                      <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto", "&::-webkit-scrollbar": {
+      height: 0,
+    }, scrollbarWidth: 'none',msOverflowStyle: 'none',}}>
+                  <Table size='small'  sx={{ minWidth:900, tableLayout: "fixed",maxHeight:300}} aria-label="a dense table" >
                     <TableHead sx={{bgcolor:'#2F8BCC'}}>
                       <TableRow>
                       {AllColumns.filter(col=> selectedColumns.includes(col.key)).map(col => (
@@ -399,12 +479,39 @@ export default function Recording() {
               XPath Link
             </Link>
              )}
-              {!['contentName','controlType','Xpath'].includes(col.key) && '-'}
+              {!['contentName','controlType','Xpath'].includes(col.key) && col.label}
             </TableCell>
                   ))}
             
                           <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
                         </TableRow>
+                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                          {AllColumns.filter(col => selectedColumns.includes(col.key)).map(col => (
+                          <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+                          
+                          {col.key === 'controlType' && (
+                           <FormControl width={20} sx={{fontSize:12}}>
+                   
+                    <NativeSelect
+                    >
+                      <option value={10}>TextBox</option>
+                      <option value={20}>DropDown</option>
+                    </NativeSelect>
+                  </FormControl>)}
+                  {col.key === 'Xpath' && (
+                         <Link href="#" variant="body2" sx={{fontSize:12}}>
+              XPath Link
+            </Link>
+             )}
+              {!['contentName','controlType','Xpath'].includes(col.key) && col.label}
+            </TableCell>
+                  ))}
+            
+                          <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
+                        </TableRow>
+                        
+                        
+                        
                      
                     </TableBody>
                   </Table>
@@ -412,7 +519,7 @@ export default function Recording() {
                 
                 </Box>
                 
-                <Box sx={{flexShrink:0,px:2,py:1,mt:19,display:'flex',alignItems:'center',gap:2,borderTop:'1px solid rgba(0,0,0,0.25)',backgroundColor:'#f5f5f5'}}>
+                <Box sx={{flexShrink:0,px:2,py:1,mt:0,display:'flex',alignItems:'center',gap:2,borderTop:'1px solid rgba(0,0,0,0.25)',backgroundColor:'#f5f5f5'}}>
                 <Box sx={{display:'flex',alignItems:'center',gap:2}}>
                 <Button variant='contained' size='small' sx={{top:3}} >+ Row</Button>
                 <Typography sx={{fontSize:12,color:'red'}}>Error will be displayed here</Typography>
