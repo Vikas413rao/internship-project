@@ -9,6 +9,7 @@ import MinimizeIcon from '@mui/icons-material/Minimize';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
@@ -40,7 +41,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
     {key:'controlType',label:'Control Type',default:true},
@@ -291,6 +291,7 @@ export default function Addscenario() {
         </DialogActions>
       </Dialog>
        </Box>
+       {!addScenarioOpen ? (
        <Box component='section' sx={{height:30,width:527,bgcolor:'whitesmoke',ml:0.3,mr:0.5,mt:0.5,display:'flex',alignItems:'center',position:'relative',zIndex:10}}>
                 <Typography sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                 <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:200}} onClick={handleopensetting}><SettingsIcon sx={{color:'#2F8BCC'}}/></Button>
@@ -340,6 +341,73 @@ export default function Addscenario() {
       </Dialog>
                 <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:230}}><DeleteOutlineOutlinedIcon /></Button>
        </Box>
+       ):(
+       <Box component='section' sx={{height:30,width:527,bgcolor:'whitesmoke',ml:0.3,mr:0.5,mt:0.5,display:'flex',alignItems:'center',position:'relative',zIndex:10}}>
+                <Typography sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:125}} onClick={handleopensetting}><SettingsIcon sx={{color:'#2F8BCC'}}/></Button>
+                 <Dialog open={opensetting} onClose={handleclosesetting}>
+        <DialogTitle>Settings
+          <IconButton onClick={handleclosesetting} sx={{position:'absolute',right:8,top:8}}><CloseIcon sx={{color:'red'}}/></IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <FormGroup>
+  <FormControlLabel control={<Checkbox defaultChecked />} label="Enable Mouse hover event" />
+  <FormControlLabel  control={<Checkbox />} label="Enable scroll event" />
+  </FormGroup>
+        </DialogContent>
+      </Dialog>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,left:120}} ><RadioButtonCheckedIcon sx={{color:'red'}}/></Button>
+                <Button size='small' sx={{minWidth:0,widt:30,bgcolor:'white',height:25,left:125,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleopenscenario}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
+                </Button>
+                 <Dialog open={openscenario} onClose={handleclosescenario} >
+        <DialogTitle sx={{fontSize:15}}>Edit Scenario</DialogTitle>
+        <DialogContent>
+          <FormGroup sx={{p:2,gap:2,width:360}}>
+             <TextField
+             placeholder="Enter Scenario Name"
+          id="outlined-size-small"
+          size="small"
+          value={scenarioName}
+          onChange={(e)=>setScenarioName(e.target.value)}
+        />
+           <TextField
+          id="outlined-multiline-static"
+          placeholder="Scenario Outline"
+          value={scenarioOutline}
+          onChange={(e)=>setScenarioOutline(e.target.value)}
+          required
+          multiline
+          rows={4}
+        />
+        </FormGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleclosescenario}>Cancel</Button>
+          <Button onClick={handlesavescinario} variant='contained'>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+                <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:130}}><DeleteOutlineOutlinedIcon /></Button>
+               
+                <Button size="small" sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:135}} onClick={handleclickdialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Button>
+                        <Dialog open={opendialog} >
+                        <DialogTitle sx={{color:'black',alignItems:'center',display:'flex', gap:2}}>Reset Record</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Do you really want to reset these records
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions >
+                          <Button onClick={handleclosedialog} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
+                          <Button variant='contained' color='info' onClick={()=>{setopendialog(false);setnextopen(false)}} sx={{right:20}}>Confirm</Button>
+                        </DialogActions>
+                      </Dialog>
+                       <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:140}}><RemoveRedEyeOutlinedIcon /></Button>
+                <Button size="small" sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:150}} ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Button>
+       </Box>
+       )}
             <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>
                   <Box sx={{display:'flex',alignItems:'center'}}>
                       <TextField id="outlined-basic" placeholder="Search"  variant="outlined" sx={{width:250,pt:1,ml:2}}InputProps={{disableUnderline:true,startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),sx:{px:1,fontSize:12,height:30,bgcolor:'white'}}} />
@@ -390,6 +458,7 @@ export default function Addscenario() {
                         <TableCell sx={{color:'white',fontSize:12,width: 20 }}>Action</TableCell>
                       </TableRow>
                     </TableHead>
+                    {!addScenarioOpen && (
                     <TableBody>
                      
                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -441,6 +510,7 @@ export default function Addscenario() {
                           <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
                         </TableRow>
                     </TableBody>
+                    )}
                   </Table>
                 </TableContainer>
                 
