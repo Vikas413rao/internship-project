@@ -401,7 +401,7 @@ export default function Addscenario() {
                         </DialogContent>
                         <DialogActions >
                           <Button onClick={handleclosedialog} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-                          <Button variant='contained' color='info' onClick={()=>{setopendialog(false);setnextopen(false)}} sx={{right:20}}>Confirm</Button>
+                          <Button variant='contained' color='info' onClick={()=>{setopendialog(false);navigate('/scraperui');}} sx={{right:20}}>Confirm</Button>
                         </DialogActions>
                       </Dialog>
                        <Button size='small' sx={{minWidth:0,width:30,bgcolor:'white',height:25,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',left:140}}><RemoveRedEyeOutlinedIcon /></Button>
@@ -422,7 +422,7 @@ export default function Addscenario() {
                         </DialogContent>
                         <DialogActions >
                           <Button onClick={handleclosedialog} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-                          <Button variant='contained' color='info' onClick={()=>{setopendialog(false);setnextopen(false)}} sx={{right:20}}>Confirm</Button>
+                          <Button variant='contained' color='info' onClick={()=>{setopendialog(false);navigate('/scraperui')}} sx={{right:20}}>Confirm</Button>
                         </DialogActions>
                       </Dialog>
                         </Box>

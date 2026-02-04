@@ -2,20 +2,23 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import CropFreeIcon from '@mui/icons-material/CropFree';
+import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import LaunchIcon from '@mui/icons-material/Launch';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import NorthEastOutlinedIcon from '@mui/icons-material/NorthEastOutlined';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { DialogActions, DialogContentText, Icon, IconButton, InputAdornment, Stack } from '@mui/material';
+import { DialogActions, DialogContentText, Icon, IconButton, InputAdornment, LinearProgress, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -26,6 +29,7 @@ import Link from '@mui/material/Link';
 import NativeSelect from '@mui/material/NativeSelect';
 import Pagination from '@mui/material/Pagination';
 import Paper from '@mui/material/Paper';
+import Radio from '@mui/material/Radio';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -34,8 +38,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import Image from '../src/assets/image.png';
 function UserSteps({setScreen}){
     const [openStartdialog,setOpenstartdialog] = useState(false);
         const [openSessiondialog,setOpensessiondialog] = useState(false);
@@ -244,16 +249,7 @@ function UserSteps({setScreen}){
     </div>
     );
 }
-const AllColumns = [
-    {key:'contentName',label:'Content Name',default:true},
-    {key:'controlType',label:'Control Type',default:true},
-    {key:'Xpath',label:'Xpath',default:true},
-    {key:'pageName',label:'Page Name', default:false},
-    {key:'controlValue',label:'Control Value',default:false},
-    {key:'appUrl',label:'App URL',default:false },
-    {key:'featureName',label:'Feature Name',default:false},
-    {key:'nodeName',label:'Node Name',default:false},
-  ];
+
 function EmptyScraper ({setScreen}) {
      const [openStartdialog,setOpenstartdialog] = useState(false);
               const [openSessiondialog,setOpensessiondialog] = useState(false);
@@ -433,7 +429,7 @@ function EmptyScraper ({setScreen}) {
                 <InsertDriveFileOutlinedIcon fontSize='small' /><Typography sx={{color:'#2F8BCC',fontSize:15}}>File.txt</Typography><CloseIcon sx={{color:'black'}} fontSize='small'/>
               </Box>
               <Box sx={{bgcolor:'grey.100',ml:0.4,mr:0.4,height:357,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-                <img src='\src\assets\image.png'/>
+                <img src={Image}/>
                 <Typography sx={{fontSize:13}}>Scrape the Relevant pages of X-Path</Typography>
               </Box>
           </Box>
@@ -441,7 +437,17 @@ function EmptyScraper ({setScreen}) {
     </div>
     )
 }
-function TableScreen ({setScreen}){
+const AllColumns = [
+    {key:'contentName',label:'Content Name',default:true},
+    {key:'controlType',label:'Control Type',default:true},
+    {key:'Xpath',label:'Xpath',default:true},
+    {key:'pageName',label:'Page Name', default:false},
+    {key:'controlValue',label:'Control Value',default:false},
+    {key:'appUrl',label:'App URL',default:false },
+    {key:'featureName',label:'Feature Name',default:false},
+    {key:'nodeName',label:'Node Name',default:false},
+  ];
+function TableScreen ({setScreen ,setLoading ,setProgress}){
 const [openStartdialog,setOpenstartdialog] = useState(false);
               const [openSessiondialog,setOpensessiondialog] = useState(false);
               const [open,setOpen] = useState(false);
@@ -494,6 +500,7 @@ const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.defau
   const handleclickcheck = ()=>{
     setopencheck(true);
     setdraftColumns(selectedColumns);
+    
   }
   const handleclosecheck = () =>{
     setdraftColumns(selectedColumns);
@@ -669,7 +676,7 @@ const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.defau
             </DialogActions>
           </Dialog>
             </Box>
-            <Button size="small" sx={{bgcolor:'#2F8BCC',right:-28,minWidth:0,width:100,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',fontSize:11,color:'white'}} >Auto Mapper</Button>
+            <Button size="small" sx={{bgcolor:'#2F8BCC',right:-28,minWidth:0,width:100,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',fontSize:11,color:'white'}} onClick={()=>{setProgress(0);setLoading(true);}}>Auto Mapper</Button>
             <Button size="small" sx={{bgcolor:'white',ml:4,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleclickcheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Button>
            <Dialog open={opencheck} onClose={handleclosecheck} >
         <DialogTitle>Customize Table  <IconButton onClick={handleclosecheck} sx={{right:-130,color:'red'}}>
@@ -684,7 +691,7 @@ const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.defau
         </DialogContent>
         <DialogActions>
           <Button onClick={handleclosecheck} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info'  sx={{right:10}} onClick={()=>{setselectedcolumns(draftColumns);setopencheck(false);}}>Apply Changes</Button>
+              <Button variant='contained' color='info'  sx={{right:10}} onClick={()=>{setselectedcolumns(draftColumns);setopencheck(false);navigate('/addscenario')}}>Apply Changes</Button>
         </DialogActions>
       </Dialog>
             </Box>
@@ -748,13 +755,477 @@ const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.defau
     </div>
 )
 }
+const getColor = (value) =>{
+  if(value < 40) return '#E53935';
+  if (value <90) return '#FB8C00';
+  return '#2E7B32';
+}
+
+function Automapper({setScreen ,setLoading ,setProgress}){
+  const [openStartdialog,setOpenstartdialog] = useState(false);
+              const [openSessiondialog,setOpensessiondialog] = useState(false);
+              const [open,setOpen] = useState(false);
+              const navigate=useNavigate();
+              const handleCloseclick = () =>{
+                setOpen(true);
+              }
+              const handleClose = () =>{
+                setOpen(false);
+              }
+              const handleConfirm = () =>{
+                setOpen(false);
+              }
+              const pagelist =[
+                {
+                  value :'Page List1',
+                  label :'Page List'
+                }
+              ];
+              
+              const handleOpenStartdialog = () =>{setOpenstartdialog(true)};
+              const handleStartsession = () =>{
+                setOpenstartdialog(false);
+                setOpensessiondialog(true);
+              }
+              const handleCloseall = () => {
+                setOpenstartdialog(false);
+                setOpensessiondialog(false);
+              }
+              const handleClearSession = () =>{
+                setOpensessiondialog(false);
+                setOpenstartdialog(true);
+              }
+
+              const [tasks,setTasks] = useState([{id:1,name:'Scenario_file_Name',progress:0},
+                {id:2,name:'Scenario_file_Name' , progress:0},
+                {id:3,name:'Scenario_file_Name',progress:0}
+              ]);
+
+                useEffect(() => {
+  setLoading(true);
+
+  const interval = setInterval(() => {
+    setTasks(prev =>
+      prev.map(task => {
+        if (task.progress >= 100) return task;
+
+        const increment = Math.floor(Math.random() * 15);
+        return {
+          ...task,
+          progress: Math.min(100, task.progress + increment),
+        };
+      })
+    );
+  }, 700);
+
+  const stop = setTimeout(() => {
+    clearInterval(interval);
+    setLoading(false);
+  }, 6000);
+
+  return () => {
+    clearInterval(interval);
+    clearTimeout(stop);
+  };
+}, []);
+return(
+  <div>
+    <Box
+            sx={{
+              m:0,
+              p:0,
+              boxSizing:'border-box',
+              width: 530,        
+              minHeight: 380,
+            }}
+          >
+            <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+              <Box component="section" sx={{display:'flex'}} >
+               <Box component="section" sx={{ p:2,bgcolor:'#2F8BCC' ,color:'white',display:'flex',alignItems:'center',gap:'3px',height:'7px',width:'230px',borderTopRightRadius:'40px'}}>
+      <Button size='small' onClick={()=>setScreen('table')} sx={{right:2,width:'25px',bgcolor:'#258bd4',color:'white',minWidth:0}}><ArrowBackIosIcon/></Button>
+      <Typography variant="subtitle1" sx={{fontSize:'16px',fontWeight:'600',color:'white'}}> 
+       algoScraper
+      </Typography>
+      <Typography variant="caption" sx={{fontSize:'9px',color:'white'}} >
+       Powered by algoShack
+      </Typography>
+       
+    </Box>
+          
+      
+          <Box component="section" sx={{ p:2, border: '1px solid #2F8BCC',borderRadius:'30px',height:'1px',display:'flex',alignItems:'center',width:'80px',marginTop:'5px',justifyContent:'left',right:-10}}>
+            
+            <Link component="button" onClick={() => chrome.tabs.create ({url:"https://algoshack.net/users/login/"})} underline="none" sx={{display:'flex',alignItems:'center'}}><LaunchIcon sx={{color:'#2F8BCC',height:'17px'}} /> 
+            <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 600,fontSize: 16,color: "#6b6b6b",lineHeight: 1}} >
+              algo
+            </Typography>
+            <Typography sx={{fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
+              Q
+            </Typography>
+            <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
+              A
+            </Typography>
+            <Typography sx={{fontFamily: "Poppins, sans-serif",fontSize: 9,color: "#6b6b6b",alignSelf: "flex-start",ml: "2px",}}>
+              ®
+            </Typography></Link>
+           
+          </Box>
+         
+          <Box sx={{ position: "relative", width: 24, height: 15,marginTop:'10px',gap:'5px',marginLeft:'10px' }}>
+            <IconButton onClick={handleOpenStartdialog} size="small" sx={{right:10,top:-4,position:'absolute',color:'black',width:'0px',"&:hover":{backgroundColor:'transparent',boxShadow:'none'}}}>
+        <TabUnselectedIcon sx={{ fontSize: 19,bgcolor:'white' }} />
+        <EditOutlinedIcon sx={{ position: "absolute",bottom: 6,right: -5,fontSize: 18,backgroundColor:'transparent',borderRadius: "50%", }} />
+      </IconButton>
+       <Dialog open={openStartdialog} onClose={handleCloseall} >
+              <DialogTitle sx={{pr:5}}>
+                Create Your Feature
+                <IconButton onClick={handleCloseall} sx={{position:'absolute',right:8,top:8}}><CloseIcon/></IconButton>
+              </DialogTitle>
+              <DialogContent>
+                <Stack direction="row" spacing={2} mt={2}>
+                  <Button variant='outlined' color='success' onClick={handleStartsession}>Start Section</Button>
+                  <Button variant='outlined' color='info'>Clear Section</Button>
+                </Stack>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={openSessiondialog}>
+              <DialogTitle sx={{pr:5}}>Create Your Feature</DialogTitle>
+              <DialogContent>
+                <Stack direction='row' spacing={2} mt={2}>
+                  <Button color='error' variant='outlined' onClick={handleClearSession}>Stop Section</Button>
+                  <Button color='info' variant='outlined' onClick={handleClearSession}>Clear Section</Button>
+                </Stack>
+                <Stack>
+                   <TextField
+                id="filled-select-currency-native"
+                select
+                label='Page List'
+                defaultValue="Page List"
+                slotProps={{
+                  select: {native: true,
+                  },
+                }}
+                sx={{pt:2}}
+                
+                variant="filled"
+              >
+                {pagelist.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+               <TextField
+                id="filled-select-currency-native"
+                select
+                label="Feature List"
+                defaultValue="Page List"
+                slotProps={{
+                  select: {native: true,
+                  },
+                }}
+                sx={{pt:2}}
+                variant="filled"
+              >
+                {pagelist.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+                </Stack>
+              </DialogContent>
+              <DialogActions><Button variant='contained'>Proceed</Button></DialogActions>
+            </Dialog>
+      </Box>
+      <Box component="section" sx={{bgcolor: 'grey.300',display:'flex',alignItems:'center',height:'40px',width:'122px',right:-2}}>
+            <Button  sx={{minWidth: "40px", width: "24px",height: "24px",p: 0,color: "#000"}}><MinimizeIcon sx={{ fontSize: 20 }} /></Button>
+            <Button sx={{minWidth: "40px",width: "24px",height: "24px",p: 0,color: "#000"}}><CropFreeIcon sx={{ fontSize: 20 }} /></Button>
+            <Button  sx={{minWidth: "40px",width: "24px",height: "24px",p: 0,color: "#000" }} onClick={handleCloseclick}><CloseIcon sx={{ fontSize: 20 }} /></Button>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{color:'red',alignItems:'center',display:'flex', gap:2}}><WarningAmberIcon/>Alert</DialogTitle>
+            <DialogContent>
+              <DialogContentText sx={{color:'black',textAlign:'center'}}>
+                Are You Sure?
+              </DialogContentText>
+              <DialogContentText>
+                You will not be able to recover Data.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions >
+              <Button onClick={handleClose} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
+              <Button variant='contained' color='info' onClick={handleConfirm} sx={{right:20}}>Confirm</Button>
+            </DialogActions>
+
+          </Dialog>
+          </Box>
+          </Box> 
+          {/*page name */}
+           <Box sx={{display:'flex',alignItems:'center',ml:1}}>
+              <Box sx={{display:'flex',alignItems:'center'}}>
+                <Typography sx={{bgcolor:'#2F8BCC',color:'white',height:'30px',pl:1,pt:1,mt:1,pr:1,borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px'}}>Page Name</Typography>
+                <TextField id="outlined-basic" placeholder="Page Name Here"  variant="outlined" sx={{width:400,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:40}}} />
+              </Box>
+              </Box>
+              {/*scenario */}
+              <Box sx={{bgcolor:'#2F8BCC',height:20,p:1,ml:1,mr:1,mt:1,borderTopLeftRadius:'5px',borderTopRightRadius:'5px'}}><Typography sx={{color:'white',fontSize:'13px'}}>Scenario Name</Typography>
+              {tasks.map((task) =>(
+              <Box sx={{bgcolor:'white',boxShadow:'  2px 1px 3px rgba(0,0,0,0.2)',height:40,p:1,borderRadius:'5px',mt:2,display:'flex',justifyContent:'space-between'}}>
+                <Typography sx={{fontSize:13,pl:1,color:'text.secondary'}}>{task.name}</Typography>
+                <Box sx={{right:0}}>
+                <Typography fontSize={12} color='text.secondary'><b style={{color:getColor(task.progress)}}>{task.progress}%</b>{task.progress === 100 ? 'Completed' : 'Mapping...'}</Typography>
+                
+                <LinearProgress variant='determinate' value={task.progress} sx={{height:6,borderRadius:5,mt:0.8,backgroundColor:'#f1f1f1','& .MuiLinearProgress-bar':{backgroundColor:getColor(task.progress),borderRadius:5}}}/>
+              
+              </Box>
+              <Button size='small' sx={{minWidth:0}} onClick={()=>setScreen('scenario')}>
+              <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
+              <NorthEastOutlinedIcon sx={{ position: "absolute",bottom:16,right: 1,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
+              </Button>
+              </Box>
+             
+              ))}
+               
+              </Box>
+          </Box>
+          </Box>
+  </div>
+)
+}
+function Scenariolist({setScreen}){
+ const [openStartdialog,setOpenstartdialog] = useState(false);
+              const [openSessiondialog,setOpensessiondialog] = useState(false);
+              const [open,setOpen] = useState(false);
+              const navigate=useNavigate();
+              const handleCloseclick = () =>{
+                setOpen(true);
+              }
+              const handleClose = () =>{
+                setOpen(false);
+              }
+              const handleConfirm = () =>{
+                setOpen(false);
+              }
+              const pagelist =[
+                {
+                  value :'Page List1',
+                  label :'Page List'
+                }
+              ];
+              
+              const handleOpenStartdialog = () =>{setOpenstartdialog(true)};
+              const handleStartsession = () =>{
+                setOpenstartdialog(false);
+                setOpensessiondialog(true);
+              }
+              const handleCloseall = () => {
+                setOpenstartdialog(false);
+                setOpensessiondialog(false);
+              }
+              const handleClearSession = () =>{
+                setOpensessiondialog(false);
+                setOpenstartdialog(true);
+              }
+              const scenarios = [
+  "Scenario_Steps 1",
+  "Scenario_Steps 1",
+  "Scenario_Steps 1",
+];
+              return(
+                <div>
+    <Box
+            sx={{
+              m:0,
+              p:0,
+              boxSizing:'border-box',
+              width: 530,        
+              minHeight: 380,
+            }}
+          >
+            <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+              <Box component="section" sx={{display:'flex'}} >
+               <Box component="section" sx={{ p:2,bgcolor:'#2F8BCC' ,color:'white',display:'flex',alignItems:'center',gap:'3px',height:'7px',width:'230px',borderTopRightRadius:'40px'}}>
+      <Button size='small' onClick={()=>setScreen('table')} sx={{right:2,width:'25px',bgcolor:'#258bd4',color:'white',minWidth:0}}><ArrowBackIosIcon/></Button>
+      <Typography variant="subtitle1" sx={{fontSize:'16px',fontWeight:'600',color:'white'}}> 
+       algoScraper
+      </Typography>
+      <Typography variant="caption" sx={{fontSize:'9px',color:'white'}} >
+       Powered by algoShack
+      </Typography>
+       
+    </Box>
+          
+      
+          <Box component="section" sx={{ p:2, border: '1px solid #2F8BCC',borderRadius:'30px',height:'1px',display:'flex',alignItems:'center',width:'80px',marginTop:'5px',justifyContent:'left',right:-10}}>
+            
+            <Link component="button" onClick={() => chrome.tabs.create ({url:"https://algoshack.net/users/login/"})} underline="none" sx={{display:'flex',alignItems:'center'}}><LaunchIcon sx={{color:'#2F8BCC',height:'17px'}} /> 
+            <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 600,fontSize: 16,color: "#6b6b6b",lineHeight: 1}} >
+              algo
+            </Typography>
+            <Typography sx={{fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
+              Q
+            </Typography>
+            <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
+              A
+            </Typography>
+            <Typography sx={{fontFamily: "Poppins, sans-serif",fontSize: 9,color: "#6b6b6b",alignSelf: "flex-start",ml: "2px",}}>
+              ®
+            </Typography></Link>
+           
+          </Box>
+         
+          <Box sx={{ position: "relative", width: 24, height: 15,marginTop:'10px',gap:'5px',marginLeft:'10px' }}>
+            <IconButton onClick={handleOpenStartdialog} size="small" sx={{right:10,top:-4,position:'absolute',color:'black',width:'0px',"&:hover":{backgroundColor:'transparent',boxShadow:'none'}}}>
+        <TabUnselectedIcon sx={{ fontSize: 19,bgcolor:'white' }} />
+        <EditOutlinedIcon sx={{ position: "absolute",bottom: 6,right: -5,fontSize: 18,backgroundColor:'transparent',borderRadius: "50%", }} />
+      </IconButton>
+       <Dialog open={openStartdialog} onClose={handleCloseall} >
+              <DialogTitle sx={{pr:5}}>
+                Create Your Feature
+                <IconButton onClick={handleCloseall} sx={{position:'absolute',right:8,top:8}}><CloseIcon/></IconButton>
+              </DialogTitle>
+              <DialogContent>
+                <Stack direction="row" spacing={2} mt={2}>
+                  <Button variant='outlined' color='success' onClick={handleStartsession}>Start Section</Button>
+                  <Button variant='outlined' color='info'>Clear Section</Button>
+                </Stack>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={openSessiondialog}>
+              <DialogTitle sx={{pr:5}}>Create Your Feature</DialogTitle>
+              <DialogContent>
+                <Stack direction='row' spacing={2} mt={2}>
+                  <Button color='error' variant='outlined' onClick={handleClearSession}>Stop Section</Button>
+                  <Button color='info' variant='outlined' onClick={handleClearSession}>Clear Section</Button>
+                </Stack>
+                <Stack>
+                   <TextField
+                id="filled-select-currency-native"
+                select
+                label='Page List'
+                defaultValue="Page List"
+                slotProps={{
+                  select: {native: true,
+                  },
+                }}
+                sx={{pt:2}}
+                
+                variant="filled"
+              >
+                {pagelist.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+               <TextField
+                id="filled-select-currency-native"
+                select
+                label="Feature List"
+                defaultValue="Page List"
+                slotProps={{
+                  select: {native: true,
+                  },
+                }}
+                sx={{pt:2}}
+                variant="filled"
+              >
+                {pagelist.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+                </Stack>
+              </DialogContent>
+              <DialogActions><Button variant='contained'>Proceed</Button></DialogActions>
+            </Dialog>
+      </Box>
+      <Box component="section" sx={{bgcolor: 'grey.300',display:'flex',alignItems:'center',height:'40px',width:'122px',right:-2}}>
+            <Button  sx={{minWidth: "40px", width: "24px",height: "24px",p: 0,color: "#000"}}><MinimizeIcon sx={{ fontSize: 20 }} /></Button>
+            <Button sx={{minWidth: "40px",width: "24px",height: "24px",p: 0,color: "#000"}}><CropFreeIcon sx={{ fontSize: 20 }} /></Button>
+            <Button  sx={{minWidth: "40px",width: "24px",height: "24px",p: 0,color: "#000" }} onClick={handleCloseclick}><CloseIcon sx={{ fontSize: 20 }} /></Button>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{color:'red',alignItems:'center',display:'flex', gap:2}}><WarningAmberIcon/>Alert</DialogTitle>
+            <DialogContent>
+              <DialogContentText sx={{color:'black',textAlign:'center'}}>
+                Are You Sure?
+              </DialogContentText>
+              <DialogContentText>
+                You will not be able to recover Data.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions >
+              <Button onClick={handleClose} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
+              <Button variant='contained' color='info' onClick={handleConfirm} sx={{right:20}}>Confirm</Button>
+            </DialogActions>
+
+          </Dialog>
+          </Box>
+          </Box> 
+          {/*page name */}
+           <Box sx={{display:'flex',alignItems:'center',ml:1}}>
+              <Box sx={{display:'flex',alignItems:'center'}}>
+                <Typography sx={{bgcolor:'#2F8BCC',color:'white',height:'30px',pl:1,pt:1,mt:1,pr:1,borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px'}}>Page Name</Typography>
+                <TextField id="outlined-basic" placeholder="Page Name Here"  variant="outlined" sx={{width:400,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:40}}} />
+              </Box>
+              </Box>
+               <Box sx={{bgcolor:'#2F8BCC',height:20,p:1,ml:1,mr:1,mt:1,borderTopLeftRadius:'5px',borderTopRightRadius:'5px',display:'flex',alignItems:'center'}}>
+                <Button size='small' sx={{minWidth:0}} onClick={()=>setScreen('mapper')}><ArrowBackIosIcon sx={{color:'white'}}/></Button>
+                <Typography sx={{color:'white',fontSize:'13px'}}>Scenario Name</Typography>
+                
+               </Box>
+               {scenarios.map((label,index) =>(
+               <Box key={index} sx={{bgcolor:'white',boxShadow:'  2px 1px 3px rgba(0,0,0,0.2)',height:20,p:1,borderRadius:'5px',mt:2,display:'flex',justifyContent:'space-between',ml:1,mr:1}}>
+                 <FormControlLabel value={label} control={<Radio  size='small'/>} label={label} sx={{'& .MuiFormControlLabel-label':{color:'red',fontSize:'13px'}}}/> 
+                <Button>
+                   <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
+                   <EditOutlinedIcon sx={{ position: "absolute",bottom:5,right: 20,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
+                </Button>
+                </Box>
+                  ))}
+                </Box>
+                </Box>
+                </div>
+              )
+
+}
 export default function Futurescript() {
   const [screen,setScreen] = useState('steps')
+  const [loading,setLoading] = useState(false);
+  const [progress,setProgress] = useState(0);
+  
+  useEffect (()=> {
+    if(!loading)return;
+    const timer=setInterval(()=>{
+      setProgress(prev=>{
+        if(prev >=100){
+          clearInterval(timer);
+          setLoading(false);
+          setScreen('mapper');
+          return 100;
+        }
+        return prev +10;
+      });
+    },300);
+    return () =>clearInterval(timer);
+  }, [loading]);
     return (
         <>
+        {(loading && (screen === 'table' || screen === 'mapper')) && (
+          <Box sx={{position:'fixed',inset:0,backgroundColor:'rgba(0,0,0,0.45)',display:'flex' ,alignItems:'center' ,justifyContent:'center',zIndex:2000}}>
+            <Box sx={{textAlign:'center',color:'white'}}>
+              <CircularProgress variant='determinate' value={progress} size={70} thickness={4} sx={{color:'#fff'}} />
+              <Typography mt={2} fontSize={16} fontWeight={600} > Please Wait</Typography>
+              <Typography>Don&apos;t switch the tab while Mapping is in progress</Typography>
+            </Box>
+          </Box>
+        )}
        {screen === "steps" && (<UserSteps setScreen={setScreen} />)}
        {screen === 'empty' && (<EmptyScraper setScreen={setScreen}/>)}
-       {screen === 'table' && (<TableScreen setScreen={setScreen}/>)}
+       {screen === 'table' && (<TableScreen setScreen={setScreen} setLoading={setLoading} setProgress={setProgress}/>)}
+       {screen === 'mapper' && (<Automapper setScreen={setScreen} setLoading={setLoading} setProgress={setProgress}/>)}
+       {screen === 'scenario' && (<Scenariolist setScreen={setScreen}/>)} 
        </>
   )
 }
