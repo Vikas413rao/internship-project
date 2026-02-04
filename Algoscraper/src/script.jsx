@@ -2,17 +2,18 @@ import CodeIcon from '@mui/icons-material/Code';
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { Box, Card, IconButton, Link, Typography } from "@mui/material";
+import { Box, Card, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 export default function ScriptCard({ title, description }) {
   const [hovered, setHovered] = useState(false);
   const [pinned, setPinned] = useState(false);
-
+  const navigate=useNavigate();
   const isActive = hovered || pinned;
 
   return (
-    <Link href="#" underline="none">
     <Card
+    onClick={()=> navigate('/futurescript')}
       onMouseEnter={() => !pinned && setHovered(true)}
       onMouseLeave={() => !pinned && setHovered(false)}
       sx={{
@@ -65,6 +66,6 @@ export default function ScriptCard({ title, description }) {
         {description}
       </Typography>
     </Card>
-    </Link>
+    
   );
 }
