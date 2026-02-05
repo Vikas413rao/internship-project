@@ -25,11 +25,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
+import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import NativeSelect from '@mui/material/NativeSelect';
 import Pagination from '@mui/material/Pagination';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
+import Select from '@mui/material/Select';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -1031,6 +1033,16 @@ function Scenariolist({setScreen}){
   "Scenario_Steps 1",
   "Scenario_Steps 1",
 ];
+const [opendetails,setOpendetails] = useState(false);
+const handledetails =() =>{
+  setOpendetails(true);
+}
+const handleClosedetails = () =>{
+  setOpendetails(false);
+}
+const handleConfirmdetails =() =>{
+  setOpendetails(false);
+}
               return(
                 <div>
     <Box
@@ -1178,10 +1190,57 @@ function Scenariolist({setScreen}){
                {scenarios.map((label,index) =>(
                <Box key={index} sx={{bgcolor:'white',boxShadow:'  2px 1px 3px rgba(0,0,0,0.2)',height:20,p:1,borderRadius:'5px',mt:2,display:'flex',justifyContent:'space-between',ml:1,mr:1}}>
                  <FormControlLabel value={label} control={<Radio  size='small'/>} label={label} sx={{'& .MuiFormControlLabel-label':{color:'red',fontSize:'13px'}}}/> 
-                <Button>
+                <Button onClick={handledetails}>
                    <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
                    <EditOutlinedIcon sx={{ position: "absolute",bottom:5,right: 20,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
                 </Button>
+                 <Dialog open={opendetails} onClose={handleClosedetails} >
+            <DialogTitle sx={{alignItems:'center',display:'flex', gap:2}}>Steps Details</DialogTitle>
+            <DialogContent sx={{width:400}}>
+                  <FormControl sx={{ m: 1, minWidth: 180 }}>
+        <InputLabel htmlFor="grouped-native-select">Control Type</InputLabel>
+        <Select native defaultValue="" id="grouped-native-select" label="Control Type">
+          
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, minWidth: 180 }}>
+        <InputLabel id="grouped-select-label" htmlFor="grouped-select">
+          Control Action
+        </InputLabel>
+        <Select
+          defaultValue=""
+          id="grouped-select"
+          label="Control Type"
+          SelectDisplayProps={{
+            'aria-labelledby': 'grouped-select-label',
+          }}
+        >
+         
+          
+        </Select>
+      </FormControl>
+         <Stack direction='row' spacing={2} mt={2}>      
+      <TextField
+        id="outlined-controlled"
+        defaultValue='Control Value'
+      />
+      <TextField
+        id="outlined-controlled"
+        defaultValue="Page Name"
+      />
+      
+</Stack> 
+<Box sx={{mt:2}}>
+<TextField fullWidth label="Control Name" id="fullWidth"  /></Box>
+<Box sx={{mt:2}}>
+<TextField fullWidth label="Xpath" id="fullWidth" /></Box>
+            </DialogContent>
+            <DialogActions >
+              <Button onClick={handleClosedetails} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
+              <Button variant='contained' color='info' onClick={handleConfirmdetails} sx={{right:20}}>Confirm</Button>
+            </DialogActions>
+
+          </Dialog>
                 </Box>
                   ))}
                 </Box>
