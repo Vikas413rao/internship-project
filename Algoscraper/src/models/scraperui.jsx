@@ -82,6 +82,14 @@ const AllColumns = [
     width:40,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
   }) 
+  const Editicon = styled(EditOutlinedIcon)({
+    position:'absolute',
+    bottom:12,
+    right:6,
+    fontSize:15,
+    backgroundColor:'transparent',
+    borderRadius:'50%'
+  })
 export default function Scraperui() {
     const navigate = useNavigate(); 
     const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
@@ -184,11 +192,12 @@ const handleclosedialog =() =>{
           
     <Linkedit size="small" onClick={handleOpen} >
       <LinkIcon sx={{color:'#2F8BCC'}}/>
-      <EditOutlinedIcon sx={{ position: "absolute",bottom:9,right: 6,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%", }} />
+      <Editicon  />
       </Linkedit>
        <Customdialogbox open={open}onClose={handleClose} onConfirm={()=>{handleConfirm();}} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>
       </Tooltip>
     </Box>
+    {/*User Steps */}
     {!nextopen  ? (
       <>
     <Box  sx={{position:'absolute',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
