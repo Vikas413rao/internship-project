@@ -41,6 +41,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import Pagename from '../component/pagename';
 
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
@@ -260,10 +261,7 @@ export default function Addscenario() {
           </Box> 
           <Box sx={{display:'flex',alignItems:'center',ml:1}}>
         
-        <Box sx={{display:'flex',alignItems:'center'}}>
-          <Typography sx={{bgcolor:'#2F8BCC',color:'white',height:'30px',pl:1,pt:1,mt:1,pr:1,borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',fontSize:13}}>Page Name</Typography>
-          <TextField id="outlined-basic" placeholder="Page Name Here"  variant="outlined" sx={{width:270,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:38}}} />
-        </Box>
+        <Pagename />
         <Button variant='contained' sx={{ml:1,mt:1,width:145,fontSize:12,height:40}} onClick={()=>setAddScenarioOpen(true)}>+ Add Scenario</Button>
          <Dialog open={addScenarioOpen} onClose={()=>setAddScenarioOpen(false)} sx={{height:490,width:450}} disableScrollLock scroll='none' BackdropProps={{sx:{backgroundColor:'rgba(0,0,0,0.45)'},}}>
         <DialogTitle>Record Scenario</DialogTitle>

@@ -34,8 +34,11 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Custombutton from '../component/custombutton';
+import Customdialogbox from '../component/customdialogbox';
 import Navcomponent from '../component/navcomponent';
 import Pagename from '../component/pagename';
+import Customdialogboxhooks from '../hooks/customdialogboxhooks';
 const Container= styled(Box)({
   border:'1px solid #2F8BCC',
   height:'480px',
@@ -43,6 +46,7 @@ const Container= styled(Box)({
   position:'relative'
 
 })
+
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
     {key:'controlType',label:'Control Type',default:true},
@@ -53,11 +57,36 @@ const AllColumns = [
     {key:'featureName',label:'Feature Name',default:false},
     {key:'nodeName',label:'Node Name',default:false},
   ];
+
+  const Edittext=styled(TextField)({
+    width:200,
+    paddingTop:1,
+    '& .MuiOutlinedInput-root':{
+      disableUnderline:true,
+        padding:1,
+        fontSize:12,
+        height:40
+    }
+  })
+  const Photobutton = styled(Button)({
+    backgroundColor:'white',
+    marginLeft:200,
+    minWidth:0,
+    width:40,
+    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
+  })
+  const Linkedit = styled(Button)({
+    backgroundColor:'white',
+    marginLeft:10,
+    minWidth:0,
+    width:40,
+    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
+  }) 
 export default function Scraperui() {
     const navigate = useNavigate(); 
-const [Open,setopen] = useState(false);
+    const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
+
 const [opendialog,setopendialog]=useState(false);
-const [openedit,setopenedit]= useState(false);
   const [opencheck,setopencheck] = useState(false);
   const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.default).map(c=>c.key));
   const[draftColumns,setdraftColumns]=useState(selectedColumns);
@@ -72,13 +101,7 @@ const [openedit,setopenedit]= useState(false);
     setdraftColumns(selectedColumns);
     setopencheck(false);
   }
-const handlestartedit = () =>{
-  setopenedit (true);
-}
 
-const handlecloseedit = () =>{
-  setopenedit(false);
-}
 
 const handleclickdialog = () =>{
   setopendialog(true);
@@ -138,12 +161,12 @@ const handleclosedialog =() =>{
         <Navcomponent/>
     <Box sx={{display:'flex',alignItems:'center',ml:1}}>
     <Pagename/>
-    <Button variant='contained' sx={{px:2,ml:1,mt:1}} onClick={handleClicknext}>Scrape Ui</Button>
+    <Custombutton label='Scraper UI' onClick={handleClicknext}/>
     </Box>
     <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
       <Typography sx={{fontSize:14}}>MultiXpath Support</Typography>
           <FormControlLabel control={<Android12Switch sx={{transform:'scale(0.6)'}} />} />
-    <Button size="small" sx={{bgcolor:'white',ml:28,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Button>
+    <Photobutton size="small" ><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Photobutton>
      
     <Tooltip title="Edit Link" placement="top"  slotProps={{
         popper: {
@@ -159,22 +182,11 @@ const handleclosedialog =() =>{
       }}>
            
           
-    <Button size="small" sx={{bgcolor:'white',ml:2,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handlestartedit}>
+    <Linkedit size="small" onClick={handleOpen} >
       <LinkIcon sx={{color:'#2F8BCC'}}/>
       <EditOutlinedIcon sx={{ position: "absolute",bottom:9,right: 6,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%", }} />
-      </Button>
-       <Dialog open={openedit} onClose={handlecloseedit} >
-        <DialogTitle>Application URL</DialogTitle>
-        <DialogContent>
-          <form id="subscription-form">
-           <TextField id="outlined-basic" placeholder="Edit Link"  variant="outlined" sx={{width:200,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:40}}} />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handlecloseedit} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info'  sx={{right:10}}>Confirm</Button>
-        </DialogActions>
-      </Dialog>
+      </Linkedit>
+       <Customdialogbox open={open}onClose={handleClose} onConfirm={()=>{handleConfirm();}} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>
       </Tooltip>
     </Box>
     {!nextopen  ? (
@@ -203,18 +215,7 @@ const handleclosedialog =() =>{
           <TextField id="outlined-basic" placeholder="Search"  variant="outlined" sx={{width:250,pt:1,ml:2}}InputProps={{disableUnderline:true,startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),sx:{px:1,fontSize:12,height:30,bgcolor:'white'}}} />
             <Box>
             <Button size="small" sx={{bgcolor:'white',ml:15,right:-23,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleclickdialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Button>
-            <Dialog open={opendialog} >
-            <DialogTitle sx={{color:'black',alignItems:'center',display:'flex', gap:2}}>Reset Record</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Do you really want to reset these records
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions >
-              <Button onClick={handleclosedialog} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info' onClick={()=>{setopendialog(false);setnextopen(false)}} sx={{right:20}}>Confirm</Button>
-            </DialogActions>
-          </Dialog>
+            <Customdialogbox open={opendialog} onClose={handleclosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'><DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText></Customdialogbox>
             </Box>
             <Button size="small" sx={{bgcolor:'white',right:-28,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Button>
             <Button size="small" sx={{bgcolor:'white',ml:4,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleclickcheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Button>

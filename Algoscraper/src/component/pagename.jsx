@@ -8,7 +8,7 @@ const Pagetextfield = styled(TextField)({
     disableUnderline:true,
       padding:1,
       fontSize:12,
-      height:'40px'
+      height:'35px'
     
   }
 })

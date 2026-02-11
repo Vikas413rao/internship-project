@@ -23,6 +23,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import Pagename from '../component/pagename';
 export default function Scenariolist() {
     const navigate=useNavigate();
     const [openStartdialog,setOpenstartdialog] = useState(false);
@@ -210,10 +211,7 @@ export default function Scenariolist() {
                 {/*record scenario */}
           <Box sx={{display:'flex',alignItems:'center',ml:1}}>
       
-        <Box sx={{display:'flex',alignItems:'center'}}>
-          <Typography sx={{bgcolor:'#2F8BCC',color:'white',height:'30px',pl:1,pt:1,mt:1,pr:1,borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',fontSize:13}}>Page Name</Typography>
-          <TextField id="outlined-basic" placeholder="Page Name Here"  variant="outlined" sx={{width:270,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:38}}} />
-        </Box>
+        <Pagename />
         <Button variant='contained' sx={{ml:2,mt:1,width:150,fontSize:12,height:40}} onClick={handlerecord}>Record Action</Button>
          <Dialog open={openrecord} onClose={handleCloserecord} sx={{height:480,width:450}}  disableScrollLock scroll='none'>
         <DialogTitle>Record Scenario</DialogTitle>
