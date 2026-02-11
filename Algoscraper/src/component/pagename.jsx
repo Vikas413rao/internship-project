@@ -22,7 +22,7 @@ const Pagetypography =styled(Typography)({
   paddingRight:1,
   borderTopLeftRadius:5,
   borderBottomLeftRadius:5,
-  fontSize:15,
+  fontSize:13,
   alignItems:'center',
   display:'flex'
 })
