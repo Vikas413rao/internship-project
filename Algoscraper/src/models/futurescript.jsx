@@ -42,7 +42,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import Image from '../src/assets/image.png';
+import Image from '../assets/image.png';
 function UserSteps({setScreen}){
     const [openStartdialog,setOpenstartdialog] = useState(false);
         const [openSessiondialog,setOpensessiondialog] = useState(false);
@@ -80,22 +80,16 @@ function UserSteps({setScreen}){
     return(
 <div>
           <Box
-            sx={{
-              m:0,
-              p:0,
-              boxSizing:'border-box',
-              width: 530,        
-              minHeight: 380,
-            }}
+           className='divcomponent'
           >
-            <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+            <Box component="section"  className='fullborder'>
               <Box component="section" sx={{display:'flex'}} >
-               <Box component="section" sx={{ p:2,bgcolor:'#2F8BCC' ,color:'white',display:'flex',alignItems:'center',gap:'3px',height:'7px',width:'230px',borderTopRightRadius:'40px'}}>
-      <IconButton component={RouterLink} to='/' sx={{right:2,width:'25px',bgcolor:'#258bd4',color:'white'}}><ArrowBackIosIcon/></IconButton>
-      <Typography variant="subtitle1" sx={{fontSize:'16px',fontWeight:'600',color:'white'}}> 
+               <Box component="section" className='headername'>
+      <IconButton component={RouterLink} to='/' className='backicon'><ArrowBackIosIcon  className='arrow'/></IconButton>
+      <Typography  className='title'> 
        algoScraper
       </Typography>
-      <Typography variant="caption" sx={{fontSize:'9px',color:'white'}} >
+      <Typography  className='caption'>
        Powered by algoShack
       </Typography>
        

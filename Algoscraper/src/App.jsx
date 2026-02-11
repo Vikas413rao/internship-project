@@ -1,11 +1,12 @@
+import Addscenario from './views/addscenario.jsx';
 import { Route, Routes } from 'react-router-dom';
-import Addscenario from './addscenario.jsx';
-import Futurescript from './futurescript.jsx';
-import Home from './Home.jsx';
-import Pingcard from './pingcard.jsx';
-import Recording from './recording.jsx';
-import Scenariolist from './scenariolist.jsx';
-import Scraperui from './scraperui.jsx';
+import Pingcard from './models/pingcard.jsx';
+import Recording from './models/recording.jsx';
+import Scraperui from './models/scraperui.jsx';
+import Futurescript from './models/futurescript.jsx';
+import Home from './views/home.jsx';
+import './App.css';
+import Scenariolist from './views/scenariolist.jsx';
 export default function App() {
   
 
