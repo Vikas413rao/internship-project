@@ -5,6 +5,15 @@ import FeatureCard from "./FeatureCard.jsx";
 import PingCard from './ping.jsx';
 import RecordCard from './record.jsx';
 import ScriptCard from './script.jsx';
+import { styled } from '@mui/material/styles';
+
+const Container= styled(Box)({
+  border:'1px solid #2F8BCC',
+  height:'480px',
+  width:'535px',
+  position:'relative'
+
+})
 export default function Home() {
   
     return (
@@ -18,7 +27,7 @@ export default function Home() {
               minHeight: 380,
             }}
           >
-            <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+            <Container  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
               <Navcomponent/>
           <Box sx={{display:'flex',gap:2}}>
           <FeatureCard title="Scrape UI" description="
@@ -44,7 +53,7 @@ export default function Home() {
           "/>
           </Box>
          <Typography color={'#2F8BCC'} fontSize={12} fontWeight={700} sx={{mt:'10px',ml:'380px'}}>Latest Version: 1.40</Typography>
-          </Box>   
+          </Container>   
           
       </Box>
     </div>

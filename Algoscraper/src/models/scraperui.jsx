@@ -35,6 +35,14 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navcomponent from '../component/navcomponent';
+import Pagename from '../component/pagename';
+const Container= styled(Box)({
+  border:'1px solid #2F8BCC',
+  height:'480px',
+  width:'535px',
+  position:'relative'
+
+})
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
     {key:'controlType',label:'Control Type',default:true},
@@ -46,8 +54,6 @@ const AllColumns = [
     {key:'nodeName',label:'Node Name',default:false},
   ];
 export default function Scraperui() {
-    const [openStartdialog,setOpenstartdialog] = useState(false);
-    const [openSessiondialog,setOpensessiondialog] = useState(false);
     const navigate = useNavigate(); 
 const [Open,setopen] = useState(false);
 const [opendialog,setopendialog]=useState(false);
@@ -85,24 +91,6 @@ const handleclosedialog =() =>{
         setopendialog(false);
         setnextopen(true);
       }
-      const handleCloseclick = () =>{
-        setopen(true);
-      }
-      const handleClose = () =>{
-        setopen(false);
-      }
-      const handleConfirm = () =>{
-        
-        setopen(false);
-        navigate('/');
-      }
-
-    const pagelist =[
-      {
-        value :'Page List1',
-        label :'Page List'
-      }
-    ];
 
     const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -136,20 +124,6 @@ const handleclosedialog =() =>{
     margin: 2,
   },
 }));
-    
-    const handleOpenStartdialog = () =>{setOpenstartdialog(true)};
-    const handleStartsession = () =>{
-      setOpenstartdialog(false);
-      setOpensessiondialog(true);
-    }
-    const handleCloseall = () => {
-      setOpenstartdialog(false);
-      setOpensessiondialog(false);
-    }
-    const handleClearSession = () =>{
-      setOpensessiondialog(false);
-      setOpenstartdialog(true);
-    }
   return (
     <Box
       sx={{
@@ -160,13 +134,10 @@ const handleclosedialog =() =>{
         minHeight: 380,
       }}
     >
-      <Box component="section"  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+      <Container >
         <Navcomponent/>
     <Box sx={{display:'flex',alignItems:'center',ml:1}}>
-    <Box sx={{display:'flex',alignItems:'center'}}>
-      <Typography sx={{bgcolor:'#2F8BCC',color:'white',height:'30px',pl:1,pt:1,mt:1,pr:1,borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px'}}>Page Name</Typography>
-      <TextField id="outlined-basic" placeholder="Page Name Here"  variant="outlined" sx={{width:300,pt:1}}InputProps={{disableUnderline:true,sx:{px:1,fontSize:12,height:40}}} />
-    </Box>
+    <Pagename/>
     <Button variant='contained' sx={{px:2,ml:1,mt:1}} onClick={handleClicknext}>Scrape Ui</Button>
     </Box>
     <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
@@ -321,7 +292,7 @@ const handleclosedialog =() =>{
      </Box>
      </>
     )}
-    </Box>
+    </Container>
     </Box>
   )
 }
