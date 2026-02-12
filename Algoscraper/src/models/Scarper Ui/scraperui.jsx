@@ -1,5 +1,3 @@
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LinkIcon from '@mui/icons-material/Link';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -7,41 +5,28 @@ import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
-import { DialogActions, IconButton, InputAdornment } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
-import NativeSelect from '@mui/material/NativeSelect';
-import Pagination from '@mui/material/Pagination';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
 import Customdialogbox from '../../component/customdialogbox';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
+import BPagination from '../../component/pagination';
+import TableComponent from '../../component/Tablecomponent';
 import Customdialogboxhooks from '../../hooks/customdialogboxhooks';
-
-
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -141,27 +126,26 @@ const Tbox = styled(Box)({
   px:1,
   width:'100%'
 })
-
-
+const Bbox = styled(Box)({
+  flexShrink:0,
+  px:2,
+  py:1,
+  marginTop:180,
+  display:'flex',
+  alignItems:'center',
+  gap:2,
+  borderTop:'1px solid rgba(0,0,0,0.25)'
+})
 export default function Scraperui() {
     const navigate = useNavigate(); 
     const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
+    const [Open,setOpen] = useState (false);
+  const [selectedColumns,setselectedcolumns]= useState(AllColumns.filter((col)=>col.default).map((col)=>col.key));
 
 const [opendialog,setopendialog]=useState(false);
-  const [opencheck,setopencheck] = useState(false);
-  const[selectedColumns,setselectedcolumns]= useState(AllColumns.filter(c=>c.default).map(c=>c.key));
-  const[draftColumns,setdraftColumns]=useState(selectedColumns);
-  const handleColumns =(key)=>{
-    setdraftColumns(prev =>prev.includes(key) ? prev.filter(c=>c !== key):[...prev,key]);
-  };
-  const handleclickcheck = ()=>{
-    setopencheck(true);
-    setdraftColumns(selectedColumns);
-  }
-  const handleclosecheck = () =>{
-    setdraftColumns(selectedColumns);
-    setopencheck(false);
-  }
+  
+  
+  
 
 
 const handleclickdialog = () =>{
@@ -267,79 +251,24 @@ const handleclosedialog =() =>{
               <DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText>
               </Customdialogbox>
             <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Ibutton size="small"  onClick={handleclickcheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-           <Dialog open={opencheck} onClose={handleclosecheck} >
-        <DialogTitle>Customize Table  <IconButton onClick={handleclosecheck} sx={{right:-130,color:'red'}}>
-      <CloseIcon />
-    </IconButton></DialogTitle>
-        <DialogContent>
-           <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr",columnGap: 3,rowGap: 1,mt: 1,}}>
-    {AllColumns.map(col => (
-      <FormControlLabel key={col.label} control={<Checkbox checked={draftColumns.includes(col.key)} onChange={()=> handleColumns(col.key)}/>} label={col.label} />
-    ))}
-    </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleclosecheck} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info'  sx={{right:10}} onClick={()=>{setselectedcolumns(draftColumns);setopencheck(false);}}>Apply Changes</Button>
-        </DialogActions>
-      </Dialog>
+            <Ibutton size="small"  onClick={()=>setOpen(true)} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+           <Checkdialogbox
+           open={Open}
+           handleClose={()=>setOpen(false)}
+           columns={AllColumns}
+           selectedcolumn={selectedColumns}
+           setSelectedColumns={setselectedcolumns} 
+           />
       </Box>
             </Tbox>
-          <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:0,overflowY:'auto',overflowX: "hidden","&::-webkit-scrollbar": {display: "none",},scrollbarWidth:"none"}}>
-          <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto"}}>
-      <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
-        <TableHead sx={{bgcolor:'#2F8BCC'}}>
-          <TableRow>
-          {AllColumns.filter(col=> selectedColumns.includes(col.key)).map(col => (
-            <TableCell sx={{color:'white',fontSize:12,width: 70}}>{col.label}</TableCell>
-          ))}
-            <TableCell sx={{color:'white',fontSize:12,width: 20 }}>Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-         
-            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              {AllColumns.filter(col => selectedColumns.includes(col.key)).map(col => (
-              <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
-              
-              {col.key === 'controlType' && (
-               <FormControl width={20}>
-       
-        <NativeSelect
-        >
-          <option value={10}>TextBox</option>
-          <option value={20}>DropDown</option>
-        </NativeSelect>
-      </FormControl>)}
-      {col.key === 'Xpath' && (
-             <Link href="#" variant="body2" sx={{fontSize:12}}>
-  XPath Link
-</Link>
- )}
-  {!['contentName','controlType','Xpath'].includes(col.key) && '-'}
-</TableCell>
-      ))}
-
-              <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
-            </TableRow>
-         
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableComponent 
+          columns={AllColumns}
+          selectedColumns={selectedColumns}
+          />
     
-    </Box>
-    
-    <Box sx={{flexShrink:0,px:2,py:1,mt:19,display:'flex',alignItems:'center',gap:2,borderTop:'1px solid rgba(0,0,0,0.25)',backgroundColor:'#f5f5f5'}}>
-    <Box sx={{display:'flex',alignItems:'center',gap:2}}>
-    <Button variant='contained' size='small' sx={{top:3}} >+ Row</Button>
-    <Typography sx={{fontSize:12,color:'red'}}>Error will be displayed here</Typography>
-   
-    </Box>
-    <Box sx={{flexGrow:1}}>
-     <Pagination count={10} shape="rounded" page={1} siblingCount={0} boundaryCount={1} showFirstButton showLastButton  sx={{"&.Mui-selected":{backgroundColor:'#2F8BCC',color:'#fff'},"&.MuiPaginationItem-root":{fontSize:11,minWidth:17,height:22}}} size='small'/>
-         </Box>
-         </Box> 
+    <Bbox >
+      <BPagination />
+         </Bbox> 
      </Userstep>
      </>
     )}
