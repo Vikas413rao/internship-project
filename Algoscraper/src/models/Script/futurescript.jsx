@@ -42,8 +42,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import Image from '../assets/image.png';
-import Navcomponent from '../component/navcomponent.jsx';
+import Image from '../../assets/image.png';
+import Navcomponent from '../../component/navcomponent.jsx';
 import {styled} from '@mui/material/styles';
 const Container= styled(Box)({
   border:'1px solid #2F8BCC',

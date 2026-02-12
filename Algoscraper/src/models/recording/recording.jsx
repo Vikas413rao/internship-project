@@ -12,9 +12,9 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navcomponent from '../component/navcomponent';
-import Addscenario from '../views/addscenario';
-import Pagename from '../component/pagename';
+import Navcomponent from '../../component/navcomponent';
+import Pagename from '../../component/pagename';
+import Addscenario from './addscenario';
 export default function Recording() {
   const [openStartdialog,setOpenstartdialog] = useState(false);
    const [openSessiondialog,setOpensessiondialog] = useState(false);

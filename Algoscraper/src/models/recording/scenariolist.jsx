@@ -23,7 +23,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import Pagename from '../component/pagename';
+import Pagename from '../../component/pagename';
 export default function Scenariolist() {
     const navigate=useNavigate();
     const [openStartdialog,setOpenstartdialog] = useState(false);

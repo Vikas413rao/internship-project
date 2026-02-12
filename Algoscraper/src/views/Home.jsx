@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Navcomponent from '../component/navcomponent.jsx';
-import FeatureCard from "./FeatureCard.jsx";
-import PingCard from './ping.jsx';
-import RecordCard from './record.jsx';
-import ScriptCard from './script.jsx';
+import FeatureCard from '../models/Scarper Ui/FeatureCard.jsx';
+import PingCard from '../models/Ping card/ping.jsx';
+import RecordCard from '../models/recording/record.jsx';
+import ScriptCard from '../models/Script/script.jsx';
 import { styled } from '@mui/material/styles';
 
 const Container= styled(Box)({

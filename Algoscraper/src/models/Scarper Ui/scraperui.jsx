@@ -34,11 +34,21 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Custombutton from '../component/custombutton';
-import Customdialogbox from '../component/customdialogbox';
-import Navcomponent from '../component/navcomponent';
-import Pagename from '../component/pagename';
-import Customdialogboxhooks from '../hooks/customdialogboxhooks';
+import Custombutton from '../../component/custombutton';
+import Customdialogbox from '../../component/customdialogbox';
+import Customusersteps, { AlgoQA } from '../../component/customusersteps';
+import Navcomponent from '../../component/navcomponent';
+import Pagename from '../../component/pagename';
+import Customdialogboxhooks from '../../hooks/customdialogboxhooks';
+
+
+const stepsData =[
+  'To fetch all locators in one go,click on Scrape UI.',
+  'Right click on UI control to fetch individual locators.',
+  <>Click on <AlgoQA/> for the project to be created in algoQA</>,
+  <><Link underline='none'>Click Here </Link> to know More about Scrape UI.</>
+];
+
 const Container= styled(Box)({
   border:'1px solid #2F8BCC',
   height:'480px',
@@ -90,6 +100,19 @@ const AllColumns = [
     backgroundColor:'transparent',
     borderRadius:'50%'
   })
+  const Userstep=styled(Box)({
+    position:'absolute',
+    backgroundColor:'#edeaeac1',
+    height:350,
+    width:530,
+    marginLeft:2,
+    overflow:'hidden',
+    backgroundImage:'url(/assets/OIP.jpg)',
+    backgroundRepeat:'no-repeat',
+    backgroundPosition:'center',
+    backgroundSize:'220px'
+  })
+
 export default function Scraperui() {
     const navigate = useNavigate(); 
     const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
@@ -200,23 +223,9 @@ const handleclosedialog =() =>{
     {/*User Steps */}
     {!nextopen  ? (
       <>
-    <Box  sx={{position:'absolute',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden',backgroundImage:'url(/assets/OIP.jpg)',backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'220px'}}>
-          <Typography sx={{textDecoration:'underline',fontSize:14,pl:3,pt:2}}>User Steps:</Typography>
-          <ul style={{paddingLeft:45,margin:0}}>
-          <li><Typography sx={{fontSize:12}}>To fetch all locators in one go,click on Scrape UI. </Typography></li>
-          <li><Typography sx={{fontSize:12}}>Right click on UI control to fetch individual locators.</Typography></li>
-          <li><Typography sx={{fontSize:12,display:'flex',alignItems:'center'}}>Click on <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 600,fontSize: 14,color: "#6b6b6b",lineHeight: 1,}} >
-        algo
-      </Typography>
-      <Typography sx={{fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
-        Q
-      </Typography>
-      <Typography sx={{ fontFamily: "Poppins, sans-serif",fontWeight: 700,fontSize: 16,color: "#2F8BCC",lineHeight: 1,}}>
-        A
-      </Typography>for the project to be created in algoQA</Typography></li>
-          <li><Typography sx={{fontSize:12}}><Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Scrape UI.</Typography> </li></ul>
-          
-    </Box>
+    <Userstep  >
+          <Customusersteps steps={stepsData}/>
+    </Userstep>
     </>):(
       <>
      <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>

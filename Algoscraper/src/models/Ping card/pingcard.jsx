@@ -19,7 +19,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import Navcomponent from '../component/navcomponent';
+import Navcomponent from '../../component/navcomponent';
 
 export default function Pingcard() {
   const [openStartdialog,setOpenstartdialog] = useState(false);

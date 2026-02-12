@@ -41,7 +41,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import Pagename from '../component/pagename';
+import Pagename from '../../component/pagename';
 
 const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
