@@ -113,6 +113,36 @@ const AllColumns = [
     backgroundSize:'220px'
   })
 
+const Stext = styled(TextField)({
+  width:250,
+  paddingTop:2,
+  marginLeft:4,
+  '& .MuiOutlinedInput-root':{
+    disableUnderline:true,
+    padding:1,
+    fontSize:12,
+    height:30,
+    bgcolor:'white'
+  }
+})
+const Ibutton=styled(Button)({
+backgroundColor:'white',
+marginTop:3,
+marginRight:1,
+padding:1,
+minWidth:0,
+width:36,
+boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
+})
+const Tbox = styled(Box)({
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'space-between',
+  px:1,
+  width:'100%'
+})
+
+
 export default function Scraperui() {
     const navigate = useNavigate(); 
     const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
@@ -228,15 +258,16 @@ const handleclosedialog =() =>{
     </Userstep>
     </>):(
       <>
-     <Box  sx={{display:'flex',flexDirection:'column',position:'relative',bgcolor:'grey.200',height:343,width:530,ml:0.2,mt:0.5,overflow:'hidden'}}>
-      <Box sx={{display:'flex',alignItems:'center'}}>
-          <TextField id="outlined-basic" placeholder="Search"  variant="outlined" sx={{width:250,pt:1,ml:2}}InputProps={{disableUnderline:true,startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),sx:{px:1,fontSize:12,height:30,bgcolor:'white'}}} />
-            <Box>
-            <Button size="small" sx={{bgcolor:'white',ml:15,right:-23,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleclickdialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Button>
-            <Customdialogbox open={opendialog} onClose={handleclosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'><DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText></Customdialogbox>
-            </Box>
-            <Button size="small" sx={{bgcolor:'white',right:-28,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Button>
-            <Button size="small" sx={{bgcolor:'white',ml:4,minWidth:0,width:40,boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'}} onClick={handleclickcheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Button>
+     <Userstep>
+      <Tbox>
+          <Stext id="outlined-basic" placeholder="Search"  variant="outlined"  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
+            <Box sx={{display:'flex',gap:1}}>
+            <Ibutton size="small" onClick={handleclickdialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+            <Customdialogbox open={opendialog} onClose={handleclosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
+              <DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText>
+              </Customdialogbox>
+            <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+            <Ibutton size="small"  onClick={handleclickcheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
            <Dialog open={opencheck} onClose={handleclosecheck} >
         <DialogTitle>Customize Table  <IconButton onClick={handleclosecheck} sx={{right:-130,color:'red'}}>
       <CloseIcon />
@@ -253,7 +284,8 @@ const handleclosedialog =() =>{
               <Button variant='contained' color='info'  sx={{right:10}} onClick={()=>{setselectedcolumns(draftColumns);setopencheck(false);}}>Apply Changes</Button>
         </DialogActions>
       </Dialog>
-            </Box>
+      </Box>
+            </Tbox>
           <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:0,overflowY:'auto',overflowX: "hidden","&::-webkit-scrollbar": {display: "none",},scrollbarWidth:"none"}}>
           <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto"}}>
       <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
@@ -308,7 +340,7 @@ const handleclosedialog =() =>{
      <Pagination count={10} shape="rounded" page={1} siblingCount={0} boundaryCount={1} showFirstButton showLastButton  sx={{"&.Mui-selected":{backgroundColor:'#2F8BCC',color:'#fff'},"&.MuiPaginationItem-root":{fontSize:11,minWidth:17,height:22}}} size='small'/>
          </Box>
          </Box> 
-     </Box>
+     </Userstep>
      </>
     )}
     </Container>
