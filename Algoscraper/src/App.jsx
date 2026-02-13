@@ -7,6 +7,7 @@ import Scenariolist from './models/recording/scenariolist.jsx';
 import Scraperui from './models/Scarper Ui/scraperui.jsx';
 import Futurescript from './models/Script/futurescript.jsx';
 import Home from './views/home.jsx';
+import Analyze from './models/Ping card/analyze.jsx';
 export default function App() {
   
 
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/addscenario" element={<Addscenario />} />
           <Route path='/scenariolist' element={<Scenariolist />} />
           <Route path='/futurescript' element={<Futurescript/>}/>
+          <Route path='/analyze' element={<Analyze/>}/>
         </Routes>
       
     </>

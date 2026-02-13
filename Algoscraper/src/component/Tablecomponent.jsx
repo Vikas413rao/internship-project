@@ -21,7 +21,7 @@ export default function TableComponent({columns,selectedColumns}) {
     }, scrollbarWidth: 'none',msOverflowStyle: 'none',}}>
             <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
               <TableHead sx={{bgcolor:'#2F8BCC'}}>
-                <TableRow>
+                <TableRow >
                 {columns.filter(col=> selectedColumns.includes(col.key)).map(col => (
                   <TableCell sx={{color:'white',fontSize:12,width: 70}} key={col.key}>{col.label}</TableCell>
                 ))}
@@ -54,7 +54,79 @@ export default function TableComponent({columns,selectedColumns}) {
       
                     <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
                   </TableRow>
-               
+                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
+                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+                    
+                    {col.key === 'controlType' && (
+                     <FormControl size='small'>
+             
+              <NativeSelect
+              >
+                <option value={10}>TextBox</option>
+                <option value={20}>DropDown</option>
+              </NativeSelect>
+            </FormControl>)}
+            {col.key === 'Xpath' && (
+                   <Link href="#" variant="body2" sx={{fontSize:12}}>
+        XPath Link
+      </Link>
+       )}
+        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
+      </TableCell>
+            ))}
+      
+                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
+                  </TableRow>
+                   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
+                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+                    
+                    {col.key === 'controlType' && (
+                     <FormControl size='small'>
+             
+              <NativeSelect
+              >
+                <option value={10}>TextBox</option>
+                <option value={20}>DropDown</option>
+              </NativeSelect>
+            </FormControl>)}
+            {col.key === 'Xpath' && (
+                   <Link href="#" variant="body2" sx={{fontSize:12}}>
+        XPath Link
+      </Link>
+       )}
+        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
+      </TableCell>
+            ))}
+      
+                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
+                  </TableRow>
+                   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
+                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+                    
+                    {col.key === 'controlType' && (
+                     <FormControl size='small'>
+             
+              <NativeSelect
+              >
+                <option value={10}>TextBox</option>
+                <option value={20}>DropDown</option>
+              </NativeSelect>
+            </FormControl>)}
+            {col.key === 'Xpath' && (
+                   <Link href="#" variant="body2" sx={{fontSize:12}}>
+        XPath Link
+      </Link>
+       )}
+        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
+      </TableCell>
+            ))}
+      
+                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
+                  </TableRow>
+                   
               </TableBody>
             </Table>
           </TableContainer>

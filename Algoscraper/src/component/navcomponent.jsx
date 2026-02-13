@@ -137,16 +137,22 @@ export default function Navcomponent() {
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
     const navigate=useNavigate();
     const location=useLocation();
+    const handleBackNavigation = () =>{
+        const currentPath = location.pathname;
+        const navigationMap={
+            '/analyze':'/pingcard'
+        };
+        const nextRoute=navigationMap[currentPath] || '/';
 
-    const isHome=location.pathname ==='/';
+        navigate(nextRoute);
+    }
   return (
     <div>
       
         <Box sx={{display:'flex'}}>
             
             <Titlesection>
-                {!isHome &&(
-            <Buttonarrow onClick={()=>navigate('/')}><ArrowBackIcon size='small'/></Buttonarrow>)}
+            <Buttonarrow onClick={handleBackNavigation}><ArrowBackIcon size='small'/></Buttonarrow>
                 <Title>algoScraper</Title>
                 <Caption>Powered by algoshack</Caption>
             </Titlesection>

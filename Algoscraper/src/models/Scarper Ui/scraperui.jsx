@@ -122,7 +122,7 @@ const Tbox = styled(Box)({
   display:'flex',
   alignItems:'center',
   justifyContent:'space-between',
-  px:1,
+  padding:1,
   width:'100%'
 })
 const Bbox = styled(Box)({
@@ -133,6 +133,11 @@ const Bbox = styled(Box)({
   alignItems:'center',
   gap:2,
   borderTop:'1px solid rgba(0,0,0,0.25)'
+})
+const Tcomponent=styled(Box)({
+  flex:1,
+  overflow:'auto',
+  minHeight:0
 })
 export default function Scraperui() {
     const navigate = useNavigate(); 
@@ -254,12 +259,14 @@ const handleclosedialog =() =>{
            setSelectedColumns={setselectedcolumns} 
            />
       </Box>
+      
             </Tbox>
-          <TableComponent 
+      <Tcomponent>
+    <TableComponent 
           columns={AllColumns}
           selectedColumns={selectedColumns}
           />
-    
+          </Tcomponent>
     <Bbox >
       <BPagination />
          </Bbox> 
