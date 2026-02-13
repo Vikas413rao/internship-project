@@ -18,7 +18,6 @@ const Pbox = styled(Box)({
     alignItems:'center',
     justifyContent:'space-between',
     width:'100%',
-    marginTop:1
 
 })
 

@@ -508,6 +508,7 @@ export default function Addscenario() {
             
                           <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
                         </TableRow>
+                        
                     </TableBody>
                     )}
                   </Table>

@@ -91,11 +91,10 @@ const AllColumns = [
     height:350,
     width:530,
     marginLeft:2,
-    overflow:'hidden',
-    backgroundImage:'url(/assets/OIP.jpg)',
-    backgroundRepeat:'no-repeat',
-    backgroundPosition:'center',
-    backgroundSize:'220px'
+    display:'flex',
+    flexDirection:'column',
+    overflow:'hidden'
+    
   })
 
 const Stext = styled(TextField)({
@@ -128,9 +127,8 @@ const Tbox = styled(Box)({
 })
 const Bbox = styled(Box)({
   flexShrink:0,
-  px:2,
-  py:1,
-  marginTop:180,
+  padding:6,
+  marginTop:'auto',
   display:'flex',
   alignItems:'center',
   gap:2,
@@ -144,10 +142,6 @@ export default function Scraperui() {
 
 const [opendialog,setopendialog]=useState(false);
   
-  
-  
-
-
 const handleclickdialog = () =>{
   setopendialog(true);
 }

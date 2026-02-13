@@ -4,19 +4,21 @@ import { styled } from '@mui/material/styles';
 
 const Tablebox = styled(Box)({
     flexGrow:1,
-    marginTop:1,
-    marginLeft:2,
+    marginTop:5,
+    marginLeft:10,
     minHeight:0,
-    overflowY:'auto',
-    overflowX: "hidden",
+    overflowY:'auto', overflowX: 'auto',
     "&::-webkit-scrollbar": {display: "none",},
-    scrollbarWidth:"none"
+    scrollbarWidth:"none",
+    msOverflowStyle:'none',
 })
 export default function TableComponent({columns,selectedColumns}) {
   return (
     <div>
       <Tablebox>
-                <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX: "auto"}}>
+                <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX:'auto', "&::-webkit-scrollbar": {
+      height: 0,
+    }, scrollbarWidth: 'none',msOverflowStyle: 'none',}}>
             <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
               <TableHead sx={{bgcolor:'#2F8BCC'}}>
                 <TableRow>
