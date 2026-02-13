@@ -84,6 +84,11 @@ const Shead=styled(Box)({
   display:'flex',
   alignItems:'center'
 })
+const Typehead = styled(Typography)({
+  color:'white',
+  fontSize:17,
+  padding:2
+})
 export default function Analyze() {
   const location=useLocation();
   const {url,analyzedat}=location.state || {};
@@ -110,7 +115,7 @@ export default function Analyze() {
                     }} >Click Here</Link></Linktype>
                     <Reportbox >
                       <Reporthead >
-                        <Typography sx={{color:'white',fontSize:15,p:2}}>Your Report</Typography>
+                        <Typehead >Your Report</Typehead>
                         <Typography sx={{color:'white',ml:20}}>{analyzedat && 
                           `${new Date(analyzedat).toLocaleDateString('en-IN',{
                             day:'2-digit',
@@ -129,19 +134,19 @@ export default function Analyze() {
                       <Box sx={{display:'flex',alignItems:'center'}}>
                        <Sbox>
                       <Shead >
-                      <Typography sx={{fontSize:17,color:'white',p:1}}>Status</Typography>
+                      <Typehead>Status</Typehead>
                       </Shead>
                        <Typography fontSize={30} sx={{p:2}}>200</Typography>
                       </Sbox>
                       <Sbox>
                       <Shead>
-                      <Typography fontSize={17} sx={{color:'white',p:1}}>Response Time</Typography>
+                      <Typehead>Response Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
                       </Sbox>
                       <Sbox>
                       <Shead>
-                      <Typography fontSize={17} sx={{color:'white',p:1}}>Load Time</Typography>
+                      <Typehead>Load Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>
                       </Sbox>
@@ -162,7 +167,7 @@ export default function Analyze() {
                     <Linktype>We found 52 Links.Do You want to test all links,<Link underline='none' >View Report</Link></Linktype>
                     <Reportbox>
                       <Reporthead>
-                        <Typography sx={{color:'white',fontSize:15,p:2}}>Your Report</Typography>
+                        <Typehead>Your Report</Typehead>
                          <Typography sx={{color:'white',ml:20}}>{analyzedat && 
                           `${new Date(analyzedat).toLocaleDateString('en-IN',{
                             day:'2-digit',
@@ -181,19 +186,19 @@ export default function Analyze() {
                       <Box sx={{display:'flex',alignItems:'center'}}>
                        <Sbox>
                       <Shead>
-                      <Typography sx={{fontSize:17,color:'white',p:1}}>Status</Typography>
+                      <Typehead>Status</Typehead>
                       </Shead>
                        <Typography fontSize={30} sx={{p:2}}>200</Typography>
                       </Sbox>
                       <Sbox>
                       <Shead>
-                      <Typography fontSize={17} sx={{color:'white',p:1}}>Response Time</Typography>
+                      <Typehead>Response Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
                       </Sbox>
                       <Sbox>
                       <Shead>
-                      <Typography fontSize={17} sx={{color:'white',p:1}}>Load Time</Typography>
+                      <Typehead>Load Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>
                       </Sbox>
