@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function PingCard({ title, description }) {
   const [hovered, setHovered] = useState(false);
   const [pinned, setPinned] = useState(false);
-const navigate = useNavigate();
+const navigate = useNavigate();  
   const isActive = hovered || pinned;
 
   return (

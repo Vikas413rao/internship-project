@@ -26,7 +26,7 @@ import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import BPagination from '../../component/pagination';
 import TableComponent from '../../component/Tablecomponent';
-import Customdialogboxhooks from '../../hooks/customdialogboxhooks';
+import useCustomdialogbox from "../../hooks/customdialogboxhooks";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -141,7 +141,6 @@ const Tcomponent=styled(Box)({
 })
 export default function Scraperui() {
     const navigate = useNavigate(); 
-    const {open,handleOpen,handleClose,handleConfirm  } = Customdialogboxhooks();
     const [Open,setOpen] = useState (false);
   const [selectedColumns,setselectedcolumns]= useState(AllColumns.filter((col)=>col.default).map((col)=>col.key));
 
@@ -191,6 +190,7 @@ const handleclosedialog =() =>{
     margin: 2,
   },
 }));
+const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
   return (
     <Box
       sx={{
@@ -230,7 +230,7 @@ const handleclosedialog =() =>{
       <LinkIcon sx={{color:'#2F8BCC'}}/>
       <Editicon  />
       </Linkedit>
-       <Customdialogbox open={open}onClose={handleClose} onConfirm={()=>{handleConfirm();}} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>
+       <Customdialogbox open={open}onClose={handleClose} onConfirm={handleConfirm} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>
       </Tooltip>
     </Box>
     {/*User Steps */}

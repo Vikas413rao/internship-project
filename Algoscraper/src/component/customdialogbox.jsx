@@ -1,16 +1,16 @@
-import React from 'react'
-import { Button,Dialog,DialogTitle,DialogContent,DialogActions, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
 export default function Customdialogbox({
-    open,
-    onClose,
-    title,
+  open,
+  onClose,
+  onConfirm,  
+  title,
     children,
-    onConfirm,
     showClose=true,
     confirmlabel,
     canclelabel
 }) {
+  
   return (
     <div>
       <Dialog open={open} onClose={onClose} >

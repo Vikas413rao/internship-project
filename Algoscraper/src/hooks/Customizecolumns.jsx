@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-
 export default function useCustomizecolumns(intialSelected,onApply) {
+
+
     const [draftColumns , setDraftColumns] = useState(intialSelected);
 
     useEffect(()=>{
         setDraftColumns(intialSelected);
-
     },[intialSelected]);
 
     const handleToggle = (key)=>{

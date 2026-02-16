@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Customusersteps from '../../component/customusersteps';
 import Loaderprogress from '../../component/loaderprogress';
 import Navcomponent from '../../component/navcomponent';
+
 const Beforeurl =[
 ' Enter a valid URL',
 <>Click on <b>Analyze</b> to check the response time and load time of the page.</>,
@@ -58,36 +59,35 @@ const Body = styled(Box)({
 })
 export default function Pingcard() {
   const [loading,setLoading]=useState(false);
-        const [url,seturl] = useState("");
-        const navigate = useNavigate();
-        const [isValidurl,setValidurl]= useState(false);
+  const [url,seturl] = useState("");
+  const navigate = useNavigate();
+  const [isValidurl,setValidurl]= useState(false);
        
 
-        const handleUrlchange = (e) =>{
-          let value= e.target.value.trim()
-          if(value && !value.startsWith("http")){
-            value="https://"+value;
-          }
-          seturl(value);
-          try{
-           const parseurl=new URL(value);
-           const hashdomain = parseurl.hostname.includes(".");
-           const hashpath = parseurl.pathname && parseurl.pathname !== "";
-
-           if(hashdomain && hashpath && parseurl.pathname === '/')
-           {
-            setValidurl(true);
-           }
-           else{
-            setValidurl(false);
-           }
-          }catch{
-              setValidurl(false)
-          }
-        };
-        const handleAnalyze=() =>{
-          setLoading(true);
-        }
+  const handleUrlchange = (e) =>{
+    let value= e.target.value.trim()
+    if(value && !value.startsWith("http")){
+      value="https://"+value;
+    }
+    seturl(value);
+    try{
+     const parseurl=new URL(value);
+     const hashdomain = parseurl.hostname.includes(".");
+     const hashpath = parseurl.pathname && parseurl.pathname !== "";
+     if(hashdomain && hashpath && parseurl.pathname === '/')
+     {
+      setValidurl(true);
+     }
+     else{
+      setValidurl(false);
+     }
+    }catch{
+        setValidurl(false)
+    }
+  };
+  const handleAnalyze=() =>{
+    setLoading(true);
+  }
     return (
     <div>
       <Mbox>

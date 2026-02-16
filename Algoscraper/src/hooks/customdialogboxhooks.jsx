@@ -1,18 +1,12 @@
-import React from 'react'
-import { useState } from 'react'
-export default function Customdialogboxhooks() {
-    const [open,setOpen]=useState(false);
+import { useDispatch, useSelector } from 'react-redux';
+import { closeCustomdialog, openCustomdialog } from '../featureSlice';
 
-    const handleOpen=()=>{setOpen(true);}
-    const handleClose=()=>{setOpen(false);
-    }
-    const handleConfirm=(action)=>{ 
-        if(action) action(); 
-        setOpen(false); }
-  return {
-    open,
-    handleOpen,
-    handleClose,
-    handleConfirm
-  };
+export default function useCustomdialogbox(){
+const dispatch=useDispatch();
+const open=useSelector((state) =>state.feature.customDialogOpen);
+
+const handleOpen = () => {dispatch(openCustomdialog())};
+const handleClose = () => {dispatch(closeCustomdialog())};
+const handleConfirm =() => {dispatch(closeCustomdialog())};
+return {open,handleOpen,handleClose,handleConfirm};
 }

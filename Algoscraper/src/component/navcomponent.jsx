@@ -7,9 +7,10 @@ import MinimizeIcon from '@mui/icons-material/Minimize';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
 import { Box, Button, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { openFeaturedialog } from '../featureSlice';
 import Closingdialog from '../hooks/closingdialogbox';
-import Featuredialog from '../hooks/featuredialog';
 import Closingdialogbox from './closingdialogbox';
 import Featuredialogbox from './featuredialogbox';
 const Titlesection = styled(Box)({
@@ -133,7 +134,6 @@ const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
 export default function Navcomponent() {
-    const{openStartdialog,openSessiondialog,pagelist,closealldialog,startsession,clearsession,handleopenStartDialog}=Featuredialog();
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
     const navigate=useNavigate();
     const location=useLocation();
@@ -145,7 +145,10 @@ export default function Navcomponent() {
         const nextRoute=navigationMap[currentPath] || '/';
 
         navigate(nextRoute);
+
     }
+    const dispatch = useDispatch();
+    const pagelist=[{value:'Page List',label:'Page List'}]
   return (
     <div>
       
@@ -164,16 +167,11 @@ export default function Navcomponent() {
                 </LinkButton>
             </LinkBox>
             <Iconbox>
-                <Iconbutton  size='small' onClick={handleopenStartDialog}>
+                <Iconbutton  size='small' onClick={()=>dispatch(openFeaturedialog())}>
                 <Tabunslected/>
                 <Editoutline />
                 </Iconbutton>
                 <Featuredialogbox
-                openStartdialog={openStartdialog}
-                openSessiondialog={openSessiondialog}
-                handleCloseall={closealldialog}
-                handleStartsession={startsession}
-                handleClearSession={clearsession}
                     pagelist={pagelist}
                 />
             </Iconbox>

@@ -44,7 +44,6 @@ export default function ScriptCard({ title, description }) {
 
           <Typography
             sx={{
-        
               fontWeight: 600,
               color: "#2F8BCC",
               textDecoration: isActive ? "underline" : "none",
@@ -69,3 +68,4 @@ export default function ScriptCard({ title, description }) {
     
   );
 }
+ 
