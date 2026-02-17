@@ -1,13 +1,12 @@
 import { Dialog, DialogActions, FormControlLabel } from '@mui/material';
-import {useState , useEffect} from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import useCustomizecolumns from '../hooks/Customizecolumns';
 export default function Checkdialogbox({open,handleClose,columns,selectedcolumn,setSelectedColumns}) {
-    const {draftColumns,handleToggle,handleApply}=useCustomizecolumns(selectedcolumn,(updateColumns)=>{
+    const {draftColumns,handleToggle,handleApply}=useCustomizecolumns((updateColumns)=>{
         setSelectedColumns(updateColumns);
         handleClose();
     })

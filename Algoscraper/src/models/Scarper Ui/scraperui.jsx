@@ -16,16 +16,15 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
 import Customdialogbox from '../../component/customdialogbox';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
-import BPagination from '../../component/pagination';
 import TableComponent from '../../component/Tablecomponent';
+import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, setnextopen, setselectcolumns } from "../../featureSlice";
 import useCustomdialogbox from "../../hooks/customdialogboxhooks";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
@@ -41,17 +40,6 @@ const Container= styled(Box)({
   position:'relative'
 
 })
-
-const AllColumns = [
-    {key:'contentName',label:'Content Name',default:true},
-    {key:'controlType',label:'Control Type',default:true},
-    {key:'Xpath',label:'Xpath',default:true},
-    {key:'pageName',label:'Page Name', default:false},
-    {key:'controlValue',label:'Control Value',default:false},
-    {key:'appUrl',label:'App URL',default:false },
-    {key:'featureName',label:'Feature Name',default:false},
-    {key:'nodeName',label:'Node Name',default:false},
-  ];
 
   const Edittext=styled(TextField)({
     width:200,
@@ -93,7 +81,6 @@ const AllColumns = [
     marginLeft:2,
     display:'flex',
     flexDirection:'column',
-    overflow:'hidden'
     
   })
 
@@ -125,39 +112,24 @@ const Tbox = styled(Box)({
   padding:1,
   width:'100%'
 })
-const Bbox = styled(Box)({
-  flexShrink:0,
-  padding:6,
-  marginTop:'auto',
-  display:'flex',
-  alignItems:'center',
-  gap:2,
-  borderTop:'1px solid rgba(0,0,0,0.25)'
-})
+
 const Tcomponent=styled(Box)({
   flex:1,
-  overflow:'auto',
   minHeight:0
 })
 export default function Scraperui() {
-    const navigate = useNavigate(); 
-    const [Open,setOpen] = useState (false);
-  const [selectedColumns,setselectedcolumns]= useState(AllColumns.filter((col)=>col.default).map((col)=>col.key));
 
-const [opendialog,setopendialog]=useState(false);
-  
-const handleclickdialog = () =>{
-  setopendialog(true);
-}
-const handleclosedialog =() =>{
-  setopendialog(false);
-}
-      const [nextopen,setnextopen]=useState(false);
-      const handleClicknext = () =>{
-        setopendialog(false);
-        setnextopen(true);
-      }
-
+  const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
+  const nextOpen = useSelector(state =>state.feature.nextOpen);
+  const dispatch = useDispatch();
+  const Opendialog = useSelector(state =>state.feature.mainDialogOpen);
+  const handleOpendialog = () =>{dispatch(openMainDialog())};
+  const handleClosedialog = () =>{dispatch(closeMainDialog())}
+  const Opencheck =useSelector (state => state.feature.checkDialog);
+  const handleOpencheck = () =>{dispatch(openCheckDialog())};
+  const handleClosecheck = () => {dispatch(closecheckDialog())}
+    const handleClicknext = () =>{dispatch(setnextopen(true))};
+    const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
     const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
   '& .MuiSwitch-track': {
@@ -234,7 +206,7 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
       </Tooltip>
     </Box>
     {/*User Steps */}
-    {!nextopen  ? (
+    {!nextOpen  ? (
       <>
     <Userstep  >
           <Customusersteps steps={stepsData}/>
@@ -245,18 +217,18 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
       <Tbox>
           <Stext id="outlined-basic" placeholder="Search"  variant="outlined"  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
             <Box sx={{display:'flex',gap:1}}>
-            <Ibutton size="small" onClick={handleclickdialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Customdialogbox open={opendialog} onClose={handleclosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
+            <Ibutton size="small" onClick={handleOpendialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+            <Customdialogbox open={Opendialog} onClose={handleClosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
               <DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText>
               </Customdialogbox>
             <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Ibutton size="small"  onClick={()=>setOpen(true)} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+            <Ibutton size="small"  onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
            <Checkdialogbox
-           open={Open}
-           handleClose={()=>setOpen(false)}
+           open={Opencheck}
+           handleClose={handleClosecheck}
            columns={AllColumns}
-           selectedcolumn={selectedColumns}
-           setSelectedColumns={setselectedcolumns} 
+           selectedcolumn={selectedcolumns}
+           setSelectedColumns={setselectedcolumnshandle} 
            />
       </Box>
       
@@ -264,12 +236,9 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
       <Tcomponent>
     <TableComponent 
           columns={AllColumns}
-          selectedColumns={selectedColumns}
+          selectedColumns={selectedcolumns}
           />
           </Tcomponent>
-    <Bbox >
-      <BPagination />
-         </Bbox> 
      </Userstep>
      </>
     )}

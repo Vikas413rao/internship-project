@@ -1,25 +1,35 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Box, FormControl, IconButton, Link, NativeSelect, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteRow } from '../featureSlice';
+import BPagination from './pagination';
 const Tablebox = styled(Box)({
-    flexGrow:1,
+    flex:1,
+    overflowY:'auto',
     marginTop:5,
     marginLeft:10,
     minHeight:0,
-    overflowY:'auto', overflowX: 'auto',
-    "&::-webkit-scrollbar": {display: "none",},
-    scrollbarWidth:"none",
-    msOverflowStyle:'none',
+})
+const TBbox = styled(Box)({
+display:'flex',
+flexDirection:'column',
+height:310,
+minHeight:100,
 })
 export default function TableComponent({columns,selectedColumns}) {
+  const {currentPage,rowsperPage,rows} = useSelector(state =>state.feature)
+  const startIndex = (currentPage - 1) * rowsperPage;
+  const paginatedrows = rows.slice(startIndex,startIndex+rowsperPage);
+  const dispatch = useDispatch();
+
   return (
-    <div>
+
+      <TBbox>
       <Tablebox>
-                <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX:'auto', "&::-webkit-scrollbar": {
-      height: 0,
+                <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX:'auto', "&::-webkit-scrollbar": {display:'none'
     }, scrollbarWidth: 'none',msOverflowStyle: 'none',}}>
-            <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}} aria-label="a dense table" >
+            <Table size='small' sx={{ width: "100%", tableLayout: "fixed"}}  >
               <TableHead sx={{bgcolor:'#2F8BCC'}}>
                 <TableRow >
                 {columns.filter(col=> selectedColumns.includes(col.key)).map(col => (
@@ -29,10 +39,11 @@ export default function TableComponent({columns,selectedColumns}) {
                 </TableRow>
               </TableHead>
               <TableBody>
-               
-                  <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+               {paginatedrows.map((row) =>(
+                
+                  <TableRow key={row.id}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
-                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
+                    <TableCell sx={{fontSize:12}} key = {col.key}>{col.key === 'contentName' && 'Name'}
                     
                     {col.key === 'controlType' && (
                      <FormControl size='small'>
@@ -51,86 +62,15 @@ export default function TableComponent({columns,selectedColumns}) {
         {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
       </TableCell>
             ))}
-      
-                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
-                  </TableRow>
-                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
-                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
-                    
-                    {col.key === 'controlType' && (
-                     <FormControl size='small'>
-             
-              <NativeSelect
-              >
-                <option value={10}>TextBox</option>
-                <option value={20}>DropDown</option>
-              </NativeSelect>
-            </FormControl>)}
-            {col.key === 'Xpath' && (
-                   <Link href="#" variant="body2" sx={{fontSize:12}}>
-        XPath Link
-      </Link>
-       )}
-        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
-      </TableCell>
-            ))}
-      
-                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
-                  </TableRow>
-                   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
-                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
-                    
-                    {col.key === 'controlType' && (
-                     <FormControl size='small'>
-             
-              <NativeSelect
-              >
-                <option value={10}>TextBox</option>
-                <option value={20}>DropDown</option>
-              </NativeSelect>
-            </FormControl>)}
-            {col.key === 'Xpath' && (
-                   <Link href="#" variant="body2" sx={{fontSize:12}}>
-        XPath Link
-      </Link>
-       )}
-        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
-      </TableCell>
-            ))}
-      
-                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
-                  </TableRow>
-                   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    {columns.filter(col => selectedColumns.includes(col.key)).map(col => (
-                    <TableCell sx={{fontSize:12}}>{col.key === 'contentName' && 'Name'}
-                    
-                    {col.key === 'controlType' && (
-                     <FormControl size='small'>
-             
-              <NativeSelect
-              >
-                <option value={10}>TextBox</option>
-                <option value={20}>DropDown</option>
-              </NativeSelect>
-            </FormControl>)}
-            {col.key === 'Xpath' && (
-                   <Link href="#" variant="body2" sx={{fontSize:12}}>
-        XPath Link
-      </Link>
-       )}
-        {!['contentName','controlType','Xpath'].includes(col.key) && (col.label)}
-      </TableCell>
-            ))}
-      
-                    <TableCell sx={{fontSize:12}}><IconButton ><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
-                  </TableRow>
-                   
+                    <TableCell sx={{fontSize:12}}><IconButton onClick={()=>dispatch(deleteRow(row.id))}><DeleteOutlineOutlinedIcon sx={{color:'red'}}/></IconButton></TableCell>
+                  </TableRow> 
+               ))}
               </TableBody>
             </Table>
           </TableContainer>
           </Tablebox>
-    </div>
+          <BPagination totalRows={rows.length} />
+          </TBbox>
+
   )
 }
