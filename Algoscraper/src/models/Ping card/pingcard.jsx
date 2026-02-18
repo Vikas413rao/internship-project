@@ -4,12 +4,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Customusersteps from '../../component/customusersteps';
 import Loaderprogress from '../../component/loaderprogress';
 import Navcomponent from '../../component/navcomponent';
-
+import { openLoader, setAnalyzedat, setUrl, setValidUrl } from '../../featureSlice';
 const Beforeurl =[
 ' Enter a valid URL',
 <>Click on <b>Analyze</b> to check the response time and load time of the page.</>,
@@ -58,36 +58,34 @@ const Body = styled(Box)({
   marginTop:4
 })
 export default function Pingcard() {
-  const [loading,setLoading]=useState(false);
-  const [url,seturl] = useState("");
   const navigate = useNavigate();
-  const [isValidurl,setValidurl]= useState(false);
-       
-
+   const dispatch = useDispatch();
+   const {url,isValidurl,open} = useSelector((state)=>state.feature);
   const handleUrlchange = (e) =>{
     let value= e.target.value.trim()
     if(value && !value.startsWith("http")){
       value="https://"+value;
     }
-    seturl(value);
+    dispatch(setUrl(value));
     try{
      const parseurl=new URL(value);
-     const hashdomain = parseurl.hostname.includes(".");
-     const hashpath = parseurl.pathname && parseurl.pathname !== "";
-     if(hashdomain && hashpath && parseurl.pathname === '/')
-     {
-      setValidurl(true);
-     }
-     else{
-      setValidurl(false);
-     }
-    }catch{
-        setValidurl(false)
+     dispatch(setValidUrl(parseurl.hostname.includes('.')));
+    }
+    catch{
+      dispatch(setValidUrl(false));
     }
   };
   const handleAnalyze=() =>{
-    setLoading(true);
+    dispatch(setAnalyzedat(Date.now()));
+    dispatch(
+      openLoader({
+        title:'Analyze',
+        message:'Please Wait while we analyze...',
+        onComplete:()=>{navigate('/analyze')}
+      })
+    )
   }
+
     return (
     <div>
       <Mbox>
@@ -112,12 +110,9 @@ export default function Pingcard() {
                       
                       </>
                       )}
-                 {loading && (
-               <Loaderprogress open={loading} onComplete={()=>{setLoading(false);navigate('/analyze',{state:{
-                url:url,
-                analyzedat:new Date()
-               }})}} message='Please wait while we analyze the webpage..'/>
-                )}
+                
+               <Loaderprogress />
+               
                 </Body>
                 </Container>
                 </Mbox>

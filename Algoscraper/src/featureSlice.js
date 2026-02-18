@@ -14,9 +14,15 @@ export const AllColumns = [
   ];
 
 const initialState = {
-    loading: false,
+    open: false,
+    progress:0,
+    title:'Please Wait',
+    message:'',
   url: '',
   isValidurl: false,
+  onComplete:null,
+  analyzedAt:null,
+  showFinalReport:false,
   draftColumns: defaultColumns,
   mainDialogOpen: false,
   checkDialog:false,
@@ -32,6 +38,7 @@ const initialState = {
     selectedColumns:defaultColumns,
     selectcolumns:AllColumns.filter(col =>col.default).map(col =>col.key),
     nextOpen:false,
+  closingDialogopen:false,
 };
 
 const featureSlice = createSlice({
@@ -76,16 +83,22 @@ const featureSlice = createSlice({
         state.featureSessionOpen=false;
         state.sessionType=null;
     },
-  setLoading(state, action) {
-    state.loading = action.payload;
-  },
+
   setUrl(state, action) {
     state.url = action.payload;
   },
   setValidUrl(state, action) {
     state.isValidurl = action.payload;
   },
-
+  setAnalyzedat (state,action){
+    state.analyzedAt = action.payload;
+  },
+  setShowfinalReport (state){
+    state.showFinalReport=true;
+  },
+resetShowfinalReport (state){
+  state.showFinalReport=false;
+},
   openMainDialog(state) {
     state.mainDialogOpen = true;
   },
@@ -121,17 +134,51 @@ const featureSlice = createSlice({
     state.checkDialog=false;
   },
   setselectcolumns:(state,action) =>{state.selectcolumns = action.payload},
-  setnextopen : (state,action) =>{state.nextOpen = action.payload}
+  setnextopen : (state,action) =>{state.nextOpen = action.payload},
+  openLoader:(state,action)=>{
+    state.open=true;
+    state.progress=0;
+    state.title=action.payload.title || 'Please Wait';
+    state.message=action.payload.message || '';
+    state.onComplete=action.payload.onComplete;
+  },
+  setProgress : (state,action)=>{
+    state.progress = action.payload;
+  },
+  closeLoader : (state)=>{
+    state.open=false;
+    state.progress=0;
+    state.title='Please Wait';
+    state.message="";
+    state.analyzedAt=Date.now();
 
+  },
+  resetPingcard : (state)=>{
+    state.url='',
+    state.isValidurl=false;
+  },
+  openclosingdialog:(state)=>{
+    state.closingDialogopen=true;
+  },
+  closeClosingdialog:(state)=>{
+    state.closingDialogopen=false;
+  }
 },
+
 });
 
 export const {
     openDialog,
     closeDialog,
-  setLoading,
+  openLoader,
+  setProgress,
+  resetPingcard,
+  closeLoader,
   setUrl,
   setValidUrl,
+  setAnalyzedat,
+  setShowfinalReport,
+  resetShowfinalReport,
   setselectcolumns,
   setnextopen,
   toggleDraftcolumn,
@@ -150,5 +197,7 @@ closeSession,
   deleteRow,
   openCheckDialog,
   closecheckDialog,
+  openclosingdialog,
+  closeClosingdialog,
 } = featureSlice.actions;
 export default featureSlice.reducer;

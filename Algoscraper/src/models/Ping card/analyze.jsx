@@ -1,10 +1,12 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Loaderprogress from '../../component/loaderprogress.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
+import { openLoader, resetShowfinalReport, setShowfinalReport } from '../../featureSlice.js';
 const Mbox = styled(Box)({
   margin:0,
   padding:0,
@@ -90,10 +92,23 @@ const Typehead = styled(Typography)({
   padding:2
 })
 export default function Analyze() {
+  const {url,analyzedAt,showFinalReport,open} = useSelector((state)=>state.feature);
+  const dispatch = useDispatch();
   const location=useLocation();
-  const {url,analyzedat}=location.state || {};
-  const [loading,setLoading]=useState(false);
-  const [showFinalReport,setShowfinalreport]=useState(false);
+  
+  const handleAnalyze=() =>{
+      dispatch(
+        openLoader({
+          title:'Analyze',
+          message:'Please Wait while we analyze...',
+          onComplete:() =>{dispatch(setShowfinalReport())}
+        })
+        
+      )
+      
+    }
+    
+
   return (
     <div>
       <Mbox>
@@ -110,19 +125,17 @@ export default function Analyze() {
                   
                   <Box>
                     <Linktype >We found 52 Links.Do You want to test all links,
-                      <Link underline='none' onClick={()=>{
-                          setLoading(true);
-                    }} >Click Here</Link></Linktype>
+                      <Link underline='none' onClick={handleAnalyze} >Click Here</Link></Linktype>
                     <Reportbox >
                       <Reporthead >
                         <Typehead >Your Report</Typehead>
-                        <Typography sx={{color:'white',ml:20}}>{analyzedat && 
-                          `${new Date(analyzedat).toLocaleDateString('en-IN',{
+                        <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
+                          `${new Date(analyzedAt).toLocaleDateString('en-IN',{
                             day:'2-digit',
                             month:'short',
                             year:'numeric'
                           })}
-                          ${new Date(analyzedat).toLocaleTimeString('en-IN',{
+                          ${new Date(analyzedAt).toLocaleTimeString('en-IN',{
                             hour:'2-digit',
                             minute:'2-digit',
                             second:'2-digit'
@@ -154,27 +167,21 @@ export default function Analyze() {
                   </Box>
                 )}
                 
-                  {loading &&(
-                    <Loaderprogress open={loading}  message='Please wait till analyse page...'
-                    onComplete={()=>{
-                      setLoading(false);
-                      setShowfinalreport(true);
-                    }}
-                    />
-                  )}
+
+                    <Loaderprogress />
                 {showFinalReport && (
                   <Box>
                     <Linktype>We found 52 Links.Do You want to test all links,<Link underline='none' >View Report</Link></Linktype>
                     <Reportbox>
                       <Reporthead>
                         <Typehead>Your Report</Typehead>
-                         <Typography sx={{color:'white',ml:20}}>{analyzedat && 
-                          `${new Date(analyzedat).toLocaleDateString('en-IN',{
+                         <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
+                          `${new Date(analyzedAt).toLocaleDateString('en-IN',{
                             day:'2-digit',
                             month:'short',
                             year:'numeric'
                           })}
-                          ${new Date(analyzedat).toLocaleTimeString('en-IN',{
+                          ${new Date(analyzedAt).toLocaleTimeString('en-IN',{
                             hour:'2-digit',
                             minute:'2-digit',
                             second:'2-digit'

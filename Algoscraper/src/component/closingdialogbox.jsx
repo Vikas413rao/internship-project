@@ -1,13 +1,14 @@
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { DialogActions, DialogContentText,Button } from '@mui/material';
+import { Button, DialogActions, DialogContentText } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 export default function Closingdialogbox({
-    open,
-    handleClose,
-    handleConfirm
+  open,
+  handleClose,
+  handleConfirm
 }) {
+ 
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>

@@ -1,6 +1,8 @@
-import { CircularProgress, Typography,Box } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import useLoaderprogress from '../hooks/useloaderprogress';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeLoader, setProgress } from '../featureSlice';
 
 const Pbox = styled(Box)({
     position:'fixed',
@@ -11,13 +13,31 @@ const Pbox = styled(Box)({
     justifyContent:'center',
     zIndex:2000
 })
-export default function Loaderprogress({open,onComplete,
-    title='Please Wait',
-    message=''
-}) {
-  const progress= useLoaderprogress(open,onComplete);
+export default function Loaderprogress() {
+  const {open,progress,title,message,onComplete} = useSelector ((state)=>state.feature);
+  const dispatch = useDispatch();
+  
+  useEffect(() =>{
+    if (!open )return;
 
+    const timer = setInterval(()=>{
+        dispatch(setProgress(Math.min(progress +10,100)))
+
+      },300);
+
+    return () => clearInterval(timer);
+  }, [open,progress,dispatch]);
+  useEffect(()=>{
+    if(progress >=100 && open){
+      dispatch(closeLoader());
+      if(onComplete){
+        onComplete();
+      }
+
+    }
+  },[open,progress,dispatch])
   if(!open) return null;
+
   
   return (
     <div>
