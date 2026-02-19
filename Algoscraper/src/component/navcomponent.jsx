@@ -146,7 +146,9 @@ export default function Navcomponent() {
         return
        }
         const navigationMap={
-            '/analyze':'/pingcard'
+            '/analyze':'/pingcard',
+            '/addscenario':'/scenariolist',
+            '/scenariolist':'/recording'
         };
         const nextRoute=navigationMap[currentPath] || '/';
 

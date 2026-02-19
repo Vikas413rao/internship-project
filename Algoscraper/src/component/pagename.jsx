@@ -1,6 +1,5 @@
-import React from 'react'
 import { Box, TextField, Typography } from '@mui/material'
-import {styled} from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 const Pagetextfield = styled(TextField)({
   width:300,
   paddingTop:1,
@@ -22,7 +21,7 @@ const Pagetypography =styled(Typography)({
   paddingRight:1,
   borderTopLeftRadius:5,
   borderBottomLeftRadius:5,
-  fontSize:13,
+  fontSize:12,
   alignItems:'center',
   display:'flex'
 })

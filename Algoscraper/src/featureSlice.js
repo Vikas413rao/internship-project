@@ -39,6 +39,12 @@ const initialState = {
     selectcolumns:AllColumns.filter(col =>col.default).map(col =>col.key),
     nextOpen:false,
   closingDialogopen:false,
+  customicondialogopen:false,
+  scenarioName:'',
+  scenarioOutline:'',
+  editdialogopen:false,
+  resetrecordopen:false,
+  settingopen:false,
 };
 
 const featureSlice = createSlice({
@@ -162,6 +168,40 @@ resetShowfinalReport (state){
   },
   closeClosingdialog:(state)=>{
     state.closingDialogopen=false;
+  },
+  opencustomicondialog:(state)=>{
+    state.customicondialogopen=true;
+  },
+  closecustomicondialog:(state)=>{
+    state.customicondialogopen=false;
+  },
+  setScenarioName:(state,action)=>{
+    state.scenarioName=action.payload;
+  },
+  setScenarioOutline:(state,action)=>{
+    state.scenarioOutline=action.payload;
+  },
+  clearScenario:(state)=>{
+    state.scenarioName='';
+    state.scenarioOutline='';
+  },
+  openeditdialog:(state)=>{
+    state.editdialogopen=true;
+  },
+  closeeditdialog:(state)=>{
+    state.editdialogopen=false;
+  },
+  openresetrecord:(state)=>{
+    state.resetrecordopen=true;
+  },
+  closeresetrecord:(state)=>{
+    state.resetrecordopen=false;
+  },
+  opensettingdialog:(state)=>{
+    state.settingopen=true;
+  },
+  closesettingdialog:(state)=>{
+    state.settingopen=false;
   }
 },
 
@@ -199,5 +239,16 @@ closeSession,
   closecheckDialog,
   openclosingdialog,
   closeClosingdialog,
+  opencustomicondialog,
+  closecustomicondialog,
+  setScenarioName,
+  setScenarioOutline,
+  clearScenario,
+  openeditdialog,
+  closeeditdialog,
+  openresetrecord,
+  closeresetrecord,
+  opensettingdialog,
+  closesettingdialog,
 } = featureSlice.actions;
 export default featureSlice.reducer;

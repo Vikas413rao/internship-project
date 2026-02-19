@@ -175,7 +175,7 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
     >
       <Container >
         <Navcomponent/>
-    <Box sx={{display:'flex',alignItems:'center',ml:1}}>
+    <Box sx={{display:'flex',alignItems:'center',ml:1,gap:2}}>
     <Pagename/>
     <Custombutton label='Scraper UI' onClick={handleClicknext}/>
     </Box>
