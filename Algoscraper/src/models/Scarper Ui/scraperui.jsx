@@ -33,13 +33,13 @@ const stepsData =[
   <><Link underline='none'>Click Here </Link> to know More about Scrape UI.</>
 ];
 
-const Container= styled(Box)({
-  border:'1px solid #2F8BCC',
+const Container= styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
 
-})
+}))
 
   const Edittext=styled(TextField)({
     width:200,
@@ -73,38 +73,37 @@ const Container= styled(Box)({
     backgroundColor:'transparent',
     borderRadius:'50%'
   })
-  const Userstep=styled(Box)({
+  const Userstep=styled(Box)(({theme})=>({
     position:'absolute',
-    backgroundColor:'#edeaeac1',
+    backgroundColor:theme.palette.gry[200],
     height:350,
     width:530,
     marginLeft:2,
     display:'flex',
     flexDirection:'column',
     
-  })
+  }))
 
-const Stext = styled(TextField)({
+const Stext = styled(TextField)(({theme})=>({
   width:250,
   paddingTop:2,
   marginLeft:4,
   '& .MuiOutlinedInput-root':{
-    disableUnderline:true,
     padding:1,
     fontSize:12,
     height:30,
-    bgcolor:'white'
+    backgroundColor:theme.palette.background.paper
   }
-})
-const Ibutton=styled(Button)({
-backgroundColor:'white',
+}))
+const Ibutton=styled(Button)(({theme})=>({
+backgroundColor:theme.palette.background.paper,
 marginTop:3,
 marginRight:1,
 padding:1,
 minWidth:0,
 width:36,
 boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-})
+}))
 const Tbox = styled(Box)({
   display:'flex',
   alignItems:'center',
@@ -129,6 +128,7 @@ export default function Scraperui() {
   const handleOpencheck = () =>{dispatch(openCheckDialog())};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
     const handleClicknext = () =>{dispatch(setnextopen(true))};
+    const handleclosenext = () =>{dispatch(setnextopen(false))}
     const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
     const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -218,7 +218,7 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
           <Stext id="outlined-basic" placeholder="Search"  variant="outlined"  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
             <Box sx={{display:'flex',gap:1}}>
             <Ibutton size="small" onClick={handleOpendialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Customdialogbox open={Opendialog} onClose={handleClosedialog} onConfirm={()=>{handleConfirm();setnextopen(false);}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
+            <Customdialogbox open={Opendialog} onClose={handleClosedialog} onConfirm={()=>{handleConfirm();handleclosenext()}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
               <DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText>
               </Customdialogbox>
             <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>

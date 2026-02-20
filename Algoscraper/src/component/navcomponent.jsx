@@ -148,7 +148,11 @@ export default function Navcomponent() {
         const navigationMap={
             '/analyze':'/pingcard',
             '/addscenario':'/scenariolist',
-            '/scenariolist':'/recording'
+            '/scenariolist':'/recording',
+            '/emptyscraper':'/futurescript',
+            '/tablescreen':'/emptyscraper',
+            '/automapper':'/tablescreen',
+            '/scenariofile':'/tablescreen'
         };
         const nextRoute=navigationMap[currentPath] || '/';
 

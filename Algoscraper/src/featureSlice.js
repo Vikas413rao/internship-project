@@ -12,7 +12,11 @@ export const AllColumns = [
     {key:'featureName',label:'Feature Name',default:false},
     {key:'nodeName',label:'Node Name',default:false},
   ];
-
+const tasks=[
+  { id: 1, name: "Scenario_file_Name", progress: 0 },
+    { id: 2, name: "Scenario_file_Name", progress: 0 },
+    { id: 3, name: "Scenario_file_Name", progress: 0 },
+];
 const initialState = {
     open: false,
     progress:0,
@@ -45,6 +49,7 @@ const initialState = {
   editdialogopen:false,
   resetrecordopen:false,
   settingopen:false,
+  task:tasks,
 };
 
 const featureSlice = createSlice({
@@ -202,6 +207,16 @@ resetShowfinalReport (state){
   },
   closesettingdialog:(state)=>{
     state.settingopen=false;
+  },
+  updateTaskprogress:(state)=>{
+    state.task=state.task.map((taskss)=>{
+      if(taskss.progress >= 100) return taskss;
+      const increment = Math.floor(Math.random()*15);
+      return{
+        ...taskss,
+        progress: Math.min(100,taskss.progress +increment),
+      }
+    })
   }
 },
 
@@ -250,5 +265,6 @@ closeSession,
   closeresetrecord,
   opensettingdialog,
   closesettingdialog,
+  updateTaskprogress,
 } = featureSlice.actions;
 export default featureSlice.reducer;

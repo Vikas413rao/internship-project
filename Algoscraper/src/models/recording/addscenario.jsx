@@ -191,7 +191,7 @@ export default function Addscenario() {
             <Userstep>
                   <Box sx={{display:'flex',alignItems:'center'}}>
                       <Stext id="outlined-basic" placeholder="Search"  variant="outlined" InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}} />
-                        <Box sx={{display:'flex',gap:1}}>
+                        <Box sx={{display:'flex',ml:20}}>
                         <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
                         <Resetrecorddialog />
                         </Box>
