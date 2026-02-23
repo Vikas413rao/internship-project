@@ -75,7 +75,7 @@ const Container= styled(Box)(({theme})=>({
   })
   const Userstep=styled(Box)(({theme})=>({
     position:'absolute',
-    backgroundColor:theme.palette.gry[200],
+    backgroundColor:theme.palette.grey[200],
     height:350,
     width:530,
     marginLeft:2,
