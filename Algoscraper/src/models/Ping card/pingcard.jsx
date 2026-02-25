@@ -33,30 +33,30 @@ boxSizing:'border-box',
 width:530,
 minHeight:380
 })
-const Container = styled(Box)({
-  border:'1px solid #2F8BCC',
+const Container = styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
-})
-const Textb=styled(TextField)({
+}))
+const Textb=styled(TextField)(({theme})=>({
   width:300,
   marginTop:4,
   marginLeft:4,
   '& .MuiOutlinedInput-root':{
   fontSize:12,
   height:30,
-  backgroundColor:'white'
+  backgroundColor:theme.palette.background.paper
   }
-})
-const Body = styled(Box)({
+}))
+const Body = styled(Box)(({theme})=>({
   position:'relative',
-  backgroundColor:'#e3dfdfb6',
+  backgroundColor: theme.palette.grey[100],
   width:530,
   marginLeft:2.5,
   height:390,
   marginTop:4
-})
+}))
 export default function Pingcard() {
   const navigate = useNavigate();
    const dispatch = useDispatch();

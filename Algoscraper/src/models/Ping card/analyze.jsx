@@ -1,12 +1,11 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Loaderprogress from '../../component/loaderprogress.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
-import { openLoader, resetShowfinalReport, setShowfinalReport } from '../../featureSlice.js';
+import { openLoader, setShowfinalReport } from '../../featureSlice.js';
 const Mbox = styled(Box)({
   margin:0,
   padding:0,
@@ -14,83 +13,83 @@ const Mbox = styled(Box)({
   width:530,
   minHeight:380,
 })
-const Body = styled(Box)({
+const Body = styled(Box)(({theme})=>({
   position:'relative',
-  backgroundColor:'#e3dfdfb6',
+  backgroundColor:theme.palette.grey[200],
   width:530,
   marginLeft:2.5,
   height:390,
   marginTop:4
-})
-const Textb=styled(TextField)({
+}))
+const Textb=styled(TextField)(({theme})=>({
   width:300,
   marginTop:4,
   marginLeft:4,
   '& .MuiOutlinedInput-root':{
   fontSize:12,
   height:30,
-  backgroundColor:'white'
+  backgroundColor:theme.palette.background.paper
   }
-})
-const Container = styled(Box)({
-  border:'1px solid #2F8BCC',
+}))
+const Container = styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
-})
+}))
 const Linktype=styled(Typography)({
   fontSize:15,
   fontFamily:'-moz-initial',
   paddingLeft:28,
   paddingTop:5
 })
-const Reportbox = styled(Box)({
+const Reportbox = styled(Box)(({theme})=>({
   width:480,
   boxShadow:'3px',
   height:120,
   marginLeft:20,
   marginTop:5,
   borderRadius:'10px',
-  backgroundColor:'white'
-})
-const Reporthead=styled(Box)({
+  backgroundColor:theme.palette.background.paper
+}))
+const Reporthead=styled(Box)(({theme})=>({
   height:45,
   width:480,
-  backgroundColor:'#2F8BCC',
+  backgroundColor:theme.palette.primary.main,
   borderTopLeftRadius:'10px',
   borderTopRightRadius:'10px',
   display:'flex',
   alignItems:'center'
-})
+}))
 const Urltype = styled(Typography)({
 position:'absolute',
 marginTop:20,
 marginLeft:8,
 fontWeight:600
 })
-const Sbox = styled(Box)({
+const Sbox = styled(Box)(({theme})=>({
   width:145,
   boxShadow:'3px',
   height:120,
   marginLeft:20,
   marginTop:4,
   borderRadius:'10px',
-  backgroundColor:'white'
-}) 
-const Shead=styled(Box)({
+  backgroundColor:theme.palette.background.paper
+}) )
+const Shead=styled(Box)(({theme})=>({
   height:45,
   width:145,
-  backgroundColor:'#2F8BCC',
+  backgroundColor:theme.palette.primary.main,
   borderTopLeftRadius:'10px',
   borderTopRightRadius:'10px',
   display:'flex',
   alignItems:'center'
-})
-const Typehead = styled(Typography)({
-  color:'white',
+}))
+const Typehead = styled(Typography)(({theme})=>({
+  color:theme.palette.common.white,
   fontSize:17,
   padding:2
-})
+}))
 export default function Analyze() {
   const {url,analyzedAt,showFinalReport,open} = useSelector((state)=>state.feature);
   const dispatch = useDispatch();

@@ -4,15 +4,14 @@ const Pagetextfield = styled(TextField)({
   width:300,
   paddingTop:1,
   '& .MuiOutlinedInput-root':{
-    disableUnderline:true,
       padding:1,
       fontSize:12,
       height:'35px'
     
   }
 })
-const Pagetypography =styled(Typography)({
-  backgroundColor:'#2F8BCC',
+const Pagetypography =styled(Typography)(({theme})=>({
+  backgroundColor:theme.palette.primary.main,
   color:'white',
   height:35,
   paddingLeft:1,
@@ -24,7 +23,7 @@ const Pagetypography =styled(Typography)({
   fontSize:12,
   alignItems:'center',
   display:'flex'
-})
+}))
 export default function Pagename() {
   return (
     <div>

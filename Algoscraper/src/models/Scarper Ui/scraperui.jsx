@@ -51,13 +51,13 @@ const Container= styled(Box)(({theme})=>({
         height:40
     }
   })
-  const Photobutton = styled(Button)({
-    backgroundColor:'white',
+  const Photobutton = styled(Button)(({theme})=>({
+    backgroundColor:theme.palette.background.paper,
     marginLeft:200,
     minWidth:0,
     width:40,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-  })
+  }))
   const Linkedit = styled(Button)({
     backgroundColor:'white',
     marginLeft:10,

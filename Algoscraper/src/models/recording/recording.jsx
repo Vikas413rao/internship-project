@@ -21,23 +21,23 @@ const stepsdata = [
     or<br/> click <AlgoQA /> to create a new project in the algoQA platform.</>,
   <><Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Record Action.</>
 ];
-const Container= styled(Box)({
-  border:'1px solid #2F8BCC',
+const Container= styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
 
-})
-const Userstep=styled(Box)({
+}))
+const Userstep=styled(Box)(({theme})=>({
     position:'absolute',
-    backgroundColor:'#edeaeac1',
+    backgroundColor:theme.palette.grey[100],
     height:390,
     width:530,
     marginLeft:2,
     display:'flex',
     flexDirection:'column',
     
-  })
+  }))
 export default function Recording() {
       const navigate = useNavigate(); 
     const {open,handleOpen,handleClose,handleConfirm}=useCustomdialogbox();

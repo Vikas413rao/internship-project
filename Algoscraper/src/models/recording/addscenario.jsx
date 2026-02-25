@@ -30,23 +30,23 @@ import Settingdialog from '../../component/settingdialog';
 import TableComponent from '../../component/Tablecomponent';
 import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openresetrecord, opensettingdialog, setselectcolumns } from '../../featureSlice';
 import useCustomdialogbox from '../../hooks/customdialogboxhooks';
-const Container= styled(Box)({
-  border:'1px solid #2F8BCC',
+const Container= styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
 
-})
-const Userstep=styled(Box)({
+}))
+const Userstep=styled(Box)(({theme})=>({
     position:'absolute',
-    backgroundColor:'#edeaeac1',
+    backgroundColor:theme.palette.grey[100],
     height:355,
     width:530,
     marginLeft:2,
     display:'flex',
     flexDirection:'column',
     marginTop:2,
-  })
+  }))
   const Scenario=styled(Box)({
     height:30,
     width:527,
@@ -65,43 +65,45 @@ const Userstep=styled(Box)({
     gap:4,
     marginLeft:10
   })
-  const Setting=styled(Button)({
+  const Setting=styled(Button)(({theme})=>({
     minWidth:0,
     width:30,
-    backgroundColor:'white',
+    backgroundColor:theme.palette.background.paper,
     height:25,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',
     left:200,
-  })
-  const AfterSetting=styled(Button)({
+  }))
+  const AfterSetting=styled(Button)(({theme})=>({
     minWidth:0,
     width:30,
-    backgroundColor:'white',
+    backgroundColor:theme.palette.background.paper,
     height:25,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',
     left:120,
-  })
-  const Stext = styled(TextField)({
+  }))
+  const Stext = styled(TextField)(({theme})=>({
     width:250,
     paddingTop:2,
     marginLeft:4,
-    '& .MuiOutlinedInput-root':{
-      disableUnderline:true,
-      padding:1,
-      fontSize:12,
-      height:30,
-      bgcolor:'white'
+     '& .MuiOutlinedInput-root': {
+    height: 30,
+    backgroundColor: theme.palette.common.white,
+    
+    '& input': {
+      padding: '6px 8px',
+      fontSize: 12,
     }
-  })
-  const Ibutton=styled(Button)({
-backgroundColor:'white',
+  },
+  }))
+  const Ibutton=styled(Button)(({theme})=>({
+backgroundColor:theme.palette.background.paper,
 marginTop:3,
 marginRight:1,
 padding:1,
 minWidth:0,
 width:36,
 boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-})
+}))
   
 export default function Addscenario() {
  

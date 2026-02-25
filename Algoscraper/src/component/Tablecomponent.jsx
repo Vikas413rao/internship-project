@@ -4,13 +4,13 @@ import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRow } from '../featureSlice';
 import BPagination from './pagination';
-const Tablebox = styled(Box)({
+const Tablebox = styled(Box)(({theme})=>({
     flex:1,
     overflowY:'auto',
     marginTop:5,
     marginLeft:10,
     minHeight:0,
-})
+}))
 const TBbox = styled(Box)({
 display:'flex',
 flexDirection:'column',

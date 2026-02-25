@@ -17,13 +17,13 @@ import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import { openeditdialog } from '../../featureSlice';
 import useCustomdialogbox from '../../hooks/customdialogboxhooks';
-const Container= styled(Box)({
-  border:'1px solid #2F8BCC',
+const Container= styled(Box)(({theme})=>({
+  border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
   position:'relative'
 
-})
+}))
 const Scenario = styled(Box)({
 backgroundColor:'whitesmoke',
 height:30,
@@ -36,19 +36,19 @@ borderRadius:'5px',
 display:'flex',
 alignItems:'center'
 })
-const List=styled(Box)({
+const List=styled(Box)(({theme})=>({
 display:'flex',
 alignItems:'center',
 justifyContent:'space-between',
-border:'1px solid #E0E0E0',
+border:`1px solid ${theme.palette.grey[100]}`,
 borderRadius:'6px',
 padding:'4px',
 marginBottom:4,
-backgroundColor:'#fff',
+backgroundColor:theme.palette.common.white,
 width:500,
 marginLeft:4,
 marginTop:4
-})
+}))
 export default function Scenariolist() {
     const navigate=useNavigate();
     const dispatch =useDispatch();

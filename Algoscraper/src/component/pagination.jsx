@@ -2,18 +2,18 @@ import { Box, Button, Pagination, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRow, setPage } from '../featureSlice';
-const Page=styled(Pagination)({
+const Page=styled(Pagination)(({theme})=>({
     marginLeft:90,
     '& .Mui-selected':{
         backgroundColor:'#2F8BCC',
-        color:'#fff'
+        color:theme.palette.common.white
     },
     '& .MuiPaginationItem-root':{
         fontSize:11,
         minWidth:17,
         height:22
     }
-})
+}))
 const Pbox = styled(Box)({
     display:'flex',
     alignItems:'center',

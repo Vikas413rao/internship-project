@@ -13,9 +13,9 @@ import { openFeaturedialog, resetPingcard, resetShowfinalReport } from '../featu
 import Closingdialog from '../hooks/closingdialogbox';
 import Closingdialogbox from './closingdialogbox';
 import Featuredialogbox from './featuredialogbox';
-const Titlesection = styled(Box)({
+const Titlesection = styled(Box)(({theme})=>({
     padding:8,
-    backgroundColor: '#2F8BCC',
+    backgroundColor: theme.palette.primary.main,
     color:'white',
     display:'flex',
     alignItems:'center',
@@ -23,7 +23,7 @@ const Titlesection = styled(Box)({
     height:'20px',
     width:'260px',
     borderTopRightRadius:'40px',
-})
+}))
 const Title = styled(Typography)({
     fontSize: '16px',
     fontWeight: 600,
@@ -33,9 +33,9 @@ const Caption = styled(Typography)({
     fontSize:'9px',
     color:'white',
 })
-const LinkBox = styled(Box)({
+const LinkBox = styled(Box)(({theme})=>({
     padding:8,
-    border:'1px solid #2F8BCC',
+    border:`1px solid ${theme.palette.primary.main}`,
     borderRadius:'30px',
     height:'10px',
     display:'flex',
@@ -44,36 +44,36 @@ const LinkBox = styled(Box)({
     marginTop:'5px',
     justifyContent:'left',
     right:-10,
-})
+}))
 const LinkButton = styled(Link)({
     display:'flex',
     alignItems:'center',
 })
-const LinkIcon = styled(LaunchIcon)({
-    color:'#2F8BCC',
+const LinkIcon = styled(LaunchIcon)(({theme})=>({
+    color:theme.palette.primary.main,
     height:'17px',
-})
-const Algo = styled(Typography)({
+}))
+const Algo = styled(Typography)(({theme})=>({
     fontFamily:'Poppins,sans-serif',
     fontWeight:600,
     fontSize:16,
-    color:'#6b6b6b',
+    color:theme.palette.grey[700],
     lineHeight:1
-})
-const Qatext = styled(Typography)({
+}))
+const Qatext = styled(Typography)(({theme})=>({
 fontFamily:'Poppins,snas-serif',
     fontWeight:700,
     fontSize:16,
-    color:'#2F8BCC',
+    color:theme.palette.primary.main,
     lineHeight:1
-})
-const Registericon = styled(Typography)({
+}))
+const Registericon = styled(Typography)(({theme})=>({
     fontFamily:'Poppins,snas-serif',
     fontSize:9,
-    color:'#6b6b6b',
+    color:theme.palette.grey[200],
     alignSelf:'flex-start',
     ml:'2px',
-})
+}))
 const Iconbox = styled(Box)({
     position:'relative',
     width:24,
@@ -104,32 +104,32 @@ const Editoutline = styled(EditOutlinedIcon)({
     backgroundColor:'transparent',
     borderRadius:'50%',
 })
-const Closingbox = styled(Box)({
-    backgroundColor:'#a8a0a077',
+const Closingbox = styled(Box)(({theme})=>({
+    backgroundColor:theme.palette.grey[300],
     display:'flex',
     alignItems:'center',
     height:'40px',
     width:'122px',
     right:-2
-}) 
-const Ibutton=styled(Button)({
+}) )
+const Ibutton=styled(Button)(({theme})=>({
     minWidth:'40px',
     width:'24px',
     height:'24px',
     p:0,
-    color:'#000',
+    color:theme.palette.common.black,
     '& .MuiSvgIcon-root':{
         fontSize:20
     }
-})
-const Buttonarrow=styled(Button)({
+}))
+const Buttonarrow=styled(Button)(({theme})=>({
     minWidth:0,
     width:'24px',
     height:'24px',
-    color:'#ffffff',
+    color:theme.palette.common.white,
     borderRadius:'5px',
-    backgroundColor:'#0a65a7',
-})
+    backgroundColor:theme.palette.primary.dark,
+}))
 const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
