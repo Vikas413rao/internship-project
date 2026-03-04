@@ -5,9 +5,9 @@ import Checkbox from '@mui/material/Checkbox';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useCustomizecolumns from '../hooks/Customizecolumns';
-export default function Checkdialogbox({open,handleClose,columns,selectedcolumn,setSelectedColumns}) {
-    const {draftColumns,handleToggle,handleApply}=useCustomizecolumns((updateColumns)=>{
-        setSelectedColumns(updateColumns);
+export default function Checkdialogbox({open,handleClose,columns,setSelectedColumns}) {
+    const {draftColumns,handleToggle,handleApply}=useCustomizecolumns((updateCols)=>{
+        setSelectedColumns(updateCols);
         handleClose();
     })
   return (

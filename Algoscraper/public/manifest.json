@@ -7,6 +7,12 @@
         "default_popup":"index.html"
     },
     "permissions":[
-        "storage"
-    ]
+        "storage",
+        "activeTab",
+    "tabs",
+    "downloads"
+    ],
+    "host_permissions": [
+    "<all_urls>"
+  ]
 }

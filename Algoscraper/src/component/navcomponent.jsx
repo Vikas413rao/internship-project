@@ -9,7 +9,7 @@ import { Box, Button, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { openFeaturedialog, resetPingcard, resetShowfinalReport } from '../featureSlice';
+import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen } from '../featureSlice';
 import Closingdialog from '../hooks/closingdialogbox';
 import Closingdialogbox from './closingdialogbox';
 import Featuredialogbox from './featuredialogbox';
@@ -138,6 +138,7 @@ export default function Navcomponent() {
     const navigate=useNavigate();
     const location=useLocation();
     const handleBackNavigation = () =>{
+        dispatch(setnextopen(false))
         const currentPath = location.pathname;
        if (currentPath === '/analyze'){
         dispatch(resetPingcard());

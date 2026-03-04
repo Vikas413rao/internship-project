@@ -48,7 +48,7 @@ const navigate = useNavigate();
               fontWeight: 600,
               color: "#2F8BCC",
               textDecoration: isActive ? "underline" : "none",
-              textUnderlineOffset: "4px"
+              textUnderlineOffset: "4px",fontSize:15
             }}
           >
             {title}

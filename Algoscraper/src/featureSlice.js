@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const defaultColumns = ['contentName','controlType','Xpath']
+
 
 export const AllColumns = [
     {key:'contentName',label:'Content Name',default:true},
@@ -12,6 +12,7 @@ export const AllColumns = [
     {key:'featureName',label:'Feature Name',default:false},
     {key:'nodeName',label:'Node Name',default:false},
   ];
+  const defaultColumns = AllColumns.filter(col => col.default).map(col=>col.key);
 const tasks=[
   { id: 1, name: "Scenario_file_Name", progress: 0 },
     { id: 2, name: "Scenario_file_Name", progress: 0 },
@@ -38,9 +39,9 @@ const initialState = {
     sessionType:null,
     currentPage:1,
     rowsperPage:4,
+    searchterm:'',
     rows:[],
-    selectedColumns:defaultColumns,
-    selectcolumns:AllColumns.filter(col =>col.default).map(col =>col.key),
+    selectcolumns:defaultColumns,
     nextOpen:false,
   closingDialogopen:false,
   customicondialogopen:false,
@@ -58,14 +59,22 @@ const featureSlice = createSlice({
  reducers: {
   addRow:(state)=>{
     const newId=state.rows.length +1;
-    state.rows.push({id:newId});
+    state.rows.push({id:newId,
+       contentName: `Name`,
+    controlType: '',
+    Xpath: 'Xpath',
+    pageName: 'HomePage',
+    controlValue: 'control value',
+    appUrl: 'https://example.com',
+    featureName: 'LoginFeature',
+    nodeName: 'Node1',
+    });
 
     const totalPages = Math.ceil(state.rows.length / state.rowsperPage);
     state.currentPage=totalPages;
   },
   deleteRow:(state,action) =>{
-    const idDelete = action.payload;
-    state.rows=state.rows.filter(row=>row.id != idDelete);
+    state.rows=state.rows.filter(row=>row.id != action.payload);
     const totalPages = Math.ceil(state.rows.length/state.rowsperPage);
     if (state.currentPage > totalPages && totalPages > 0){
       state.currentPage = totalPages;
@@ -74,6 +83,14 @@ const featureSlice = createSlice({
       state.currentPage = 1;
     }
   },
+  updateRow:(state,action) =>{
+    const {id,key,value}=action.payload;
+    const row=state.rows.find(r=>r.id === id);
+    if(row){
+      row[key]=value;
+    }
+  },
+
     openFeaturedialog(state){
         state.featureDialogOpen=true;
     },
@@ -140,6 +157,7 @@ resetShowfinalReport (state){
   },
   openCheckDialog(state){
     state.checkDialog=true;
+    state.draftColumns=[...state.selectcolumns]
   },
   closecheckDialog(state){
     state.checkDialog=false;
@@ -208,6 +226,10 @@ resetShowfinalReport (state){
   closesettingdialog:(state)=>{
     state.settingopen=false;
   },
+  setSearchterm: (state,action)=>{
+    state.searchterm=action.payload;
+    state.currentPage= 1;
+  },
   updateTaskprogress:(state)=>{
     state.task=state.task.map((taskss)=>{
       if(taskss.progress >= 100) return taskss;
@@ -266,5 +288,7 @@ closeSession,
   opensettingdialog,
   closesettingdialog,
   updateTaskprogress,
+  updateRow,
+  setSearchterm,
 } = featureSlice.actions;
 export default featureSlice.reducer;

@@ -24,7 +24,7 @@ import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, setnextopen, setselectcolumns } from "../../featureSlice";
+import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, setnextopen, setSearchterm, setselectcolumns } from "../../featureSlice";
 import useCustomdialogbox from "../../hooks/customdialogboxhooks";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
@@ -130,6 +130,22 @@ export default function Scraperui() {
     const handleClicknext = () =>{dispatch(setnextopen(true))};
     const handleclosenext = () =>{dispatch(setnextopen(false))}
     const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
+  const handleScreenshot=() =>{
+    chrome.tabs.captureVisibleTab(null,
+      {format:'png'},
+      (dataUrl) =>{
+        if(chrome.runtime.lastError){
+          console.error(chrome.runtime.lastError);
+          return;
+        }
+        const link=document.createElement('a');
+        link.href= dataUrl;
+        link.download='Screenshot.png';
+        link.click();
+      }
+    )
+  }
+
     const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
   '& .MuiSwitch-track': {
@@ -182,7 +198,7 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
     <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
       <Typography sx={{fontSize:14}}>MultiXpath Support</Typography>
           <FormControlLabel control={<Android12Switch sx={{transform:'scale(0.6)'}} />} />
-    <Photobutton size="small" ><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Photobutton>
+    <Photobutton size="small" onClick={handleScreenshot}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Photobutton>
      
     <Tooltip title="Edit Link" placement="top"  slotProps={{
         popper: {
@@ -215,7 +231,8 @@ const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
       <>
      <Userstep>
       <Tbox>
-          <Stext id="outlined-basic" placeholder="Search"  variant="outlined"  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
+          <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))} 
+          InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
             <Box sx={{display:'flex',gap:1}}>
             <Ibutton size="small" onClick={handleOpendialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
             <Customdialogbox open={Opendialog} onClose={handleClosedialog} onConfirm={()=>{handleConfirm();handleclosenext()}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
