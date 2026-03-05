@@ -51,6 +51,9 @@ const initialState = {
   resetrecordopen:false,
   settingopen:false,
   task:tasks,
+  file:null,
+  filename:'',
+  filecontent:''
 };
 
 const featureSlice = createSlice({
@@ -239,6 +242,18 @@ resetShowfinalReport (state){
         progress: Math.min(100,taskss.progress +increment),
       }
     })
+  },
+  setFile:(state,action)=>{
+    state.file=action.payload;
+    state.filename=action.payload.name;
+  },
+  setFilecontent:(state,action) =>{
+    state.filecontent=action.payload;
+  },
+  clearfile:(state)=>{
+    state.file=null;
+    state.filename='';
+    state.filecontent='';
   }
 },
 
@@ -290,5 +305,8 @@ closeSession,
   updateTaskprogress,
   updateRow,
   setSearchterm,
+  setFile,
+  setFilecontent,
+  clearfile
 } = featureSlice.actions;
 export default featureSlice.reducer;

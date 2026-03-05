@@ -3,8 +3,28 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Box, Card, IconButton, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const Titletext = styled(Typography,{shouldForwardProp: (prop) => prop !== "active"})(({theme,active})=>({
+  fontWeight:600,
+  color:theme.palette.primary.main,
+  fontSize:14,
+  position:'relative',
+  display:'inline-block',
+
+  "&::after":{
+    content:'""',
+    position:'absolute',
+    left:0,
+    bottom:-3,
+    width: active ? "100%" : "0%",
+    height:'2px',
+    backgroundColor: theme.palette.primary.main,
+    transition:'width 0.2s ease'
+ }
+}))
 export default function RecordCard({ title, description }) {
   const [hovered, setHovered] = useState(false);
   const [pinned, setPinned] = useState(false);
@@ -43,20 +63,13 @@ export default function RecordCard({ title, description }) {
             </Box>
           </Box>
 
-          <Typography
-            sx={{
-              fontWeight: 600,
-              color: "#2F8BCC",
-              textDecoration: isActive ? "underline" : "none",
-              textUnderlineOffset: "4px",fontSize:14
-            }}
-          >
+          <Titletext active={isActive}>
             {title}
-          </Typography>
+          </Titletext>
         </Box>
 
         {isActive && (
-          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}}>
+          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:10}}>
             {pinned ? <StarIcon sx={{color:'#2F8BCC'}} /> : <StarBorderIcon />}
           </IconButton>
         )}

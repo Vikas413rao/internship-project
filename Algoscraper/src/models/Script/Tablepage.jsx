@@ -3,7 +3,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import Resetrecorddialog from "../../component/resetrecorddialog";
 import TableComponent from "../../component/Tablecomponent";
-import { AllColumns, closecheckDialog, openCheckDialog, openLoader, openresetrecord, setselectcolumns } from "../../featureSlice";
+import { AllColumns, clearfile, closecheckDialog, openCheckDialog, openLoader, openresetrecord, setselectcolumns } from "../../featureSlice";
 const Container = styled(Box)(({theme})=>({
 border:`1px solid ${theme.palette.primary.main}`,
 height:'480px',
@@ -23,14 +23,23 @@ position:'relative'
 }))
 const Filebox = styled(Box)(({theme})=>({
 backgroundColor:theme.palette.grey[300],
-width:110,
-height:25,
+padding:'2px 8px',
 marginTop:4,
 marginLeft:4,
 borderRadius:theme.shape.borderRadius,
-display:'flex',
+display:'inline-flex',
 alignItems:'center',
-gap:1
+gap:2,
+width:'fit-content',
+maxWidth:'95%'
+}))
+const Filename = styled(Typography)(({theme})=>({
+  color:theme.palette.primary.main,
+  fontSize:14,
+  maxWidth:250,
+  overflow:'hidden',
+  textOverflow:'ellipsis',
+  whiteSpace:'nowrap'
 }))
 const Tbox=styled(Box)(({theme})=>({
 display:'flex',
@@ -81,7 +90,10 @@ const dispatch = useDispatch();
               })
             )
           }
-
+const filename=useSelector((state)=>state.feature.filename);
+const handleClosefile = () =>{
+      dispatch(clearfile());
+     }
  
 
 
@@ -106,8 +118,8 @@ const dispatch = useDispatch();
               {/*file name */}
               <Filebox>
                 <InsertDriveFileOutlinedIcon fontSize='small' />
-                <Typography sx={{color:'#2F8BCC',fontSize:15}}>File.txt</Typography>
-                <CloseIcon sx={{color:'black',ml:2}} fontSize='small'/>
+                <Filename>{filename || ''}</Filename>
+                <IconButton size="small" onClick={handleClosefile}><CloseIcon sx={{color:'black',ml:2}} fontSize='small' /></IconButton>
               </Filebox>
               {/*table */}
               <Tbox  >

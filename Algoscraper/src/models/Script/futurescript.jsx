@@ -4,9 +4,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
+import { useDispatch } from 'react-redux';
+import { setFile } from '../../featureSlice.js';
 const stepsdata = [
   <><b>Drag and drop your feature file,or click Browse to select and upload it.</b></>,
   <>Click <b>Scrape UI</b> to extract all UI elements from screen.</>,
@@ -57,6 +60,38 @@ const Stepsuser= styled(Box)(({theme})=>({
 
 export default function Futurescript() {
   const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const fileInputref = useRef(null);
+  const handleFilechange = (e)=>{
+    const file = e.target.files[0];
+    if(file){
+      dispatch(setFile(file));
+      navigate('/emptyscraper');
+    }
+  };
+  const handleDrag = (e) =>{
+    e.preventDefault();
+    e.stopPropagation()
+  }
+  const handledrop = (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+
+    const files = e.dataTransfer.files;
+
+if(files && files.length >0)
+{
+  const file=files[0];
+  dispatch(setFile(file))
+  navigate('/emptyscraper')
+}
+}
+
+const openFilemanager = (e)=>{
+  if(fileInputref.current){
+    fileInputref.current.click();
+  }
+}
     return (
         <>
         <Box
@@ -71,11 +106,12 @@ export default function Futurescript() {
             <Container>
               <Navcomponent />
               <Box sx={{display:'flex',alignItems:'center',gap:1}}>
-            <Dropfile  onClick={()=>navigate('/emptyscraper')}>
+                <input type='file' ref={fileInputref} style={{display:'none'}} onChange={handleFilechange}/>
+            <Dropfile  onClick={openFilemanager}onDragOver={handleDrag} onDragEnter={handleDrag} onDrop={handledrop}>
               <Typo >Drag & Drop your file(S)</Typo>
             <Ficon ><CreateNewFolderIcon /></Ficon>
             </Dropfile>
-            <Bbutton variant='outlined' onClick={()=>navigate('/emptyscraper')}>Browse files</Bbutton>
+            <Bbutton variant='outlined' onClick={openFilemanager}>Browse files</Bbutton>
             </Box>
             <Stepsuser>
               <Customusersteps steps={stepsdata}/>
