@@ -56,7 +56,7 @@ const navigate = useNavigate();
         </Box>
 
         {isActive && (
-          <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}}>
+          <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}} sx={{color:'black'}}>
             {pinned ? <StarIcon sx={{color:'#2F8BCC'}}/> : <StarBorderIcon />}
           </IconButton>
         )}

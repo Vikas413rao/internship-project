@@ -9,9 +9,9 @@ import Scraperui from './models/Scarper Ui/scraperui.jsx';
 import Automapper from './models/Script/automapper.jsx';
 import EmptyScraper from './models/Script/emptyscraper.jsx';
 import Futurescript from './models/Script/futurescript.jsx';
-import TableScreen from './models/Script/Tablepage.jsx';
-import Home from './views/home.jsx';
 import Scenariofile from './models/Script/scenariofile.jsx';
+import TableScreen from './models/Script/Tablepage.jsx';
+import Home from './views/Home.jsx';
 export default function App() {
   
 

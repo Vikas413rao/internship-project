@@ -10,8 +10,8 @@ import { styled } from "@mui/material/styles";
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen } from '../featureSlice';
-import Closingdialog from '../hooks/closingdialogbox';
-import Closingdialogbox from './closingdialogbox';
+import Closingdialog from '../hooks/alertdialoboxhooks';
+import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
 const Titlesection = styled(Box)(({theme})=>({
     padding:8,

@@ -11,23 +11,24 @@ const Container= styled(Box)(({theme})=>({
   border:`1px solid ${theme.palette.primary.main}`,
   height:'480px',
   width:'535px',
-  position:'relative'
-
+  position:'relative',
+margin: 0,
+  padding: 0
 }))
 export default function Home() {
   
     return (
-    <div>
+    
           <Box
             sx={{
-              m:0,
-              p:0,
+              m:'auto',
+              p:'auto',
               boxSizing:'border-box',
-              width: 530,        
-              minHeight: 380,
+              width:'auto',        
+              heigth:'auto',
             }}
           >
-            <Container  sx={{ border: '1px solid #2F8BCC', height: '480px',width:'535px',position:'relative'}}>
+            <Container  >
               <Navcomponent/>
           <Box sx={{display:'flex',gap:2}}>
           <FeatureCard title="Scrape UI" description="
@@ -56,6 +57,6 @@ export default function Home() {
           </Container>   
           
       </Box>
-    </div>
+ 
   )
 }

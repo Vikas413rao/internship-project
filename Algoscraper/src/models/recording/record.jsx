@@ -21,8 +21,8 @@ const Titletext = styled(Typography,{shouldForwardProp: (prop) => prop !== "acti
     bottom:-3,
     width: active ? "100%" : "0%",
     height:'2px',
+    fontSize:14,
     backgroundColor: theme.palette.primary.main,
-    transition:'width 0.2s ease'
  }
 }))
 export default function RecordCard({ title, description }) {
@@ -69,8 +69,8 @@ export default function RecordCard({ title, description }) {
         </Box>
 
         {isActive && (
-          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:10}}>
-            {pinned ? <StarIcon sx={{color:'#2F8BCC'}} /> : <StarBorderIcon />}
+          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:10,color:'black'}}>
+            {pinned ? <StarIcon sx={{color:'#2F8BCC',minWidth:0,width:2}} /> : <StarBorderIcon />}
           </IconButton>
         )}
       </Box>
