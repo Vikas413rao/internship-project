@@ -61,7 +61,7 @@ const Algo = styled(Typography)(({theme})=>({
     lineHeight:1
 }))
 const Qatext = styled(Typography)(({theme})=>({
-fontFamily:'Poppins,snas-serif',
+fontFamily:"Roboto, sans-serif",
     fontWeight:700,
     fontSize:16,
     color:theme.palette.primary.main,

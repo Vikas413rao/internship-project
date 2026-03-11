@@ -13,7 +13,9 @@ const Titletext = styled(Typography,{shouldForwardProp: (prop) => prop !== "acti
   fontSize:14,
   position:'relative',
   display:'inline-block',
-
+whiteSpace: "nowrap",
+ minWidth: "110px",
+ flexShrink: 0,
   "&::after":{
     content:'""',
     position:'absolute',
@@ -69,7 +71,7 @@ export default function RecordCard({ title, description }) {
         </Box>
 
         {isActive && (
-          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:10,color:'black'}}>
+          <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:0,color:'black'}}>
             {pinned ? <StarIcon sx={{color:'#2F8BCC',minWidth:0,width:2}} /> : <StarBorderIcon />}
           </IconButton>
         )}
