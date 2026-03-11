@@ -27,11 +27,9 @@ const Afterurl=[
   <><b><Link underline="none">Click Here</Link></b> to Know More about Pinglink</>
 ];
 const Mbox = styled(Box)({
-margin:0,
-padding:0,
 boxSizing:'border-box',
-width:530,
-minHeight:380
+width:'auto',        
+height:'auto',
 })
 const Container = styled(Box)(({theme})=>({
   border:`1px solid ${theme.palette.primary.main}`,

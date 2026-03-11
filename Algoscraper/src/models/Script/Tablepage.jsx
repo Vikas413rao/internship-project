@@ -99,13 +99,11 @@ const handleClosefile = () =>{
 
     return(
      <div>
-           <Box
+          <Box
             sx={{
-              m:0,
-              p:0,
               boxSizing:'border-box',
-              width: 530,        
-              minHeight: 380,
+              width:'auto',        
+              height:'auto',
             }}
           >
             <Container>

@@ -58,13 +58,13 @@ const Container= styled(Box)(({theme})=>({
     width:40,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
   }))
-  const Linkedit = styled(Button)({
-    backgroundColor:'white',
+  const Linkedit = styled(Button)(({theme})=>({
+    backgroundColor:theme.palette.background.paper,
     marginLeft:10,
     minWidth:0,
     width:40,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-  }) 
+  }) )
   const Editicon = styled(EditOutlinedIcon)({
     position:'absolute',
     bottom:12,
@@ -181,14 +181,12 @@ export default function Scraperui() {
 const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
   return (
     <Box
-      sx={{
-        m:0,
-        p:0,
-        boxSizing:'border-box',
-        width: 530,        
-        minHeight: 380,
-      }}
-    >
+            sx={{
+              boxSizing:'border-box',
+              width:'auto',        
+              height:'auto',
+            }}
+          >
       <Container >
         <Navcomponent/>
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:2}}>

@@ -21,11 +21,9 @@ export default function Home() {
     
           <Box
             sx={{
-              m:'auto',
-              p:'auto',
               boxSizing:'border-box',
               width:'auto',        
-              heigth:'auto',
+              height:'auto',
             }}
           >
             <Container  >
@@ -50,7 +48,7 @@ export default function Home() {
           "/>
           <ScriptCard title="Feature File to Script Converter" description="
           The Feature File to Script Converter Turns Gherkin-style feature files into ready-tp-run automation
-          scripts.Whether using existing or manually written files,it helps speed up testing and reduce manual work
+          scripts.Whether using existing or manually written files,it helps speed up testing and reduce manual work.
           "/>
           </Box>
          <Typography color={'#2F8BCC'} fontSize={12} fontWeight={700} sx={{mt:'10px',ml:'380px'}}>Latest Version: 1.40</Typography>

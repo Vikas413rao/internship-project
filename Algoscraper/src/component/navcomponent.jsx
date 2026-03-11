@@ -1,15 +1,17 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
 import CropFreeIcon from '@mui/icons-material/CropFree';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LaunchIcon from '@mui/icons-material/Launch';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
 import { Box, Button, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen } from '../featureSlice';
+import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, toggleTheme } from '../featureSlice';
 import Closingdialog from '../hooks/alertdialoboxhooks';
 import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
@@ -109,14 +111,14 @@ const Closingbox = styled(Box)(({theme})=>({
     display:'flex',
     alignItems:'center',
     height:'40px',
-    width:'122px',
-    right:-2
+    width:'90px',
+    marginLeft:'auto'
 }) )
 const Ibutton=styled(Button)(({theme})=>({
-    minWidth:'40px',
-    width:'24px',
-    height:'24px',
-    p:0,
+    minWidth:'30px',
+    width:'15px',
+    height:'15px',
+    right:-5,
     color:theme.palette.common.black,
     '& .MuiSvgIcon-root':{
         fontSize:20
@@ -162,6 +164,7 @@ export default function Navcomponent() {
     }
     const dispatch = useDispatch();
     const pagelist=[{value:'Page List',label:'Page List'}]
+    const mode= useSelector((state)=>state.feature.themMode)
   return (
     <div>
       
@@ -188,6 +191,11 @@ export default function Navcomponent() {
                     pagelist={pagelist}
                 />
             </Iconbox>
+            <IconButton onClick={()=>dispatch(toggleTheme())} >
+                {mode === 'light'
+                 ? <DarkModeIcon/> : <LightModeIcon/>
+                }
+            </IconButton>
             <Closingbox>
                 <Ibutton><MinimizeIcon /></Ibutton>
                 <Ibutton><CropFreeIcon /></Ibutton>

@@ -77,7 +77,7 @@ export default function RecordCard({ title, description }) {
         )}
       </Box>
 
-      <Typography sx={{  mt:1.5,fontSize:10, color: "#555" }}>
+      <Typography sx={{  mt:1.5,fontSize:11, color: 'text.secondary' }}>
         {description}
       </Typography>
     </Card>

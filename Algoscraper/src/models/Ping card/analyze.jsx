@@ -7,11 +7,9 @@ import Loaderprogress from '../../component/loaderprogress.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
 import { openLoader, setShowfinalReport } from '../../featureSlice.js';
 const Mbox = styled(Box)({
-  margin:0,
-  padding:0,
   boxSizing:'border-box',
-  width:530,
-  minHeight:380,
+              width:'auto',        
+              height:'auto',
 })
 const Body = styled(Box)(({theme})=>({
   position:'relative',

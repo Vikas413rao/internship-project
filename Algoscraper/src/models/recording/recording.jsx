@@ -44,14 +44,12 @@ export default function Recording() {
     return (
     <div>
        <Box
-      sx={{
-        m:0,
-        p:0,
-        boxSizing:'border-box',
-        width: 530,        
-        minHeight: 380,
-      }}
-    >
+            sx={{
+              boxSizing:'border-box',
+              width:'auto',        
+              height:'auto',
+            }}
+          >
             <Container>
        <Navcomponent/>
 

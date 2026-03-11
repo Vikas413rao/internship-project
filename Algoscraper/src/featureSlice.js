@@ -20,6 +20,7 @@ const tasks=[
 ];
 const initialState = {
     open: false,
+    themMode:'light',
     progress:0,
     title:'Please Wait',
     message:'',
@@ -75,6 +76,9 @@ const featureSlice = createSlice({
 
     const totalPages = Math.ceil(state.rows.length / state.rowsperPage);
     state.currentPage=totalPages;
+  },
+  toggleTheme:(state)=>{
+    state.themMode = state.themMode === 'light' ? 'dark' :'light';
   },
   deleteRow:(state,action) =>{
     state.rows=state.rows.filter(row=>row.id != action.payload);
@@ -307,6 +311,7 @@ closeSession,
   setSearchterm,
   setFile,
   setFilecontent,
-  clearfile
+  clearfile,
+  toggleTheme
 } = featureSlice.actions;
 export default featureSlice.reducer;

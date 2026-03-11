@@ -122,15 +122,13 @@ export default function Addscenario() {
    
     return (
     <div>
-       <Box
-      sx={{
-        m:0,
-        p:0,
-        boxSizing:'border-box',
-        width: 530,        
-        minHeight: 380,
-      }}
-    >
+      <Box
+            sx={{
+              boxSizing:'border-box',
+              width:'auto',        
+              height:'auto',
+            }}
+          >
             <Container>
               <Navcomponent />
           <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>

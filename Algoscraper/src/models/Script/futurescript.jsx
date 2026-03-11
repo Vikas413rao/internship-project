@@ -5,10 +5,10 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
-import { useDispatch } from 'react-redux';
 import { setFile } from '../../featureSlice.js';
 const stepsdata = [
   <><b>Drag and drop your feature file,or click Browse to select and upload it.</b></>,
@@ -94,15 +94,13 @@ const openFilemanager = (e)=>{
 }
     return (
         <>
-        <Box
-                sx={{
-                  m:0,
-                  p:0,
-                  boxSizing:'border-box',
-                  width: 530,        
-                  minHeight: 380,
-                }}
-              >
+       <Box
+            sx={{
+              boxSizing:'border-box',
+              width:'auto',        
+              height:'auto',
+            }}
+          >
             <Container>
               <Navcomponent />
               <Box sx={{display:'flex',alignItems:'center',gap:1}}>
