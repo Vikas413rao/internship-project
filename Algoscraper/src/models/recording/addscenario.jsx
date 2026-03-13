@@ -47,10 +47,10 @@ const Userstep=styled(Box)(({theme})=>({
     flexDirection:'column',
     marginTop:2,
   }))
-  const Scenario=styled(Box)({
+  const Scenario=styled(Box)(({theme})=>({
     height:30,
     width:527,
-    backgroundColor:'whitesmoke',
+    backgroundColor:theme.palette.background.paper,
     marginLeft:3,
     marginRight:0.5,
     marginTop:0.5,
@@ -58,7 +58,7 @@ const Userstep=styled(Box)(({theme})=>({
     alignItems:'center',
     position:'relative',
     zIndex:10
-  })
+  }))
   const Buttonbox=styled(Box)({
     display:'flex',
     alignItems:'center',
@@ -87,7 +87,7 @@ const Userstep=styled(Box)(({theme})=>({
     marginLeft:4,
      '& .MuiOutlinedInput-root': {
     height: 30,
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     
     '& input': {
       padding: '6px 8px',
@@ -155,7 +155,7 @@ export default function Addscenario() {
        </Box>
        {!open ? (
        <Scenario >
-                <Typography sx={{p:2,fontSize:13}}>Scenario Name:
+                <Typography color='text.secondary' sx={{p:2,fontSize:13}}>Scenario Name:
                   <span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                   <Buttonbox >
                 <Setting size='small'  onClick={()=>dispatch(opensettingdialog())}><SettingsIcon sx={{color:'#2F8BCC'}}/></Setting>
@@ -171,7 +171,7 @@ export default function Addscenario() {
        </Scenario>
        ):(
        <Scenario>
-                <Typography sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
+                <Typography  color='text.secondary'  sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                 <Buttonbox>
                 <AfterSetting size='small'  ><SettingsIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
                  

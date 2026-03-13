@@ -56,7 +56,7 @@ export default function ScriptCard({ title, description }) {
 
         {isActive && (
           <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}} sx={{color:'black'}}>
-            {pinned ? <StarIcon sx={{color:'#2F8BCC'}}/> : <StarBorderIcon />}
+            {pinned ? <StarIcon sx={{color:'#2F8BCC'}}/> : <StarBorderIcon sx={{ color: 'text.primary' }} />}
           </IconButton>
         )}
       </Box>

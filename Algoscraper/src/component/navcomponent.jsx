@@ -72,7 +72,7 @@ fontFamily:"Roboto, sans-serif",
 const Registericon = styled(Typography)(({theme})=>({
     fontFamily:'Poppins,snas-serif',
     fontSize:9,
-    color:theme.palette.grey[200],
+    color:theme.palette.icon.secondary,
     alignSelf:'flex-start',
     ml:'2px',
 }))
@@ -84,28 +84,30 @@ const Iconbox = styled(Box)({
     gap:'5px',
     marginLeft:'10px',
 })
-const Iconbutton = styled(IconButton)({
+const Iconbutton = styled(IconButton)(({theme})=>({
     right:7,
     top:-4,
     position:'absolute',
     color:'black',
     width:'24px',
     height:'24px',
-    '&:hover':{backgroundColor:'transparent',boxShadow:'none'},
+    '&:hover':{backgroundColor:theme.palette.background.paper,boxShadow:'none'},
     
-})
-const Tabunslected=styled(TabUnselectedIcon)({
+}))
+const Tabunslected=styled(TabUnselectedIcon)(({theme})=>({
     fontSize:19,
-    backgroundColor:'white',
-})
-const Editoutline = styled(EditOutlinedIcon)({
+    backgroundColor:theme.palette.background.paper,
+    color:theme.palette.icon.primary
+}))
+const Editoutline = styled(EditOutlinedIcon)(({theme})=>({
     position:'absolute',
     bottom:6,
     right:-5,
     fontSize:18,
+    color:theme.palette.icon.primary,
     backgroundColor:'transparent',
     borderRadius:'50%',
-})
+}))
 const Closingbox = styled(Box)(({theme})=>({
     backgroundColor:theme.palette.grey[300],
     display:'flex',
@@ -171,7 +173,8 @@ export default function Navcomponent() {
         <Box sx={{display:'flex'}}>
             
             <Titlesection>
-            <Buttonarrow onClick={handleBackNavigation}><ArrowBackIcon size='small'/></Buttonarrow>
+                {location.pathname !== '/' && ( 
+            <Buttonarrow onClick={handleBackNavigation}><ArrowBackIcon size='small'/></Buttonarrow>)}
                 <Title>algoScraper</Title>
                 <Caption>Powered by algoshack</Caption>
             </Titlesection>

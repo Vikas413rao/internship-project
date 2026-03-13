@@ -24,8 +24,8 @@ const Container= styled(Box)(({theme})=>({
   position:'relative'
 
 }))
-const Scenario = styled(Box)({
-backgroundColor:'whitesmoke',
+const Scenario = styled(Box)(({theme})=>({
+backgroundColor:theme.palette.background.paper,
 height:30,
 width:520,
 marginLeft:4,
@@ -35,7 +35,7 @@ marginTop:3,
 borderRadius:'5px',
 display:'flex',
 alignItems:'center'
-})
+}))
 const List=styled(Box)(({theme})=>({
 display:'flex',
 alignItems:'center',
@@ -44,7 +44,7 @@ border:`1px solid ${theme.palette.grey[100]}`,
 borderRadius:'6px',
 padding:'4px',
 marginBottom:4,
-backgroundColor:theme.palette.common.white,
+backgroundColor:theme.palette.background.paper,
 width:500,
 marginLeft:4,
 marginTop:4
@@ -99,7 +99,7 @@ export default function Scenariolist() {
             {/*scenario name */}
             <Scenario >
             <Typography sx={{fontSize:12,p:2}}>Scenarios_List</Typography>
-            <Button size='small' sx={{color:'black',minWidth:0,ml:40}}><SaveAltIcon sx={{fontSize:20}}/></Button>
+            <Button size='small' color='icon.primary' sx={{minWidth:0,ml:40}}><SaveAltIcon sx={{fontSize:20}}/></Button>
             <Button disabled size='small' sx={{minWidth:0,p:2}}><DeleteOutlineOutlinedIcon sx={{fontSize:20}} /></Button>
             </Scenario>
             {/*Scenario list */}  

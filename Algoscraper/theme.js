@@ -11,9 +11,12 @@ export const lightTheme = createTheme({
 
     background: {
       default: "#f5f5f5",
-      paper: "#ffffff"
+      paper: "#ffffff",
     },
-
+    icon:{
+      primary:"#000000",
+      secondary:"#302525a7"
+    },
     text: {
       primary: "#000000",
       secondary: "#555555"
@@ -21,7 +24,7 @@ export const lightTheme = createTheme({
 
     grey: {
       100: "#f5f5f5",
-      200: "#eeeeee",
+      200: "#adadad70",
       300: "#e0e0e0",
       400: "#bdbdbd",
       500: "#9e9e9e",
@@ -43,17 +46,21 @@ export const darkTheme = createTheme({
 
     background: {
       default: "#121212",
-      paper: "#1e1e1e"
+      paper: "#1e1e1e",
+      
     },
-
+    icon:{
+      primary:"#ffffff",
+      secondary: "#c9c9c9"
+    },
     text: {
       primary: "#ffffff",
-      secondary: "#bbbbbb"
+      secondary: "#e8dcdc"
     },
 
     grey: {
       100: "#2a2a2a",
-      200: "#333333",
+      200: "#3b3b3b",
       300: "#3d3d3d",
       400: "#555555",
       500: "#777777",

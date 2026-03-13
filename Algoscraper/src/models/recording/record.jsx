@@ -72,7 +72,7 @@ export default function RecordCard({ title, description }) {
 
         {isActive && (
           <IconButton size="small" onClick={(e) =>{ e.stopPropagation();setPinned(!pinned)}} sx={{minWidth:0,left:0,color:'black'}}>
-            {pinned ? <StarIcon sx={{color:'#2F8BCC',minWidth:0,width:2}} /> : <StarBorderIcon />}
+            {pinned ? <StarIcon sx={{color:'#2F8BCC'}} /> : <StarBorderIcon sx={{ color: 'text.primary' }}/>}
           </IconButton>
         )}
       </Box>
