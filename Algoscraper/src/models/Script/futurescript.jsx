@@ -29,7 +29,7 @@ const Dropfile=styled(Box)(({theme})=>({
   display:'flex',
   alignItems:'center',
   backgroundColor:theme.palette.grey[200],
-  width:360,
+  width:380,
   padding:4,marginLeft:4,
   marginTop:4,
   borderRadius:theme.shape.borderRadius

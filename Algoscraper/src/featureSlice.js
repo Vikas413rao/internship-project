@@ -39,7 +39,7 @@ const initialState = {
     featureSessionOpen:false,
     sessionType:null,
     currentPage:1,
-    rowsperPage:4,
+    rowsperPage:6,
     searchterm:'',
     rows:[],
     selectcolumns:defaultColumns,
