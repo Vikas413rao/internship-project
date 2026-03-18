@@ -150,6 +150,7 @@ export default function Scraperui() {
   padding: 8,
   '& .MuiSwitch-track': {
     borderRadius: 22 / 2,
+    border:`1px solid ${theme.palette.icon.primary}`,
     '&::before, &::after': {
       content: '""',
       position: 'absolute',
