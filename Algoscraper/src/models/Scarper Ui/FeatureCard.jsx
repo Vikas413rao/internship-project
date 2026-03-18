@@ -3,8 +3,58 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Box, Card, IconButton, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const IconBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isactive",
+})(({ theme, isactive }) => ({
+  width: 80,
+  height: 70,
+  borderBottomRightRadius: "50px",
+
+  backgroundColor: isactive ? "#E6F3FF" : "#2F8BCC",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+
+  border: isactive
+    ? "3px solid rgba(47, 139, 204, 0.25)"
+    : "3px solid rgba(255,255,255,0.15)",
+
+  boxShadow: isactive
+    ? "inset 0 4px 8px rgba(47,139,204,0.15), 0 5px 10px rgba(47,139,204,0.15)"
+    : "inset 0 4px 8px rgba(255,255,255,0.2), 0 5px 10px rgba(0,0,0,0.1)",
+}));
+const MainIconWrapper = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isactive",
+})(({ isactive }) => ({
+  position: "absolute",
+  left: 22,
+  width: 34,
+  height: 34,
+  borderRadius: "10px",
+  backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+const SmallIconWrapper = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isactive",
+})(({ isactive }) => ({
+  position: "absolute",
+  bottom: 12,
+  right: 18,
+  width: 26,
+  height: 26,
+  borderRadius: "8px",
+  backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
 export default function FeatureCard({ title, description}) {
   const [hovered, setHovered] = useState(false);
   const [pinned, setPinned] = useState(false);
@@ -21,7 +71,7 @@ export default function FeatureCard({ title, description}) {
       sx={{
         p:2,
         width:220,
-        height:170,
+        height:179,
         textDecoration:'none',
         borderRadius: 3,
         boxShadow: isActive
@@ -32,30 +82,28 @@ export default function FeatureCard({ title, description}) {
       }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" >
         <Box display="flex" gap={1} alignItems="center">
-          <Box
-           
-            sx={{
-              width: 80,overflow:'overlay',height: 70,borderBottomRightRadius:'50px',bgcolor: isActive ? "#E6F3FF" : "#2F8BCC",display: "flex",alignItems: "center",justifyContent: "center",position:'relative'
-            }}
-          >
+         <IconBox isactive={isActive ? 1 : 0}
+          ><MainIconWrapper isactive={isActive ? 1 : 0}>
             <DescriptionOutlinedIcon
               sx={{ left:30,color: isActive ? "#2F8BCC" : "#ffffff" }}
-            />
-            <Box sx={{position:'absolute',bottom:16,right:25,width:16,height:16,borderRadius:"50px",display:'flex',alignItems:'center',justifyContent:'center'}}>
+            /></MainIconWrapper>
+
+            <SmallIconWrapper isactive={isActive ? 1 : 0}>
                 <SyncAltIcon sx={{ fontSize:22,color: isActive ? "#2F8BCC" : "#ffffff" }}></SyncAltIcon>
-            </Box>
             
-          </Box>
+            </SmallIconWrapper>
+          </IconBox>
             
           <Typography
            
-            sx={{
+            sx={(theme)=>({
+              fontFamily:theme.typography.fontFamily,
               fontWeight: 600,
               color: "#2F8BCC",
               textDecoration: isActive ? "underline" : "none",
               textUnderlineOffset: "4px",
               fontSize:15
-            }}
+            })}
           >
             {title}
             
@@ -70,7 +118,7 @@ export default function FeatureCard({ title, description}) {
         )}
       </Box>
 
-      <Typography sx={{  mt:1.5,fontSize:10, color: 'text.secondary' }}>
+      <Typography sx={(theme)=>({ fontFamily:theme.typography.fontFamily,fontSize:10,mt:1, color: 'text.secondary' })}>
         
         {description}
        

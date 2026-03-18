@@ -51,7 +51,7 @@ export default function Home() {
           scripts.Whether using existing or manually written files,it helps speed up testing and reduce manual work.
           "/>
           </Box>
-         <Typography color={'#2F8BCC'} fontSize={12} fontWeight={700} sx={{mt:'10px',ml:'380px'}}>Latest Version: 1.40</Typography>
+         <Typography color={'#2F8BCC'} fontSize={12} fontWeight={700} sx={{mt:'3px',ml:'380px'}}>Latest Version: 1.40</Typography>
           </Container>   
           
       </Box>

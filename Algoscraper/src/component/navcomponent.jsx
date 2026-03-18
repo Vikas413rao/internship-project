@@ -32,8 +32,10 @@ const Title = styled(Typography)({
     color: 'white',
 })
 const Caption = styled(Typography)({
-    fontSize:'9px',
+    fontSize:'11px',
     color:'white',
+    fontWeight:500,
+    marginTop:10,
 })
 const LinkBox = styled(Box)(({theme})=>({
     padding:8,
