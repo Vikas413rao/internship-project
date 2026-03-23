@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import LaunchIcon from '@mui/icons-material/Launch';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MinimizeIcon from '@mui/icons-material/Minimize';
@@ -26,17 +27,19 @@ const Titlesection = styled(Box)(({theme})=>({
     width:'260px',
     borderTopRightRadius:'40px',
 }))
-const Title = styled(Typography)({
+const Title = styled(Typography)(({theme})=>({
     fontSize: '16px',
     fontWeight: 600,
     color: 'white',
-})
-const Caption = styled(Typography)({
+    fontFamily:theme.typography.fontFamily,
+}))
+const Caption = styled(Typography)(({theme})=>({
     fontSize:'11px',
     color:'white',
     fontWeight:500,
     marginTop:10,
-})
+    fontFamily:theme.typography.fontFamily,
+}))
 const LinkBox = styled(Box)(({theme})=>({
     padding:8,
     border:`1px solid ${theme.palette.primary.main}`,
@@ -58,21 +61,21 @@ const LinkIcon = styled(LaunchIcon)(({theme})=>({
     height:'17px',
 }))
 const Algo = styled(Typography)(({theme})=>({
-    fontFamily:'Poppins,sans-serif',
+    fontFamily:theme.typography.fontFamily,
     fontWeight:600,
     fontSize:16,
     color:theme.palette.grey[700],
     lineHeight:1
 }))
 const Qatext = styled(Typography)(({theme})=>({
-fontFamily:"Roboto, sans-serif",
+fontFamily:theme.typography.fontFamily,
     fontWeight:700,
     fontSize:16,
     color:theme.palette.primary.main,
     lineHeight:1
 }))
 const Registericon = styled(Typography)(({theme})=>({
-    fontFamily:'Poppins,snas-serif',
+fontFamily:theme.typography.fontFamily,
     fontSize:9,
     color:theme.palette.icon.secondary,
     alignSelf:'flex-start',
@@ -139,7 +142,7 @@ const Buttonarrow=styled(Button)(({theme})=>({
 const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
-export default function Navcomponent() {
+export default function Navcomponent({togglesize,isExpanded}) {
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
     const navigate=useNavigate();
     const location=useLocation();
@@ -203,7 +206,9 @@ export default function Navcomponent() {
             </IconButton>
             <Closingbox>
                 <Ibutton><MinimizeIcon /></Ibutton>
-                <Ibutton><CropFreeIcon /></Ibutton>
+                <Ibutton onClick={togglesize}>
+                    {isExpanded ? <FilterNoneIcon /> : <CropFreeIcon />}
+                </Ibutton>
                 <Ibutton onClick={handleCloseclick}><CloseIcon /></Ibutton>
                 <Closingdialogbox 
                 open={open}

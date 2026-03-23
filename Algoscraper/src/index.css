@@ -1,6 +1,25 @@
+/* index.css */
 html, body {
   margin: 0;
   padding: 0;
+  /* Match this to your MUI theme background.paper color */
+  background-color: #ffffff; 
+  /* This ensures the 'window' shrinks/grows with your content */
+  min-width: 530px;
+  min-height: 460px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+/* Base size (Collapsed) */
+body.popup-collapsed {
+  width: 530px;
+  height: 460px;
+}
+
+/* Expanded size */
+body.popup-expanded {
+  width: 600px;
+  height: 600px;
 }
 
 #root {

@@ -35,12 +35,12 @@ const Container = styled(Box)(({theme})=>({
   width:'535px',
   position:'relative'
 }))
-const Linktype=styled(Typography)({
+const Linktype=styled(Typography)(({theme})=>({
   fontSize:15,
-  fontFamily:'-moz-initial',
+  fontFamily:theme.typography.fontFamily,
   paddingLeft:28,
   paddingTop:5
-})
+}))
 const Reportbox = styled(Box)(({theme})=>({
   width:480,
   boxShadow:'3px',

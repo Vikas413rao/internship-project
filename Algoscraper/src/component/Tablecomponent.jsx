@@ -21,7 +21,8 @@ minHeight:100,
 })
 const Xpath = styled(TextField)(({theme}) => ({
   '& .MuiInputBase-root': {
-    height: 28,  
+    height: 28, 
+    fontFamily:theme.pa
   },
   '& .MuiInputBase-input': {
     fontSize: '11px',

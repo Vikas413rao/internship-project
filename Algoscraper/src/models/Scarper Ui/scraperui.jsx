@@ -16,6 +16,7 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
@@ -33,13 +34,23 @@ const stepsData =[
   <><Link underline='none'>Click Here </Link> to know More about Scrape UI.</>
 ];
 
-const Container= styled(Box)(({theme})=>({
-  border:`1px solid ${theme.palette.primary.main}`,
-  height:'480px',
-  width:'535px',
-  position:'relative'
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
 
-}))
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '600px' : '460px',
+
+  position: 'relative',   // ✅ FIXED
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
 
   const Edittext=styled(TextField)({
     width:200,
@@ -73,28 +84,36 @@ const Container= styled(Box)(({theme})=>({
     backgroundColor:'transparent',
     borderRadius:'50%'
   })
-  const Userstep=styled(Box)(({theme})=>({
-    position:'absolute',
-    backgroundColor:theme.palette.grey[200],
-    height:350,
-    width:530,
-    marginLeft:2,
-    display:'flex',
-    flexDirection:'column',
-    
-  }))
+const Userstep = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  position: 'relative',  
 
-const Stext = styled(TextField)(({theme})=>({
-  width:250,
-  paddingTop:2,
-  marginLeft:4,
-  '& .MuiOutlinedInput-root':{
-    padding:1,
-    fontSize:12,
-    height:30,
-    backgroundColor:theme.palette.background.paper
+  backgroundColor: theme.palette.grey[200],
+
+  width: '100%',          
+  flexGrow: 1,            
+  minHeight: isExpanded ? 500 : 350,  
+
+  display: 'flex',
+  flexDirection: 'column',
+
+  overflow: 'auto',       
+}));
+
+const Stext = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? 350 : 250,   
+  paddingTop: 2,
+  marginLeft: 4,
+  '& .MuiOutlinedInput-root': {
+    padding: 1,
+    fontSize: isExpanded ? 14 : 12,
+    height: isExpanded ? 36 : 30,
+    backgroundColor: theme.palette.background.paper
   }
-}))
+}));
 const Ibutton=styled(Button)(({theme})=>({
 backgroundColor:theme.palette.background.paper,
 marginTop:3,
@@ -180,17 +199,26 @@ export default function Scraperui() {
   },
 }));
 const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
+const [isExpanded,setisExpanded] =useState(false);
+  useEffect(() => {
+    const body = document.body;
+    if (isExpanded) {
+      body.style.width = '600px';
+      body.style.height = '600px';
+    } else {
+      body.style.width = '530px';
+      body.style.height = '460px';
+    }
+  }, [isExpanded]);
+
+  const togglesize = () => {
+    setisExpanded(prev => !prev);
+  }
   return (
-    <Box
-            sx={{
-              boxSizing:'border-box',
-              width:'auto',        
-              height:'auto',
-            }}
-          >
-      <Container >
-        <Navcomponent/>
-    <Box sx={{display:'flex',alignItems:'center',ml:1,gap:2}}>
+   <Box sx={{ margin: 0, padding: 0 }}>
+            <Container  isExpanded={isExpanded}>
+       <Navcomponent togglesize={togglesize} isExpanded={isExpanded}/>
+    <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
     <Pagename/>
     <Custombutton label='Scraper UI' onClick={handleClicknext}/>
     </Box>
