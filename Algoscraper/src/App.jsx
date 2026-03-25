@@ -16,6 +16,8 @@ import Futurescript from './models/Script/futurescript.jsx';
 import Scenariofile from './models/Script/scenariofile.jsx';
 import TableScreen from './models/Script/Tablepage.jsx';
 import Home from './views/Home.jsx';
+import CssBaseline from '@mui/material/CssBaseline';
+
 export default function App() {
   const mode = useSelector((state) =>state.feature.themMode);
   const theme=mode=== 'light' ? lightTheme : darkTheme;
@@ -23,11 +25,13 @@ export default function App() {
   return (
     <>
     <ThemeProvider theme={theme} >
+      <CssBaseline />
         <Box
     sx={{
       bgcolor: "background.default",
       minHeight: "100vh",
-      color: "text.primary"
+      color: "text.primary",
+      fontFamily: "inherit" 
     }}
   >
         <Routes>

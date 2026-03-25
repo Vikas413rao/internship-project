@@ -42,7 +42,7 @@ const Container = styled(Box, {
   width: isExpanded ? '600px' : '530px',
   height: isExpanded ? '600px' : '460px',
 
-  position: 'relative',   // ✅ FIXED
+  position: 'relative',  
   margin: 0,
 
   backgroundColor: theme.palette.background.paper,
@@ -87,18 +87,14 @@ const Container = styled(Box, {
 const Userstep = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
-  position: 'relative',  
-
   backgroundColor: theme.palette.grey[200],
-
-  width: '100%',          
-  flexGrow: 1,            
-  minHeight: isExpanded ? 500 : 350,  
-
+  width: '100%',
+  flexGrow: 1,
+  minHeight: isExpanded ? 520 : 330,
+  padding: isExpanded ? 8 : 4,
   display: 'flex',
   flexDirection: 'column',
-
-  overflow: 'auto',       
+  overflow: 'hidden',
 }));
 
 const Stext = styled(TextField, {
@@ -107,11 +103,13 @@ const Stext = styled(TextField, {
   width: isExpanded ? 350 : 250,   
   paddingTop: 2,
   marginLeft: 4,
+  fontFamily:theme.typography.fontFamily,
   '& .MuiOutlinedInput-root': {
     padding: 1,
     fontSize: isExpanded ? 14 : 12,
     height: isExpanded ? 36 : 30,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+     fontFamily:theme.typography.fontFamily,
   }
 }));
 const Ibutton=styled(Button)(({theme})=>({
@@ -130,11 +128,47 @@ const Tbox = styled(Box)({
   padding:1,
   width:'100%'
 })
-
+const MultiXpath= styled(Typography)(({theme})=>({
+  fontFamily:theme.typography.fontFamily,
+  fontSize:14
+}))
 const Tcomponent=styled(Box)({
   flex:1,
   minHeight:0
 })
+const SmallSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 15,
+  padding: 0,
+  left: 17,
+
+  '& .MuiSwitch-switchBase': {
+    padding: 2,
+
+    '&.Mui-checked': {
+      transform: 'translateX(14px)',
+      color: '#fff',
+
+      '& + .MuiSwitch-track': {
+        backgroundColor: '#2F8BCC',
+        opacity: 1,
+        border: '1px solid black',   
+      },
+    },
+  },
+
+  '& .MuiSwitch-thumb': {
+    width: 10,
+    height: 10,
+  },
+
+  '& .MuiSwitch-track': {
+    borderRadius: 20,
+    backgroundColor: theme.palette.grey[500],
+    border: `1px solid black`,      
+    opacity: 1,                   
+  },
+}));
 export default function Scraperui() {
 
   const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
@@ -165,39 +199,7 @@ export default function Scraperui() {
     )
   }
 
-    const Android12Switch = styled(Switch)(({ theme }) => ({
-  padding: 8,
-  '& .MuiSwitch-track': {
-    borderRadius: 22 / 2,
-    border:`1px solid ${theme.palette.icon.primary}`,
-    '&::before, &::after': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: 16,
-      height: 16,
-    },
-    '&::before': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main),
-      )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
-      left: 12,
-    },
-    '&::after': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main),
-      )}" d="M19,13H5V11H19V13Z" /></svg>')`,
-      right: 12,
-    },
-  },
-  '& .MuiSwitch-thumb': {
-    boxShadow: 'none',
-    width: 16,
-    height: 16,
-    margin: 2,
-  },
-}));
+    
 const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
 const [isExpanded,setisExpanded] =useState(false);
   useEffect(() => {
@@ -223,8 +225,8 @@ const [isExpanded,setisExpanded] =useState(false);
     <Custombutton label='Scraper UI' onClick={handleClicknext}/>
     </Box>
     <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
-      <Typography sx={{fontSize:14}}>MultiXpath Support</Typography>
-          <FormControlLabel control={<Android12Switch sx={{transform:'scale(0.6)'}} />} />
+      <MultiXpath >MultiXpath Support</MultiXpath>
+          <FormControlLabel control={<SmallSwitch />} />
     <Photobutton size="small" onClick={handleScreenshot}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Photobutton>
      
     <Tooltip title="Edit Link" placement="top"  slotProps={{
@@ -281,6 +283,7 @@ const [isExpanded,setisExpanded] =useState(false);
     <TableComponent 
           columns={AllColumns}
           selectedColumns={selectedcolumns}
+          isExpanded={isExpanded}
           />
           </Tcomponent>
      </Userstep>

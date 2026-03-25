@@ -13,12 +13,15 @@ const Tablebox = styled(Box)(({theme})=>({
     marginLeft:10,
     minHeight:0,
 }))
-const TBbox = styled(Box)({
-display:'flex',
-flexDirection:'column',
-height:310,
-minHeight:100,
-})
+
+const TBbox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded'
+})(({ isExpanded }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: isExpanded ? 420 : 303,
+  minHeight: 100,
+}));
 const Xpath = styled(TextField)(({theme}) => ({
   '& .MuiInputBase-root': {
     height: 28, 
@@ -38,8 +41,8 @@ const Xpath = styled(TextField)(({theme}) => ({
     borderBottom: 'none',
   },
 }));
-const Styledtable = styled(Table)(()=>({
-  width:'max-content',
+const Styledtable = styled(Table)(({ isExpanded }) => ({
+  width: isExpanded ? '100%' : 'max-content',
   tableLayout:'auto',
   '& .MuiTableCell-root':{
     Padding:'4px 6px',
@@ -49,26 +52,30 @@ const Styledtable = styled(Table)(()=>({
 const StyledCell = styled(TableCell, {
   shouldForwardProp: (prop) => prop !== 'width'
 })(({theme,width})=>({
-  fontSize:'11px',
+  fontSize:'10px',
   padding:'4px 6px',
-  width: width || 120,
+  width: width || 123,
   position:'relative',
  borderRight: `1px solid ${theme.palette.common.white}`,
 }))
-const StyledRow = styled(TableRow)(()=>({
-  height:32,
+const StyledRow = styled(TableRow, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded'
+})(({ isExpanded }) => ({
+  height: isExpanded ? 40 : 32,
 }))
-const StyledTextField = styled(TextField)(() => ({
-    '& .MuiInputBase-root': {
-    height: 28,          
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded'
+})(({ isExpanded }) => ({
+  '& .MuiInputBase-root': {
+    height: isExpanded ? 34 : 28,
   },
   '& .MuiInputBase-input': {
-    fontSize:'11px',
-    padding:'2px 0'
+    fontSize: isExpanded ? '12px' : '10px',
+    padding: '2px 0'
   }
-}))
+}));
 const Styledselect = styled (Select)(()=>({
-  fontSize: '11px',
+  fontSize: '10px',
   height:28,
    '& .MuiSelect-select':{
     padding:'4px 8px',
@@ -92,7 +99,23 @@ const Resizer = styled(Box)(() => ({
   cursor:'col-resize',
   zIndex:1
 }));
-export default function TableComponent({columns}) {
+const StyledTableContainer = styled(TableContainer, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? '100%' : 490,
+  maxWidth: '100%',
+
+  overflowX: 'auto',
+
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+
+  backgroundColor: theme.palette.background.paper,
+}));
+export default function TableComponent({columns,isExpanded}) {
   const {currentPage,rowsperPage,rows,selectcolumns,searchterm} = useSelector(state =>state.feature)
   const startIndex = (currentPage - 1) * rowsperPage;
   const dispatch = useDispatch();
@@ -122,11 +145,10 @@ document.addEventListener('mouseup',onMouseUp)
  }
   return (
 
-      <TBbox>
+      <TBbox isExpanded={isExpanded}>
       <Tablebox>
-                <TableContainer  component={Paper} sx={{width: 490,maxWidth: 500,overflowX:'auto', "&::-webkit-scrollbar": {display:'none'
-    }, scrollbarWidth: 'none',msOverflowStyle: 'none',}}>
-            <Styledtable >
+                <StyledTableContainer  component={Paper} isExpanded={isExpanded}>
+            <Styledtable isExpanded={isExpanded}>
               <TableHead sx={{bgcolor:'#2F8BCC'}}>
                 <TableRow >
                 {columns.filter(col=> selectcolumns.includes(col.key)).map(col => (
@@ -139,12 +161,12 @@ document.addEventListener('mouseup',onMouseUp)
               <TableBody>
                {paginatedrows.map((row) =>(
                 
-                  <StyledRow key={row.id}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <StyledRow key={row.id}   isExpanded={isExpanded}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     {columns.filter(col => selectcolumns.includes(col.key)).map(col => (
                     <StyledCell sx={{fontSize:12}} key = {col.key}width={colsWidth[col.key]}>
                       <Resizer onMouseDown={(e)=>handleResize(e,col.key)}/>
                       {col.key === 'contentName' && (
-                    <StyledTextField variant='standard' fullWidth value={row[col.key] || ''}
+                    <StyledTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
                     onChange={(e) =>dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}))}
                      InputProps={{ disableUnderline: true }}/>)}
                     {col.key === 'controlType' && (
@@ -178,7 +200,7 @@ document.addEventListener('mouseup',onMouseUp)
                   />
        )}
         {!['contentName','controlType','Xpath'].includes(col.key) && (
-          <StyledTextField variant='standard' fullWidth
+          <StyledTextField variant='standard' isExpanded={isExpanded}  fullWidth
           value={row[col.key] || ''}
           onChange={(e)=>dispatch(updateRow({
             id: row.id,
@@ -193,7 +215,7 @@ document.addEventListener('mouseup',onMouseUp)
                ))}
               </TableBody>
             </Styledtable>
-          </TableContainer>
+          </StyledTableContainer>
           </Tablebox>
           <BPagination totalRows={filteredRows.length} />
           </TBbox>

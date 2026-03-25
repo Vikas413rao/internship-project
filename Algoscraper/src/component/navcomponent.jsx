@@ -22,32 +22,34 @@ const Titlesection = styled(Box)(({theme})=>({
     color:'white',
     display:'flex',
     alignItems:'center',
-    gap: 3,
-    height:'20px',
+    gap: 3,                
+    height:'40px',         
     width:'260px',
     borderTopRightRadius:'40px',
 }))
 const Title = styled(Typography)(({theme})=>({
     fontSize: '16px',
     fontWeight: 600,
-    color: 'white',
-    fontFamily:theme.typography.fontFamily,
+    lineHeight: 1.2,  
+    display: 'flex',
+    alignItems: 'center',
+     fontFamily: theme.typography.fontFamily,
 }))
 const Caption = styled(Typography)(({theme})=>({
     fontSize:'11px',
-    color:'white',
-    fontWeight:500,
-    marginTop:10,
-    fontFamily:theme.typography.fontFamily,
+    fontWeight:500,     
+    marginTop:8,
+    marginLeft:-3,
+    fontFamily: theme.typography.fontFamily,       
 }))
 const LinkBox = styled(Box)(({theme})=>({
     padding:8,
     border:`1px solid ${theme.palette.primary.main}`,
     borderRadius:'30px',
-    height:'10px',
+   height:'32px',
     display:'flex',
     alignItems:'center',
-    width:'85px',
+    width:'98px',
     marginTop:'5px',
     justifyContent:'left',
     right:-10,
@@ -82,7 +84,7 @@ fontFamily:theme.typography.fontFamily,
     ml:'2px',
 }))
 const Iconbox = styled(Box)({
-    position:'relative',
+   display: 'flex',
     width:24,
     height:15,
     marginTop:'10px',
@@ -90,9 +92,6 @@ const Iconbox = styled(Box)({
     marginLeft:'10px',
 })
 const Iconbutton = styled(IconButton)(({theme})=>({
-    right:7,
-    top:-4,
-    position:'absolute',
     color:'black',
     width:'24px',
     height:'24px',
@@ -137,6 +136,7 @@ const Buttonarrow=styled(Button)(({theme})=>({
     height:'24px',
     color:theme.palette.common.white,
     borderRadius:'5px',
+    right:7,
     backgroundColor:theme.palette.primary.dark,
 }))
 const ArrowBackIcon =styled(ArrowBackIosIcon)({

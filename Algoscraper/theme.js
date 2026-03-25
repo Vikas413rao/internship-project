@@ -1,10 +1,50 @@
 import { createTheme } from "@mui/material/styles";
 
+const commonTheme = {
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Arial", sans-serif',
+  },
+
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          fontFamily: '"Inter", sans-serif', 
+        },
+      },
+    },
+
+    
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Inter", sans-serif',
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Inter", sans-serif',
+          textTransform: 'none', 
+        },
+      },
+    },
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Inter", sans-serif',
+        },
+      },
+    },
+  }
+};
+
 export const lightTheme = createTheme({
-typography: {
-  fontFamily: '"Inter", "Roboto", "Arial", sans-serif',
-},
- palette: {
+  ...commonTheme,
+  palette: {
     mode: "light",
 
     primary: {
@@ -16,10 +56,12 @@ typography: {
       default: "#f5f5f5",
       paper: "#ffffff",
     },
-    icon:{
-      primary:"#000000",
-      secondary:"#302525a7"
+
+    icon: {
+      primary: "#000000",
+      secondary: "#302525a7"
     },
+
     text: {
       primary: "#000000",
       secondary: "#555555"
@@ -38,11 +80,10 @@ typography: {
     }
   }
 });
+
 export const darkTheme = createTheme({
-typography: {
-  fontFamily: '"Inter", "Roboto", "Arial", sans-serif',
-},
-     palette: {
+  ...commonTheme,
+  palette: {
     mode: "dark",
 
     primary: {
@@ -53,12 +94,13 @@ typography: {
     background: {
       default: "#121212",
       paper: "#1e1e1e",
-      
     },
-    icon:{
-      primary:"#ffffff",
+
+    icon: {
+      primary: "#ffffff",
       secondary: "#c9c9c9"
     },
+
     text: {
       primary: "#ffffff",
       secondary: "#e8dcdc"

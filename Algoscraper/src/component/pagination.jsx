@@ -45,7 +45,7 @@ export default function BPagination({totalRows}) {
         <Bbox>
         <Pbox>
       <Box sx={{display:'flex',alignItems:'center',gap:2}}>
-    <Button variant='contained' size='small' sx={{top:3}} onClick={handleAddrow}>+ Row</Button>
+    <Button variant='contained' size='small'  onClick={handleAddrow}>+ Row</Button>
     <Typography sx={{fontSize:12,color:'red'}}>Error will be displayed here</Typography>
    
     </Box>
