@@ -39,7 +39,7 @@ const initialState = {
     featureSessionOpen:false,
     sessionType:null,
     currentPage:1,
-    rowsperPage:6,
+    rowsperPage:5,
     searchterm:'',
     rows:[],
     selectcolumns:defaultColumns,
@@ -54,7 +54,8 @@ const initialState = {
   task:tasks,
   file:null,
   filename:'',
-  filecontent:''
+  filecontent:'',
+  isExpanded: false,
 };
 
 const featureSlice = createSlice({
@@ -258,7 +259,10 @@ resetShowfinalReport (state){
     state.file=null;
     state.filename='';
     state.filecontent='';
-  }
+  },
+  toggleExpanded: (state) => {
+  state.isExpanded = !state.isExpanded;
+},
 },
 
 });
@@ -304,6 +308,7 @@ closeSession,
   closeeditdialog,
   openresetrecord,
   closeresetrecord,
+   toggleExpanded,
   opensettingdialog,
   closesettingdialog,
   updateTaskprogress,

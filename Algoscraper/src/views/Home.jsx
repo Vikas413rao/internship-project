@@ -7,15 +7,16 @@ import PingCard from '../models/Ping card/ping.jsx';
 import RecordCard from '../models/recording/record.jsx';
 import FeatureCard from '../models/Scarper Ui/FeatureCard.jsx';
 import ScriptCard from '../models/Script/script.jsx';
+import { useSelector } from 'react-redux';
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
   border: `1px solid ${theme.palette.primary.main}`,
 
   width: isExpanded ? '600px' : '530px',
-  height: isExpanded ? '600px' : '460px',
+  height: isExpanded ? '530px' : '430px',
 
-  position: 'relative',   // ✅ FIXED
+  position: 'relative',   
   margin: 0,
 
   backgroundColor: theme.palette.background.paper,
@@ -25,15 +26,15 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 export default function Home() {
-  const [isExpanded,setisExpanded] =useState(false);
+const isExpanded = useSelector(state => state.feature.isExpanded);
   useEffect(() => {
     const body = document.body;
     if (isExpanded) {
       body.style.width = '600px';
-      body.style.height = '600px';
+      body.style.height = '530px';
     } else {
       body.style.width = '530px';
-      body.style.height = '460px';
+      body.style.height = '430px';
     }
   }, [isExpanded]);
 
@@ -44,7 +45,7 @@ export default function Home() {
     
 <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
-              <Navcomponent togglesize={togglesize} isExpanded={isExpanded}/>
+              <Navcomponent/>
           <Box sx={{display:'flex',gap:2}}>
           <FeatureCard title="Scrape UI" description="
           Scrape UI is Powerful feature that captures all UI elements on a webpage

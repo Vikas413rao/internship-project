@@ -12,7 +12,7 @@ import { Box, Button, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, toggleTheme } from '../featureSlice';
+import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
 import Closingdialog from '../hooks/alertdialoboxhooks';
 import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
@@ -142,7 +142,7 @@ const Buttonarrow=styled(Button)(({theme})=>({
 const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
-export default function Navcomponent({togglesize,isExpanded}) {
+export default function Navcomponent() {
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
     const navigate=useNavigate();
     const location=useLocation();
@@ -172,6 +172,7 @@ export default function Navcomponent({togglesize,isExpanded}) {
     const dispatch = useDispatch();
     const pagelist=[{value:'Page List',label:'Page List'}]
     const mode= useSelector((state)=>state.feature.themMode)
+     const isExpanded = useSelector(state => state.feature.isExpanded); 
   return (
     <div>
       
@@ -206,7 +207,7 @@ export default function Navcomponent({togglesize,isExpanded}) {
             </IconButton>
             <Closingbox>
                 <Ibutton><MinimizeIcon /></Ibutton>
-                <Ibutton onClick={togglesize}>
+                <Ibutton onClick={() => dispatch(toggleExpanded())}>
                     {isExpanded ? <FilterNoneIcon /> : <CropFreeIcon />}
                 </Ibutton>
                 <Ibutton onClick={handleCloseclick}><CloseIcon /></Ibutton>

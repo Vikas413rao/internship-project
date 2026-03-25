@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
@@ -40,7 +40,7 @@ const Container = styled(Box, {
   border: `1px solid ${theme.palette.primary.main}`,
 
   width: isExpanded ? '600px' : '530px',
-  height: isExpanded ? '600px' : '460px',
+  height: isExpanded ? '530px' : '430px',
 
   position: 'relative',  
   margin: 0,
@@ -201,15 +201,15 @@ export default function Scraperui() {
 
     
 const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
-const [isExpanded,setisExpanded] =useState(false);
-  useEffect(() => {
+const isExpanded = useSelector(state => state.feature.isExpanded);
+ useEffect(() => {
     const body = document.body;
     if (isExpanded) {
       body.style.width = '600px';
-      body.style.height = '600px';
+      body.style.height = '530px';
     } else {
       body.style.width = '530px';
-      body.style.height = '460px';
+      body.style.height = '430px';
     }
   }, [isExpanded]);
 
@@ -219,10 +219,10 @@ const [isExpanded,setisExpanded] =useState(false);
   return (
    <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
-       <Navcomponent togglesize={togglesize} isExpanded={isExpanded}/>
+       <Navcomponent />
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
-    <Pagename/>
-    <Custombutton label='Scraper UI' onClick={handleClicknext}/>
+    <Pagename isExpanded={isExpanded}/>
+    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext}/>
     </Box>
     <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
       <MultiXpath >MultiXpath Support</MultiXpath>
@@ -253,12 +253,12 @@ const [isExpanded,setisExpanded] =useState(false);
     {/*User Steps */}
     {!nextOpen  ? (
       <>
-    <Userstep  >
-          <Customusersteps steps={stepsData}/>
+    <Userstep  isExpanded={isExpanded}>
+          <Customusersteps steps={stepsData}  isExpanded={isExpanded}/>
     </Userstep>
     </>):(
       <>
-     <Userstep>
+     <Userstep isExpanded={isExpanded}>
       <Tbox>
           <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))} 
           InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>

@@ -6,20 +6,20 @@ html, body {
   background-color: #ffffff; 
   /* This ensures the 'window' shrinks/grows with your content */
   min-width: 530px;
-  min-height: 460px;
+  min-height: 430px;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 /* Base size (Collapsed) */
 body.popup-collapsed {
   width: 530px;
-  height: 460px;
+  height: 430px;
 }
 
 /* Expanded size */
 body.popup-expanded {
   width: 600px;
-  height: 600px;
+  height: 530px;
 }
 
 #root {

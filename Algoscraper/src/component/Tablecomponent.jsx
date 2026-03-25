@@ -19,7 +19,7 @@ const TBbox = styled(Box, {
 })(({ isExpanded }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: isExpanded ? 420 : 303,
+  height: isExpanded ? 350 : 270,
   minHeight: 100,
 }));
 const Xpath = styled(TextField)(({theme}) => ({
