@@ -120,8 +120,8 @@ export default function ScriptCard({ title, description,isExpanded }) {
         {isActive && (
           <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}}      sx={{
         color: 'black',
-        position: 'absolute',  // 👈 key fix
-        top: 250,
+        position: 'absolute', 
+        top: isExpanded ? 300 : 250,
         right: 0,
       }}>
             {pinned ? <StarIcon sx={{fontSize:iconSize,color:'#2F8BCC'}}/> : <StarBorderIcon sx={{ fontSize:iconSize,color: 'text.primary' }} />}
