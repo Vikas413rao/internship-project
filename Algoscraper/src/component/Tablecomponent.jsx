@@ -57,6 +57,7 @@ const StyledCell = styled(TableCell, {
   width: width || 123,
   position:'relative',
  borderRight: `1px solid ${theme.palette.common.white}`,
+  
 }))
 const StyledRow = styled(TableRow, {
   shouldForwardProp: (prop) => prop !== 'isExpanded'
@@ -161,7 +162,7 @@ document.addEventListener('mouseup',onMouseUp)
               <TableBody>
                {paginatedrows.map((row) =>(
                 
-                  <StyledRow key={row.id}   isExpanded={isExpanded}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <StyledRow key={row.id} isExpanded={isExpanded}>
                     {columns.filter(col => selectcolumns.includes(col.key)).map(col => (
                     <StyledCell sx={{fontSize:12}} key = {col.key}width={colsWidth[col.key]}>
                       <Resizer onMouseDown={(e)=>handleResize(e,col.key)}/>

@@ -78,9 +78,9 @@ const Container = styled(Box, {
   }) )
   const Editicon = styled(EditOutlinedIcon)({
     position:'absolute',
-    bottom:12,
+    bottom:9,
     right:6,
-    fontSize:15,
+    fontSize:14,
     backgroundColor:'transparent',
     borderRadius:'50%'
   })
@@ -94,7 +94,8 @@ const Userstep = styled(Box, {
   padding: isExpanded ? 8 : 4,
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden',
+  overflow: 'auto',
+  boxSizing:'border-box'
 }));
 
 const Stext = styled(TextField, {
@@ -134,7 +135,10 @@ const MultiXpath= styled(Typography)(({theme})=>({
 }))
 const Tcomponent=styled(Box)({
   flex:1,
-  minHeight:0
+  minHeight:0,
+  overflow:'auto',
+  boxSizing:'border-box',
+  paddingBottom:1
 })
 const SmallSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -213,9 +217,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
     }
   }, [isExpanded]);
 
-  const togglesize = () => {
-    setisExpanded(prev => !prev);
-  }
+ 
   return (
    <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
@@ -224,10 +226,10 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
     <Pagename isExpanded={isExpanded}/>
     <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext}/>
     </Box>
-    <Box sx={{mt:0.5,ml:2,display:'flex',alignItems:'center'}}>
+       <Box sx={{ display: 'flex', alignItems: 'center', ml:2 }}>
       <MultiXpath >MultiXpath Support</MultiXpath>
           <FormControlLabel control={<SmallSwitch />} />
-    <Photobutton size="small" onClick={handleScreenshot}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC'}}/></Photobutton>
+    <Photobutton size="small" onClick={handleScreenshot}sx={{ml: isExpanded ? 39 : 32}}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC',fontSize:15}}/></Photobutton>
      
     <Tooltip title="Edit Link" placement="top"  slotProps={{
         popper: {
@@ -244,7 +246,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
            
           
     <Linkedit size="small" onClick={handleOpen} >
-      <LinkIcon sx={{color:'#2F8BCC'}}/>
+      <LinkIcon sx={{color:'#2F8BCC',fontSize:19}}/>
       <Editicon  />
       </Linkedit>
        <Customdialogbox open={open}onClose={handleClose} onConfirm={handleConfirm} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>

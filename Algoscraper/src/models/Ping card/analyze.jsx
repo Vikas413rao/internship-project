@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Loaderprogress from '../../component/loaderprogress.jsx';
@@ -11,53 +12,76 @@ const Mbox = styled(Box)({
               width:'auto',        
               height:'auto',
 })
-const Body = styled(Box)(({theme})=>({
+const Body = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
   position:'relative',
-  backgroundColor:theme.palette.grey[200],
-  width:530,
-  marginLeft:2.5,
-  height:390,
+  backgroundColor: theme.palette.grey[100],
+  width: isExpanded ? 600 : 530,   
+  marginLeft: 2.5,
+  height: isExpanded ? 490 : 390,
   marginTop:4
 }))
-const Textb=styled(TextField)(({theme})=>({
-  width:300,
-  marginTop:4,
-  marginLeft:4,
-  '& .MuiOutlinedInput-root':{
-  fontSize:12,
-  height:30,
-  backgroundColor:theme.palette.background.paper
+const Textb = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? 380 : 340,  
+  marginTop: 4,
+  marginLeft: 4,
+  transition: 'width 0.3s ease',  
+  '& .MuiOutlinedInput-root': {
+    fontSize: 12,
+    height: isExpanded ? 36 : 30,  
+    backgroundColor: theme.palette.background.paper
   }
 }))
-const Container = styled(Box)(({theme})=>({
-  border:`1px solid ${theme.palette.primary.main}`,
-  height:'480px',
-  width:'535px',
-  position:'relative'
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
+
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
+const Linktype = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  fontSize: isExpanded ? 16 : 15,
+  fontFamily: theme.typography.fontFamily,
+  paddingLeft: 28,
+  paddingTop: 5
 }))
-const Linktype=styled(Typography)(({theme})=>({
-  fontSize:15,
-  fontFamily:theme.typography.fontFamily,
-  paddingLeft:28,
-  paddingTop:5
+
+const Reportbox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? 560 : 480,   
+  height: isExpanded ? 140 : 120,  
+  marginLeft: 20,
+  marginTop: 5,
+  borderRadius: '10px',
+  backgroundColor: theme.palette.background.paper
 }))
-const Reportbox = styled(Box)(({theme})=>({
-  width:480,
-  boxShadow:'3px',
-  height:120,
-  marginLeft:20,
-  marginTop:5,
-  borderRadius:'10px',
-  backgroundColor:theme.palette.background.paper
-}))
-const Reporthead=styled(Box)(({theme})=>({
-  height:45,
-  width:480,
-  backgroundColor:theme.palette.primary.main,
-  borderTopLeftRadius:'10px',
-  borderTopRightRadius:'10px',
-  display:'flex',
-  alignItems:'center'
+
+const Reporthead = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  height: 45,
+  width: isExpanded ? 560 : 480,   
+  backgroundColor: theme.palette.primary.main,
+  borderTopLeftRadius: '10px',
+  borderTopRightRadius: '10px',
+  display: 'flex',
+  alignItems: 'center'
 }))
 const Urltype = styled(Typography)({
 position:'absolute',
@@ -65,28 +89,51 @@ marginTop:20,
 marginLeft:8,
 fontWeight:600
 })
-const Sbox = styled(Box)(({theme})=>({
-  width:145,
-  boxShadow:'3px',
-  height:120,
-  marginLeft:20,
-  marginTop:4,
-  borderRadius:'10px',
-  backgroundColor:theme.palette.background.paper
-}) )
-const Shead=styled(Box)(({theme})=>({
-  height:45,
-  width:145,
-  backgroundColor:theme.palette.primary.main,
-  borderTopLeftRadius:'10px',
-  borderTopRightRadius:'10px',
-  display:'flex',
-  alignItems:'center'
+const Sbox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? 175 : 145,   
+  height: isExpanded ? 140 : 120,  
+  marginLeft: 20,
+  marginTop: 4,
+  borderRadius: '10px',
+  backgroundColor: theme.palette.background.paper
+}))
+
+const Shead = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  height: 45,
+  width: isExpanded ? 175 : 145,  
+  backgroundColor: theme.palette.primary.main,
+  borderTopLeftRadius: '10px',
+  borderTopRightRadius: '10px',
+  display: 'flex',
+  alignItems: 'center'
 }))
 const Typehead = styled(Typography)(({theme})=>({
   color:theme.palette.common.white,
+  fontFamily:theme.typography.fontFamily,
   fontSize:17,
   padding:2
+}))
+const AnalyzeB = styled(Button,{
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  marginTop: 1,
+   fontFamily:theme.typography.fontFamily,
+      height: isExpanded ? 36 : 30,  
+      fontSize: isExpanded ? 13 : 11, 
+      padding: isExpanded ? 20 : 15, 
+}))
+const Stop = styled(Button,{
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  marginTop: 1,
+  fontFamily:theme.typography.fontFamily,
+      width: isExpanded ? 100 : 90,   
+      height: isExpanded ? 36 : 30,  
+      fontSize: isExpanded ? 13 : 11,
 }))
 export default function Analyze() {
   const {url,analyzedAt,showFinalReport,open} = useSelector((state)=>state.feature);
@@ -105,26 +152,36 @@ export default function Analyze() {
       
     }
     
-
+const isExpanded = useSelector(state => state.feature.isExpanded);
+ useEffect(() => {
+    const body = document.body;
+    if (isExpanded) {
+      body.style.width = '600px';
+      body.style.height = '530px';
+    } else {
+      body.style.width = '530px';
+      body.style.height = '430px';
+    }
+  }, [isExpanded]);
   return (
     <div>
       <Mbox>
-                  <Container>
+                  <Container  isExpanded={isExpanded}>
                     <Navcomponent />
                     <Box sx={{display:'flex',alignItems:'center', gap:2}}>
-                   <Textb  placeholder="Enter a WebPage url" variant="outlined" value={url}  
+                   <Textb isExpanded={isExpanded} placeholder="Enter a WebPage url" variant="outlined" value={url}  
                   InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
-                <Button  variant='contained' sx={{mt:1}}>Analyze</Button>
-                <Button variant="outlined" sx={{mt:1,width:90}}>Stop</Button>
+                 <AnalyzeB variant='contained' isExpanded={isExpanded}>Analyze</AnalyzeB>
+                <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
                 </Box> 
-                <Body>
+                <Body  isExpanded={isExpanded}>
                 {!showFinalReport &&(
                   
                   <Box>
-                    <Linktype >We found 52 Links.Do You want to test all links,
+                    <Linktype isExpanded={isExpanded}>We found 52 Links.Do You want to test all links,
                       <Link underline='none' onClick={handleAnalyze} >Click Here</Link></Linktype>
-                    <Reportbox >
-                      <Reporthead >
+                    <Reportbox isExpanded={isExpanded}>
+                      <Reporthead isExpanded={isExpanded}>
                         <Typehead >Your Report</Typehead>
                         <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
                           `${new Date(analyzedAt).toLocaleDateString('en-IN',{
@@ -142,20 +199,20 @@ export default function Analyze() {
                       <Urltype>Given URL:<Link href={url} >{url}</Link></Urltype>
                       </Reportbox>
                       <Box sx={{display:'flex',alignItems:'center'}}>
-                       <Sbox>
-                      <Shead >
+                       <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded} >
                       <Typehead>Status</Typehead>
                       </Shead>
                        <Typography fontSize={30} sx={{p:2}}>200</Typography>
-                      </Sbox>
-                      <Sbox>
-                      <Shead>
+                      </Sbox >
+                      <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded}>
                       <Typehead>Response Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
                       </Sbox>
-                      <Sbox>
-                      <Shead>
+                      <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded}>
                       <Typehead>Load Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>
@@ -168,9 +225,9 @@ export default function Analyze() {
                     <Loaderprogress />
                 {showFinalReport && (
                   <Box>
-                    <Linktype>We found 52 Links.Do You want to test all links,<Link underline='none' >View Report</Link></Linktype>
-                    <Reportbox>
-                      <Reporthead>
+                    <Linktype isExpanded={isExpanded}>We found 52 Links.Do You want to test all links,<Link underline='none' >View Report</Link></Linktype>
+                    <Reportbox isExpanded={isExpanded}>
+                      <Reporthead isExpanded={isExpanded}>
                         <Typehead>Your Report</Typehead>
                          <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
                           `${new Date(analyzedAt).toLocaleDateString('en-IN',{
@@ -188,20 +245,20 @@ export default function Analyze() {
                       <Urltype>Given URL:<Link href={url} >{url}</Link></Urltype>
                       </Reportbox>
                       <Box sx={{display:'flex',alignItems:'center'}}>
-                       <Sbox>
-                      <Shead>
+                       <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded}>
                       <Typehead>Status</Typehead>
                       </Shead>
                        <Typography fontSize={30} sx={{p:2}}>200</Typography>
                       </Sbox>
-                      <Sbox>
-                      <Shead>
+                      <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded}>
                       <Typehead>Response Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
                       </Sbox>
-                      <Sbox>
-                      <Shead>
+                      <Sbox isExpanded={isExpanded}>
+                      <Shead isExpanded={isExpanded}>
                       <Typehead>Load Time</Typehead>
                       </Shead>
                       <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>

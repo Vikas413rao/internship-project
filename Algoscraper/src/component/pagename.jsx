@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 const Pagetextfield = styled(TextField, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
-  width: isExpanded ? 360 : 300,
+  width: isExpanded ? 330 : 300,
   '& .MuiOutlinedInput-root': {
     fontSize: isExpanded ? 13 : 11,
     height: isExpanded ? '40px' : '35px',

@@ -33,9 +33,9 @@ const MainIconWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isactive" && prop !== "isExpanded",
 })(({ isactive, isExpanded }) => ({
   position: "absolute",
-  left: isExpanded ? 26 : 22,
-  width: isExpanded ? 38 : 34,
-  height: isExpanded ? 38 : 34,
+  left: isExpanded ? 20 : 16,
+  width: isExpanded ? 48 : 44,
+  height: isExpanded ? 48 : 40,
   borderRadius: "10px",
   backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
   display: "flex",
@@ -46,12 +46,12 @@ const SmallIconWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isactive" && prop !== "isExpanded",
 })(({ isactive, isExpanded }) => ({
   position: "absolute",
-  bottom: isExpanded ? 14 : 12,
-  right: isExpanded ? 20 : 18,
-  width: isExpanded ? 30 : 26,
-  height: isExpanded ? 30 : 26,
-  borderRadius: "8px",
-  backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
+  bottom: isExpanded ? 19 : 16,
+  right: isExpanded ? 24 : 20,
+  width: isExpanded ? 15 : 15,
+  height: isExpanded ? 15 : 15,
+  borderRadius: "5px",
+  backgroundColor: isactive ? "#E6F3FF" :"#2F8BCC",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -95,12 +95,12 @@ export default function FeatureCard({ title, description,isExpanded}) {
          <IconBox isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}>
             <MainIconWrapper isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}>
               <DescriptionOutlinedIcon
-                sx={{ color: isActive ? "#2F8BCC" : "#ffffff", fontSize: iconSize }}
+                sx={{ color: isActive ? "#2F8BCC" : "#ffffff", fontSize: 28 }}
               />
             </MainIconWrapper>
 <SmallIconWrapper isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}>
               <SyncAltIcon
-                sx={{ fontSize: iconSize, color: isActive ? "#2F8BCC" : "#ffffff" }}
+                sx={{ fontSize: 15, color: isActive ? "#2F8BCC" : "#ffffff" }}
               />
             </SmallIconWrapper>
           </IconBox>

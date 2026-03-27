@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Customusersteps from '../../component/customusersteps';
@@ -31,29 +32,63 @@ boxSizing:'border-box',
 width:'auto',        
 height:'auto',
 })
-const Container = styled(Box)(({theme})=>({
-  border:`1px solid ${theme.palette.primary.main}`,
-  height:'480px',
-  width:'535px',
-  position:'relative'
-}))
-const Textb=styled(TextField)(({theme})=>({
-  width:300,
-  marginTop:4,
-  marginLeft:4,
-  '& .MuiOutlinedInput-root':{
-  fontSize:12,
-  height:30,
-  backgroundColor:theme.palette.background.paper
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
+
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
+const Textb = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  width: isExpanded ? 380 : 340,  
+  marginTop: 4,
+  marginLeft: 4,
+  transition: 'width 0.3s ease',  
+  '& .MuiOutlinedInput-root': {
+    fontSize: 12,
+    height: isExpanded ? 36 : 30,  
+    backgroundColor: theme.palette.background.paper
   }
 }))
-const Body = styled(Box)(({theme})=>({
+const Body = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
   position:'relative',
   backgroundColor: theme.palette.grey[100],
-  width:530,
-  marginLeft:2.5,
-  height:390,
+  width: isExpanded ? 600 : 530,   
+  marginLeft: 2.5,
+  height: isExpanded ? 490 : 390,
   marginTop:4
+}))
+const Analyze = styled(Button,{
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  marginTop: 1,
+   fontFamily:theme.typography.fontFamily,
+      height: isExpanded ? 36 : 30,  
+      fontSize: isExpanded ? 13 : 11, 
+      padding: isExpanded ? 20 : 15, 
+}))
+const Stop = styled(Button,{
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  marginTop: 1,
+  fontFamily:theme.typography.fontFamily,
+      width: isExpanded ? 100 : 90,   
+      height: isExpanded ? 36 : 30,  
+      fontSize: isExpanded ? 13 : 11,
 }))
 export default function Pingcard() {
   const navigate = useNavigate();
@@ -83,19 +118,30 @@ export default function Pingcard() {
       })
     )
   }
+const isExpanded = useSelector(state => state.feature.isExpanded);
+ useEffect(() => {
+    const body = document.body;
+    if (isExpanded) {
+      body.style.width = '600px';
+      body.style.height = '530px';
+    } else {
+      body.style.width = '530px';
+      body.style.height = '430px';
+    }
+  }, [isExpanded]);
 
     return (
     <div>
       <Mbox>
-                  <Container  >
+                 <Container  isExpanded={isExpanded}>
                     <Navcomponent />
-                 <Box sx={{display:'flex',alignItems:'center', gap:2}}>
-                  <Textb  placeholder="Enter a WebPage url" variant="outlined" value={url} onChange={handleUrlchange} 
+                 <Box sx={{display:'flex',alignItems:'center', gap:1}}>
+                  <Textb isExpanded={isExpanded} placeholder="Enter a WebPage url" variant="outlined" value={url} onChange={handleUrlchange} 
                   InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
-                <Button disabled={!isValidurl} variant='contained' sx={{mt:1}} onClick={handleAnalyze}>Analyze</Button>
-                <Button variant="outlined" sx={{mt:1,width:90}}>Stop</Button>
+                <Analyze disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded}>Analyze</Analyze>
+                <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
                 </Box> 
-                <Body>
+                <Body isExpanded={isExpanded}>
                      
                       {!isValidurl && (
                         <>

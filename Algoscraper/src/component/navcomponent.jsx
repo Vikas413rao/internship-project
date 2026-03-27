@@ -206,11 +206,11 @@ export default function Navcomponent() {
                 }
             </IconButton>
             <Closingbox>
-                <Ibutton><MinimizeIcon /></Ibutton>
+                <Ibutton><MinimizeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/></Ibutton>
                 <Ibutton onClick={() => dispatch(toggleExpanded())}>
-                    {isExpanded ? <FilterNoneIcon /> : <CropFreeIcon />}
+                    {isExpanded ? <FilterNoneIcon sx={(theme)=>({color:theme.palette.icon.primary})} /> : <CropFreeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/>}
                 </Ibutton>
-                <Ibutton onClick={handleCloseclick}><CloseIcon /></Ibutton>
+                <Ibutton onClick={handleCloseclick}><CloseIcon sx={(theme)=>({color:theme.palette.icon.primary})}/></Ibutton>
                 <Closingdialogbox 
                 open={open}
                 handleClose={handleClose}

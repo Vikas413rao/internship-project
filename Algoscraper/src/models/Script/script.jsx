@@ -6,10 +6,11 @@ import { Box, Card, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+
 const IconBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isactive" && prop !== "isExpanded",
 })(({ isactive, isExpanded }) => ({
-  width: isExpanded ? 90 : 80,
+  width: isExpanded ? 100 : 90,
   height: isExpanded ? 80 : 70,
   borderBottomRightRadius: "50px",
 
@@ -33,9 +34,9 @@ const MainIconWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isactive" && prop !== "isExpanded",
 })(({ isactive, isExpanded }) => ({
   position: "absolute",
-  left: isExpanded ? 26 : 22,
-  width: isExpanded ? 38 : 34,
-  height: isExpanded ? 38 : 34,
+  left: isExpanded ? 20 : 16,
+  width: isExpanded ? 48 : 44,
+  height: isExpanded ? 48 : 40,
   borderRadius: "10px",
   backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
   display: "flex",
@@ -46,16 +47,15 @@ const SmallIconWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isactive" && prop !== "isExpanded",
 })(({ isactive, isExpanded }) => ({
   position: "absolute",
-  bottom: isExpanded ? 14 : 12,
-  right: isExpanded ? 7 : 6,
-  width: isExpanded ? 30 : 26,
-  height: isExpanded ? 30 : 26,
+  bottom: isExpanded ? 22 : 18,
+  right: isExpanded ? 15 : 15,
+  width: isExpanded ? 15 : 15,
+  height: isExpanded ? 15 : 15,
   borderRadius: "8px",
-  backgroundColor: isactive ? "#E6F3FF" : "rgba(255,255,255,0.2)",
+  backgroundColor: isactive ? "#E6F3FF" :"#2F8BCC",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-
 }));
 export default function ScriptCard({ title, description,isExpanded }) {
   const [hovered, setHovered] = useState(false);
@@ -95,32 +95,35 @@ export default function ScriptCard({ title, description,isExpanded }) {
          <IconBox isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}
           ><MainIconWrapper isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}>
             <DescriptionOutlinedIcon
-              sx={{ color: isActive ? "#2F8BCC" : "#ffffff" }}
+              sx={{ color: isActive ? "#2F8BCC" : "#ffffff" ,fontSize: 28}}
             /></MainIconWrapper>
 
             <SmallIconWrapper isactive={isActive ? 1 : 0} isExpanded={isExpanded ? 1 : 0}>
-                <CodeIcon sx={{ fontSize:20,color: isActive ? "#2F8BCC" : "#ffffff" }}></CodeIcon>
+                <CodeIcon sx={{ fontSize:17,color: isActive ? "#2F8BCC" : "#ffffff" }}></CodeIcon>
             </SmallIconWrapper>
           </IconBox>
 
-          <Typography
-           
-            sx={(theme)=>({
-              fontFamily:theme.typography.fontFamily,
+           <Typography
+            sx={(theme) => ({
+              fontFamily: theme.typography.fontFamily,
               fontWeight: 600,
               color: "#2F8BCC",
               textDecoration: isActive ? "underline" : "none",
               textUnderlineOffset: "4px",
-              fontSize:titleFontSize
+              fontSize: titleFontSize
             })}
           >
             {title}
-            
           </Typography>
         </Box>
 
         {isActive && (
-          <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}} sx={{color:'black'}}>
+          <IconButton size="small" onClick={(e) =>{e.stopPropagation(); setPinned(!pinned)}}      sx={{
+        color: 'black',
+        position: 'absolute',  // 👈 key fix
+        top: 250,
+        right: 0,
+      }}>
             {pinned ? <StarIcon sx={{fontSize:iconSize,color:'#2F8BCC'}}/> : <StarBorderIcon sx={{ fontSize:iconSize,color: 'text.primary' }} />}
           </IconButton>
         )}
