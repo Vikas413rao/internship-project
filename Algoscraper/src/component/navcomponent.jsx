@@ -25,6 +25,7 @@ const Titlesection = styled(Box)(({theme})=>({
     gap: 3,                
     height:'40px',         
     width:'260px',
+    flexGrow: 1,
     borderTopRightRadius:'40px',
 }))
 const Title = styled(Typography)(({theme})=>({
@@ -40,6 +41,7 @@ const Caption = styled(Typography)(({theme})=>({
     fontWeight:500,     
     marginTop:8,
     marginLeft:-3,
+     whiteSpace: 'nowrap', 
     fontFamily: theme.typography.fontFamily,       
 }))
 const LinkBox = styled(Box)(({theme})=>({
@@ -87,7 +89,7 @@ const Iconbox = styled(Box)({
    display: 'flex',
     width:24,
     height:15,
-    marginTop:'10px',
+    marginTop:'-7px',
     gap:'5px',
     marginLeft:'10px',
 })
@@ -184,6 +186,7 @@ export default function Navcomponent() {
                 <Title>algoScraper</Title>
                 <Caption>Powered by algoshack</Caption>
             </Titlesection>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto'}}>
             <LinkBox>
                 <LinkButton onClick={()=> chrome.tabs.create({url: 'https://algoshack.net/users/login/'})} underline='none'><LinkIcon />
                 <Algo>algo</Algo>
@@ -217,6 +220,7 @@ export default function Navcomponent() {
                 handleConfirm={handleConfirm}
                 />
             </Closingbox>
+            </Box>
         </Box>
     </div>
   )

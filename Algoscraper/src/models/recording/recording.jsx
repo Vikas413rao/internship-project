@@ -1,18 +1,15 @@
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import Custombutton from '../../component/custombutton';
-import Customdialogbox from '../../component/customdialogbox';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
-import useCustomdialogbox from '../../hooks/customdialogboxhooks';
+import RecordDialog from '../../component/recorddialog';
+import { openrecord } from '../../featureSlice';
 const stepsdata = [
   'Enter Scenario details.',
   <>To record the action as you perform the actions, click <b>start recording</b></>,
@@ -21,26 +18,52 @@ const stepsdata = [
     or<br/> click <AlgoQA /> to create a new project in the algoQA platform.</>,
   <><Link underline='none' href='#' sx={{fontSize:12}}> Click Here </Link> to know More about Record Action.</>
 ];
-const Container= styled(Box)(({theme})=>({
-  border:`1px solid ${theme.palette.primary.main}`,
-  height:'480px',
-  width:'535px',
-  position:'relative'
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
 
-}))
-const Userstep=styled(Box)(({theme})=>({
-    position:'absolute',
-    backgroundColor:theme.palette.grey[200],
-    height:390,
-    width:530,
-    marginLeft:2,
-    display:'flex',
-    flexDirection:'column',
-    
-  }))
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
+const Userstep = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  backgroundColor: theme.palette.grey[200],
+  width: '100%',
+  flexGrow: 1,
+  minHeight: isExpanded ? 520 : 330,
+  padding: isExpanded ? 8 : 4,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'auto',
+  boxSizing:'border-box'
+}));
+
 export default function Recording() {
       const navigate = useNavigate(); 
-    const {open,handleOpen,handleClose,handleConfirm}=useCustomdialogbox();
+   const dispatch = useDispatch();
+    const isExpanded = useSelector(state => state.feature.isExpanded);
+     useEffect(() => {
+        const body = document.body;
+        if (isExpanded) {
+          body.style.width = '600px';
+          body.style.height = '530px';
+        } else {
+          body.style.width = '530px';
+          body.style.height = '430px';
+        }
+      }, [isExpanded]);
+    
     return (
     <div>
        <Box
@@ -50,35 +73,19 @@ export default function Recording() {
               height:'auto',
             }}
           >
-            <Container>
+           <Container  isExpanded={isExpanded}>
        <Navcomponent/>
 
     <Box>
       
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
-      <Pagename />
-      <Custombutton onClick={handleOpen} label='Record Action' />
-      <Customdialogbox open={open} onClose={handleClose} onConfirm={()=>{handleConfirm();navigate('/addscenario')}} title='Record Scenario' confirmlabel='Start Recording' canclelabel='Cancel'>
-      <FormGroup sx={{p:2}}>
-            <TextField id="outlined-basic" placeholder='Page Name' variant="outlined" required  InputProps={{sx:{fontSize:13,height:40}}} /><br></br>
-            <TextField  placeholder='Enter Scenario Name' variant="outlined" InputProps={{sx:{fontSize:13,height:40}}}/><br></br>
-             <TextField
-          id="outlined-multiline-static"
-          placeholder='Enter Scenario Outline'
-          multiline
-          rows={4}
-          required
-         InputProps={{sx:{fontSize:13}}}
-        />
-        <FormControlLabel control={<Checkbox />} label={<Typography fontSize="14px">
-      Capture Screenshots while recording
-    </Typography>}/>
-          </FormGroup>
-      </Customdialogbox>
+      <Pagename isExpanded={isExpanded}/>
+      <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' />
+      <RecordDialog mode='recording' />
        
         </Box>
-        <Userstep  >
-               <Customusersteps steps={stepsdata}/>   
+        <Userstep  isExpanded={isExpanded}>
+               <Customusersteps steps={stepsdata} isExpanded={isExpanded}/>   
                 
             </Userstep>
        

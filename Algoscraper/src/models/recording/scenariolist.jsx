@@ -4,50 +4,58 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Custombutton from '../../component/custombutton';
-import Customdialogbox from '../../component/customdialogbox';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
-import { openeditdialog } from '../../featureSlice';
+import RecordDialog from '../../component/recorddialog';
+import { openeditdialog, openrecord } from '../../featureSlice';
 import useCustomdialogbox from '../../hooks/customdialogboxhooks';
-const Container= styled(Box)(({theme})=>({
-  border:`1px solid ${theme.palette.primary.main}`,
-  height:'480px',
-  width:'535px',
-  position:'relative'
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
 
-}))
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
 const Scenario = styled(Box)(({theme})=>({
 backgroundColor:theme.palette.background.paper,
 height:30,
-width:520,
-marginLeft:4,
-marginRight:4,
-paddingTop:4,
-marginTop:3,
+margin:4,
 borderRadius:'5px',
 display:'flex',
-alignItems:'center'
+alignItems:'center',
+justifyContent:'space-between',
+padding:'0 8px'
 }))
-const List=styled(Box)(({theme})=>({
+const List = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
 display:'flex',
 alignItems:'center',
 justifyContent:'space-between',
 border:`1px solid ${theme.palette.grey[100]}`,
 borderRadius:'6px',
-padding:'4px',
+padding:'6px 8px',
 marginBottom:4,
 backgroundColor:theme.palette.background.paper,
-width:500,
-marginLeft:4,
-marginTop:4
+ width: isExpanded ? '560px' : '500px', 
+  marginLeft: 4,
+  transition: 'all 0.3s ease',
 }))
 export default function Scenariolist() {
     const navigate=useNavigate();
@@ -59,6 +67,18 @@ export default function Scenariolist() {
             navigate('/addscenario');
               
           }
+          const isExpanded = useSelector(state => state.feature.isExpanded);
+               useEffect(() => {
+                  const body = document.body;
+                  if (isExpanded) {
+                    body.style.width = '600px';
+                    body.style.height = '530px';
+                  } else {
+                    body.style.width = '530px';
+                    body.style.height = '430px';
+                  }
+                }, [isExpanded]);
+
   return (
     <div>
      <Box
@@ -68,31 +88,14 @@ export default function Scenariolist() {
               height:'auto',
             }}
           >
-            <Container >
+            <Container isExpanded={isExpanded}>
               <Navcomponent />
                 {/*record scenario */}
           <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
       
-        <Pagename />
-        <Custombutton label='Record Action' onClick={handleOpen} />
-        <Customdialogbox open={open} onClose={handleClose} onConfirm={handleConfirm} confirmlabel='Start Recording' canclelabel='Cancel' title='Record Scenario'>
-<FormGroup sx={{p:2}}>
-            <TextField id="outlined-basic" placeholder='Page Name' variant="outlined" required  InputProps={{sx:{fontSize:13,height:40}}} /><br></br>
-            <TextField id="outlined-basic" placeholder='Enter Scenario Name' variant="outlined" InputProps={{sx:{fontSize:13,height:40}}}/><br></br>
-             <TextField
-          id="outlined-multiline-static"
-          placeholder='Enter Scenario Outline'
-          multiline
-          rows={4}
-          required
-         InputProps={{sx:{fontSize:13}}}
-        />
-        <FormControlLabel control={<Checkbox />} label={<Typography fontSize="14px">
-      Capture Screenshots while recording
-    </Typography>}/>
-          </FormGroup>
-
-        </Customdialogbox>
+        <Pagename isExpanded={isExpanded}/>
+        <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' />
+              <RecordDialog mode='scenario' />
          
         </Box>
 
@@ -104,7 +107,7 @@ export default function Scenariolist() {
             </Scenario>
             {/*Scenario list */}  
           <Box>
-            <List >
+            <List isExpanded={isExpanded}>
                 <Box sx={{display:'flex',alignItems:'center',gap:1}}>
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>
@@ -116,7 +119,7 @@ export default function Scenariolist() {
                 </Box>
                 
                 </List>
-                 <List>
+                 <List isExpanded={isExpanded}>
                 <Box sx={{display:'flex',alignItems:'center',gap:1}}>
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>

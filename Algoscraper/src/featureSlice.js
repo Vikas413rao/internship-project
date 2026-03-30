@@ -50,6 +50,7 @@ const initialState = {
   scenarioOutline:'',
   editdialogopen:false,
   resetrecordopen:false,
+  recordopen:false,
   settingopen:false,
   task:tasks,
   file:null,
@@ -228,6 +229,12 @@ resetShowfinalReport (state){
   closeresetrecord:(state)=>{
     state.resetrecordopen=false;
   },
+  openrecord:(state)=>{
+    state.recordopen=true;
+  },
+  closerecord:(state)=>{
+    state.recordopen=false;
+  },
   opensettingdialog:(state)=>{
     state.settingopen=true;
   },
@@ -317,6 +324,8 @@ closeSession,
   setFile,
   setFilecontent,
   clearfile,
-  toggleTheme
+  toggleTheme,
+  openrecord,
+  closerecord
 } = featureSlice.actions;
 export default featureSlice.reducer;

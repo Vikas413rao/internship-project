@@ -1,5 +1,5 @@
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { Button, DialogActions, DialogContentText } from '@mui/material';
+import { Box, Button, DialogActions, DialogContentText } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -10,20 +10,22 @@ export default function Closingdialogbox({
 }) {
  
   return (
-    <div>
-      <Dialog open={open} onClose={handleClose}>
-            <DialogTitle sx={{color:'red',alignItems:'center',display:'flex', gap:2}}><WarningAmberIcon/>Alert</DialogTitle>
+    <div >
+      <Dialog open={open} onClose={handleClose}  maxWidth='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily})}}>
+        <Box sx={{height:40,backgroundColor:'#fdb9b9'}}>
+            <DialogTitle sx={{color:'red',alignItems:'center',display:'flex',gap:1,fontSize:15}}>
+             <WarningAmberIcon fontSize='small'/>Alert</DialogTitle></Box>
             <DialogContent>
-              <DialogContentText sx={{color:'black',textAlign:'center'}}>
+              <DialogContentText sx={(theme) =>({color:theme.palette.text.primary,textAlign:'center',fontSize:13})}>
                 Are You Sure?
               </DialogContentText>
-              <DialogContentText>
+              <DialogContentText sx={(theme)=>({fontSize:11,width:280,textAlign:'center',color:theme.palette.text.secondary})}>
                 You will not be able to recover Data.
               </DialogContentText>
             </DialogContent>
-            <DialogActions >
-              <Button onClick={handleClose} sx={{left:-60,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-              <Button variant='contained' color='info' onClick={handleConfirm} sx={{right:20}}>Confirm</Button>
+            <DialogActions sx={{alignItems:'center',justifyContent:'center',gap:4}}>
+              <Button onClick={handleClose} sx={{color:'grey',bgcolor:'grey.200',width:120,height:35}}>Cancel</Button>
+              <Button variant='contained' color='info' onClick={handleConfirm} sx={{width:120,height:35}}>Confirm</Button>
             </DialogActions>
 
           </Dialog>
