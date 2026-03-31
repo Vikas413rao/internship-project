@@ -11,15 +11,15 @@ export default function Closingdialogbox({
  
   return (
     <div >
-      <Dialog open={open} onClose={handleClose}  maxWidth='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily})}}>
+      <Dialog open={open} onClose={handleClose}  maxWidth='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily, height: 160})}}>
         <Box sx={{height:40,backgroundColor:'#fdb9b9'}}>
             <DialogTitle sx={{color:'red',alignItems:'center',display:'flex',gap:1,fontSize:15}}>
              <WarningAmberIcon fontSize='small'/>Alert</DialogTitle></Box>
-            <DialogContent>
+            <DialogContent sx={{ overflow: 'hidden', py: 2 }}>
               <DialogContentText sx={(theme) =>({color:theme.palette.text.primary,textAlign:'center',fontSize:13})}>
                 Are You Sure?
               </DialogContentText>
-              <DialogContentText sx={(theme)=>({fontSize:11,width:280,textAlign:'center',color:theme.palette.text.secondary})}>
+              <DialogContentText sx={(theme)=>({fontSize:11,width:230,textAlign:'center',color:theme.palette.text.secondary})}>
                 You will not be able to recover Data.
               </DialogContentText>
             </DialogContent>

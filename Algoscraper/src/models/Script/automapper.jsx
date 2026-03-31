@@ -9,12 +9,23 @@ import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import { updateTaskprogress } from "../../featureSlice";
 
-const Container = styled(Box)(({theme})=>({
-border:`1px solid ${theme.palette.primary.main}`,
-height:'480px',
-width:'535px',
-position:'relative'
-}))
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
+
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
 const Scenariob=styled(Box)(({theme})=>({
 backgroundColor:theme.palette.primary.main,
 height:30,
@@ -71,6 +82,17 @@ export default function Automapper(){
     clearTimeout(stop);
   };
 }, [dispatch]);
+const isExpanded = useSelector(state => state.feature.isExpanded);
+ useEffect(() => {
+    const body = document.body;
+    if (isExpanded) {
+      body.style.width = '600px';
+      body.style.height = '530px';
+    } else {
+      body.style.width = '530px';
+      body.style.height = '430px';
+    }
+  }, [isExpanded]);
 return(
   <div>
    <Box
@@ -80,12 +102,12 @@ return(
               height:'auto',
             }}
           >
-            <Container>
+            <Container isExpanded={isExpanded}>
               <Navcomponent />
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1}}>
               <Box sx={{display:'flex',alignItems:'center'}}>
-               <Pagename />
+               <Pagename isExpanded={isExpanded} />
               </Box>
               </Box>
               {/*scenario */}

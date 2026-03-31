@@ -56,6 +56,7 @@ const initialState = {
   file:null,
   filename:'',
   filecontent:'',
+
   isExpanded: false,
 };
 
@@ -326,6 +327,6 @@ closeSession,
   clearfile,
   toggleTheme,
   openrecord,
-  closerecord
+  closerecord,
 } = featureSlice.actions;
 export default featureSlice.reducer;

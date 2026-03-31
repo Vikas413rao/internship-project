@@ -13,16 +13,16 @@ export default function Customdialogbox({
   
   return (
     <div>
-      <Dialog open={open} onClose={onClose} >
+      <Dialog open={open} onClose={onClose} width='xs' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:200,display:'flex',flexDirection:'column',overflow:'hidden'})}}>
               <DialogTitle>{title}</DialogTitle>
               {showClose && (
               <IconButton onClick={onClose} sx={{position:'absolute',top:10,right:10}}><CloseIcon /></IconButton>)}
-              <DialogContent>
+              <DialogContent sx={{fontSize:12,width:320,overflow:'hidden'}}>
                 {children}
               </DialogContent>
-              <DialogActions>
-                <Button onClick={onClose} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>{canclelabel}</Button>
-                    <Button onClick={onConfirm} variant='contained' color='info'  sx={{right:10}}>{confirmlabel}</Button>
+               <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 2 }}>
+                <Button onClick={onClose} sx={{color:'grey',bgcolor:'grey.200'}}>{canclelabel}</Button>
+                    <Button onClick={onConfirm} variant='contained' color='info' >{confirmlabel}</Button>
               </DialogActions>
             </Dialog>
     </div>

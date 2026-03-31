@@ -1,4 +1,5 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { closerecord } from '../featureSlice';
@@ -21,12 +22,15 @@ export default function RecordDialog({mode}) {
         open={Openrecord}
         onClose={handleClose}
        maxWidth="xs" 
-       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily, width: 320,height:350,display:'flex',flexDirection:'column',overflow:'hidden'})}}
+       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily, width: 300,height:320,display:'flex',flexDirection:'column',overflow:'hidden'})}}
       >
-        <Box sx={{ borderBottom:'1px solid #ccc' ,height:40,backgroundColor:'#f1eeee'}}>
+        <Box sx={{ borderBottom:'1px solid #ccc' ,height:40,backgroundColor:'#f1eeee',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <DialogTitle sx={{ fontSize: 16, fontWeight: 600 }}>
           Record Scenario
         </DialogTitle>
+        <IconButton onClick={handleClose} size='small'>
+    <CloseIcon fontSize='small' />
+  </IconButton>
         </Box>
         <DialogContent  sx={{
       flex: 1,
@@ -37,17 +41,17 @@ export default function RecordDialog({mode}) {
       overflow: "hidden",
       ml:2
     }}>
-          <FormGroup sx={{  gap: 1,mt:0 }}>
+          <FormGroup sx={{  gap: 1 }}>
             <TextField
               placeholder="Page Name"
               width='small'
-              InputProps={{ sx: { fontSize: 13, height: 40 } }}
+              InputProps={{ sx: { fontSize: 13, height: 30 } }}
             />
 
             <TextField
               placeholder="Enter Scenario Name"
               width='small'
-              InputProps={{ sx: { fontSize: 13, height: 40 } }}
+              InputProps={{ sx: { fontSize: 13, height: 30 } }}
             />
 
             <TextField
@@ -74,9 +78,10 @@ export default function RecordDialog({mode}) {
             onClick={handleClose}
             sx={{
               width: 120,
-              height: 35,
+              height: 30,
               bgcolor: "grey.200",
-              color: "grey"
+              color: "grey",
+              fontSize: 12,
             }}
           >
             Cancel
@@ -85,7 +90,7 @@ export default function RecordDialog({mode}) {
           <Button
             variant="contained"
             onClick={handleConfirm}
-            sx={{ width: 150, height: 35 }}
+            sx={{ width: 125, height: 30 ,fontSize:12}}
           >
             Start Recording
           </Button>

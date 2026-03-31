@@ -3,12 +3,13 @@ import CropSquareOutlinedIcon from "@mui/icons-material/CropSquareOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Box, Button, FormControl, FormControlLabel, InputLabel, Radio, Select, Stack, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Customdialogbox from "../../component/customdialogbox";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import useCustomdialogbox from "../../hooks/customdialogboxhooks";
-
 const Buttonarrow=styled(Button)(({theme})=>({
     minWidth:0,
     width:'24px',
@@ -20,12 +21,23 @@ const Buttonarrow=styled(Button)(({theme})=>({
 const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
-const Container = styled(Box)(({theme})=>({
-border:`1px solid ${theme.palette.primary.main}`,
-height:'480px',
-width:'535px',
-position:'relative'
-}))
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
+
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
 const Scenariob=styled(Box)(({theme})=>({
 backgroundColor:theme.palette.primary.main,
 height:40,
@@ -69,6 +81,17 @@ export default function Scenariofile(){
 ];
 const navigate=useNavigate();
 const {open,handleOpen,handleClose,handleConfirm}=useCustomdialogbox();
+const isExpanded = useSelector(state => state.feature.isExpanded);
+ useEffect(() => {
+    const body = document.body;
+    if (isExpanded) {
+      body.style.width = '600px';
+      body.style.height = '530px';
+    } else {
+      body.style.width = '530px';
+      body.style.height = '430px';
+    }
+  }, [isExpanded]);
               return(
                 <div>
     <Box
@@ -78,12 +101,12 @@ const {open,handleOpen,handleClose,handleConfirm}=useCustomdialogbox();
               height:'auto',
             }}
           >
-            <Container>
+            <Container isExpanded={isExpanded}>
               <Navcomponent />
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1}}>
               <Box sx={{display:'flex',alignItems:'center'}}>
-                <Pagename />
+                <Pagename isExpanded={isExpanded}/>
               </Box>
               </Box>
                <Scenariob >

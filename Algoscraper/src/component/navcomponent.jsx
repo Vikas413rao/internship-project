@@ -10,12 +10,19 @@ import MinimizeIcon from '@mui/icons-material/Minimize';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
 import { Box, Button, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
 import Closingdialog from '../hooks/alertdialoboxhooks';
 import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
+const isChromeAvailable =
+  typeof chrome !== "undefined" &&
+  chrome.storage &&
+  chrome.action &&
+  chrome.tabs;
+
 const Titlesection = styled(Box)(({theme})=>({
     padding:8,
     backgroundColor: theme.palette.primary.main,
@@ -23,7 +30,7 @@ const Titlesection = styled(Box)(({theme})=>({
     display:'flex',
     alignItems:'center',
     gap: 3,                
-    height:'40px',         
+    height:'38px',         
     width:'260px',
     flexGrow: 1,
     borderTopRightRadius:'40px',
@@ -144,6 +151,7 @@ const Buttonarrow=styled(Button)(({theme})=>({
 const ArrowBackIcon =styled(ArrowBackIosIcon)({
     marginLeft:'8px'
 })
+
 export default function Navcomponent() {
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
     const navigate=useNavigate();
@@ -171,10 +179,43 @@ export default function Navcomponent() {
         navigate(nextRoute);
 
     }
+     useEffect(() => {
+    if (!isChromeAvailable) return;
+
+    chrome.storage.local.get(['isMinimized'], (result) => {
+      if (result?.isMinimized) {
+        chrome.action.setBadgeText({ text: '' });
+        chrome.storage.local.set({ isMinimized: false });
+      }
+    });
+  }, []);
     const dispatch = useDispatch();
     const pagelist=[{value:'Page List',label:'Page List'}]
     const mode= useSelector((state)=>state.feature.themMode)
      const isExpanded = useSelector(state => state.feature.isExpanded); 
+
+  
+  useEffect(() => {
+    const body = document.body;
+    body.style.width = isExpanded ? '600px' : '530px';
+    body.style.height = isExpanded ? '530px' : '430px';
+  }, [isExpanded]);
+
+   const handleMinimize = () => {
+
+     if (isChromeAvailable) {
+    chrome.storage.local.set({
+      isMinimized: true,
+      lastRoute: location.pathname   
+    });
+
+    chrome.action.setBadgeText({ text: '●' });
+    chrome.action.setBadgeBackgroundColor({ color: '#1976d2' });
+  }
+
+
+    window.close();
+  };
   return (
     <div>
       
@@ -209,7 +250,7 @@ export default function Navcomponent() {
                 }
             </IconButton>
             <Closingbox>
-                <Ibutton><MinimizeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/></Ibutton>
+                <Ibutton onClick={handleMinimize}><MinimizeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/></Ibutton>
                 <Ibutton onClick={() => dispatch(toggleExpanded())}>
                     {isExpanded ? <FilterNoneIcon sx={(theme)=>({color:theme.palette.icon.primary})} /> : <CropFreeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/>}
                 </Ibutton>

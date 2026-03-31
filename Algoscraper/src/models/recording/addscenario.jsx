@@ -207,7 +207,7 @@ export default function Addscenario() {
                                   />
                                    </Box>
                         </Box>
-                      <Box sx={{flexGrow:1,mt:1,ml:2,minHeight:250}}>
+                      <Box sx={{flexGrow:1,minHeight:250}}>
                      <TableComponent 
                                columns={AllColumns}
                                selectedColumns={selectedcolumns}

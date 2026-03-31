@@ -10,12 +10,23 @@ import Custombutton from "../../component/custombutton";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import { clearfile, setFilecontent } from "../../featureSlice";
-const Container = styled(Box)(({theme})=>({
-border:`1px solid ${theme.palette.primary.main}`,
-height:'480px',
-width:'535px',
-position:'relative'
-}))
+const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  border: `1px solid ${theme.palette.primary.main}`,
+
+  width: isExpanded ? '600px' : '530px',
+  height: isExpanded ? '530px' : '430px',
+
+  position: 'relative',  
+  margin: 0,
+
+  backgroundColor: theme.palette.background.paper,
+
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  transition: 'all 0.3s ease',
+}));
 const Filebox = styled(Box)(({theme})=>({
 backgroundColor:theme.palette.grey[300],
 padding:'2px 8px',
@@ -28,16 +39,17 @@ gap:2,
 width:'fit-content',
 maxWidth:'95%'
 }))
-const Imgbox=styled(Box)(({theme})=>({
-backgroundColor:theme.palette.grey[100],
-marginLeft:2,
-marginRight:2,
-height:357,
-display:'flex',
-alignItems:'center',
-justifyContent:'center',
-flexDirection:'column'
-}))
+const Imgbox = styled(Box)(({ theme, Expanded }) => ({
+  backgroundColor: theme.palette.grey[100],
+  marginLeft: 2,
+  marginRight: 2,
+  height: Expanded ? 450 : 357,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  transition: 'all 0.3s ease'
+}));
 const Filename = styled(Typography)(({theme})=>({
   color:theme.palette.primary.main,
   fontSize:14,
@@ -65,6 +77,17 @@ export default function EmptyScraper () {
      const handleClosefile = () =>{
       dispatch(clearfile());
      }
+     const isExpanded = useSelector(state => state.feature.isExpanded);
+      useEffect(() => {
+         const body = document.body;
+         if (isExpanded) {
+           body.style.width = '600px';
+           body.style.height = '530px';
+         } else {
+           body.style.width = '530px';
+           body.style.height = '430px';
+         }
+       }, [isExpanded]);
     return(
          <div>
           <Box
@@ -74,12 +97,12 @@ export default function EmptyScraper () {
               height:'auto',
             }}
           >
-            <Container >
+            <Container  isExpanded={isExpanded}>
               <Navcomponent />
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
-              <Pagename />
-              <Custombutton label='Scraper UI' onClick={()=>navigate('/tablescreen')}/>
+              <Pagename  isExpanded={isExpanded}/>
+              <Custombutton  isExpanded={isExpanded} label='Scraper UI' onClick={()=>navigate('/tablescreen')}/>
               </Box>
               {/*file name */}
               <Filebox >
@@ -87,24 +110,10 @@ export default function EmptyScraper () {
                 <Filename >{filename || 'File.txt'}</Filename>
                 <IconButton size="small" onClick={handleClosefile}><CloseIcon sx={{color:'black',ml:2}} fontSize='small' /></IconButton>
               </Filebox>
-              <Imgbox >
-              {content ?(
-                <Typography
-            sx={{
-              fontSize:12,
-              padding:2,
-              whiteSpace:"pre-wrap",
-              overflow:"auto"
-                }}
-                >
-                {content}
-                </Typography>
-              ):(
-                <>
+             <Imgbox Expanded={isExpanded}>
                 <img src={Image}/>
                 <Typography sx={{fontSize:13}}>Scrape the Relevant pages of X-Path</Typography>
-              </>
-              )}
+            
               </Imgbox>
           </Container>
           </Box>
