@@ -1,9 +1,9 @@
-import { Box, Button, Pagination, Typography } from '@mui/material';
+import { Box, Button, Pagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRow, setPage } from '../featureSlice';
 const Page=styled(Pagination)(({theme})=>({
-    marginLeft:90,
+    marginLeft:60,
     '& .Mui-selected':{
         backgroundColor:'#2F8BCC',
         color:theme.palette.common.white
@@ -19,7 +19,7 @@ const Pbox = styled(Box)({
     alignItems:'center',
     justifyContent:'space-between',
     width:'100%',
-
+ position: 'relative',
 })
 const Bbox = styled(Box)({
   flexShrink:0,
@@ -30,7 +30,7 @@ const Bbox = styled(Box)({
   borderTop:'1px solid rgba(0,0,0,0.25)'
 })
 
-export default function BPagination({totalRows}) {
+export default function BPagination({totalRows, errorMessage}) {
     const dispatch = useDispatch();
     const {currentPage,rowsperPage} = useSelector(state =>state.feature);
     const totalPages = Math.ceil(totalRows/rowsperPage);
@@ -44,13 +44,18 @@ export default function BPagination({totalRows}) {
     <div>
         <Bbox>
         <Pbox>
-      <Box sx={{display:'flex',alignItems:'center',gap:2}}>
+      <Box sx={{display:'flex',alignItems:'center',gap:1}}>
     <Button variant='contained' size='small'  onClick={handleAddrow}>+ Row</Button>
-    <Typography sx={{fontSize:12,color:'red'}}>Error will be displayed here</Typography>
-   
+    {errorMessage && errorMessage.length >0 && (
+        <Box>
+            {errorMessage.map((err,index)=>(
+    <div key={index} style={{fontSize:'11px',color:'red'}}>{err}</div>
+            ))}
     </Box>
-    <Box sx={{flexGrow:1}}>
-     <Page count={totalPages} page={currentPage} onChange={handlepageclick} shape="rounded"  siblingCount={0} boundaryCount={1} showFirstButton showLastButton  size='small'/>
+    )}
+    </Box>
+    <Box sx={{position:'absolute',right:45}}>
+     <Page count={totalPages} page={currentPage} onChange={handlepageclick} shape="rounded"  siblingCount={1} boundaryCount={0} showFirstButton showLastButton  size='small'/>
          </Box>
          </Pbox>
          </Bbox>

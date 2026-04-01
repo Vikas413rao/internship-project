@@ -122,10 +122,36 @@ export default function TableComponent({columns,isExpanded}) {
   const dispatch = useDispatch();
 const filteredRows =rows.filter(row => row.contentName?.toLowerCase().includes(searchterm.toLowerCase() || ''));
  const paginatedrows = filteredRows.slice(startIndex,startIndex+rowsperPage);
-
- //columns width state//
+const [validationError,setvalidationError]=useState({});
  const [colsWidth,setColWidth] = useState({});
 
+ const validateField = (id,key,value)=>{
+  let error ='';
+  if(key === 'contentName'){
+    if(/\d/.test(value)){
+      error = 'Content name must not conatin numbers.';
+    }
+  }
+  if(key === 'Xpath'){
+    const xpathpattern = /^(\/|\/\/|@|\(|[a-zA-Z_][\w-]*::)/;
+  if(value && ! xpathpattern.test(value)){
+    error = 'Xpath must be valid Xpath expression'
+  }
+  }
+
+  setvalidationError(prev =>{
+    const next = {...prev};
+    if(error){
+      next[`${id}_${key}`]=error;
+    }
+    else{
+      delete next [`${id}_${key}`];
+    }
+    return next
+  })
+ }
+
+const allError = Object.values(validationError);
  const handleResize = (e,key) =>{
   const startX = e.clientX;
   const startWidth = colsWidth[key] || 70;
@@ -168,7 +194,8 @@ document.addEventListener('mouseup',onMouseUp)
                       <Resizer onMouseDown={(e)=>handleResize(e,col.key)}/>
                       {col.key === 'contentName' && (
                     <StyledTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
-                    onChange={(e) =>dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}))}
+                   error={!!validationError[`${row.id}_contentName`]} onChange={(e) =>{validateField(row.id,'contentName',e.target.value);
+                    dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}));}}
                      InputProps={{ disableUnderline: true }}/>)}
                     {col.key === 'controlType' && (
                      <FormControl size='small'>
@@ -193,11 +220,12 @@ document.addEventListener('mouseup',onMouseUp)
             {col.key === 'Xpath' && (
                    <Xpath variant='standard' fullWidth
                    value={row[col.key] || ''}
-                   onChange={(e)=>dispatch(updateRow({
+                   error={!!validationError[`${row.id}_Xpath`]}
+                   onChange={(e)=>{validateField(row.id, 'Xpath',e.target.value); dispatch(updateRow({
                     id: row.id,
                     key: col.key,
                     value: e.target.value
-                   }))} 
+                   }));}}
                   />
        )}
         {!['contentName','controlType','Xpath'].includes(col.key) && (
@@ -218,7 +246,7 @@ document.addEventListener('mouseup',onMouseUp)
             </Styledtable>
           </StyledTableContainer>
           </Tablebox>
-          <BPagination totalRows={filteredRows.length} />
+          <BPagination totalRows={filteredRows.length} errorMessage={allError}/>
           </TBbox>
 
   )
