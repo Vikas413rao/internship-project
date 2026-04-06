@@ -26,8 +26,8 @@ import RecordDialog from '../../component/recorddialog';
 import Resetrecorddialog from '../../component/resetrecorddialog';
 import Settingdialog from '../../component/settingdialog';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setselectcolumns } from '../../featureSlice';
-import useCustomdialogbox from '../../hooks/customdialogboxhooks';
+import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setSearchterm, setselectcolumns } from '../../featureSlice';
+
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -73,20 +73,19 @@ const Userstep = styled(Box, {
     gap:4,
     marginLeft:'auto'
   })
-  const Setting=styled(Button)(({theme})=>({
-    minWidth:0,
-    width:30,
-    backgroundColor:theme.palette.background.paper,
-    height:25,
-    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',
-  }))
   const AfterSetting=styled(Button)(({theme})=>({
     minWidth:0,
     width:30,
     backgroundColor:theme.palette.background.paper,
     height:25,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)',
-    left:120,
+  }))
+   const Recordi=styled(Button)(({theme})=>({
+    minWidth:0,
+    width:30,
+    backgroundColor:theme.palette.background.paper,
+    height:25,
+    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
   }))
   const Stext = styled(TextField)(({theme})=>({
     width:250,
@@ -117,13 +116,12 @@ export default function Addscenario() {
       const navigate = useNavigate(); 
   const dispatch=useDispatch();
       
-   
+   const open = useSelector(state => state.feature.recordopen);
    const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
        const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
   const Opencheck =useSelector (state => state.feature.checkDialog);
   const handleOpencheck = () =>{dispatch(openCheckDialog())};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
-   const {open,handleClose,handleOpen,handleConfirm}=useCustomdialogbox();
     const isExpanded = useSelector(state => state.feature.isExpanded);
      useEffect(() => {
         const body = document.body;
@@ -158,39 +156,39 @@ export default function Addscenario() {
                 <Typography color='text.secondary' sx={{p:2,fontSize:13}}>Scenario Name:
                   <span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                   <Buttonbox >
-                <Setting size='small'  onClick={()=>dispatch(opensettingdialog())}><SettingsIcon sx={{color:'#2F8BCC'}}/></Setting>
+                <AfterSetting size='small'  onClick={()=>dispatch(opensettingdialog())}><SettingsIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
                  <Settingdialog />
                  
-                <Setting size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></Setting>
-                <Setting size='small'  onClick={()=>dispatch(openeditdialog())}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <AfterSetting size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></AfterSetting>
+                <AfterSetting size='small'  onClick={()=>dispatch(openeditdialog())}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
                 <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
-                </Setting>
+                </AfterSetting>
                 <Editscenariodialog />
-                <Setting size='small' ><DeleteOutlineOutlinedIcon /></Setting>
+                <AfterSetting size='small' ><DeleteOutlineOutlinedIcon /></AfterSetting>
         </Buttonbox>
        </Scenario>
        ):(
        <Scenario>
                 <Typography  color='text.secondary'  sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                 <Buttonbox>
-                <AfterSetting size='small'  ><SettingsIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
+                <Recordi size='small'  ><SettingsIcon sx={{color:'#2F8BCC'}}/></Recordi>
                  
-                <AfterSetting size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></AfterSetting>
-                <AfterSetting size='small' ><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <Recordi size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></Recordi>
+                <Recordi size='small' ><CropSquareOutlinedIcon sx={{fontSize:24}}/>
                 <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
-                </AfterSetting>
-                <AfterSetting size='small'><DeleteOutlineOutlinedIcon /></AfterSetting>
+                </Recordi>
+                <Recordi size='small'><DeleteOutlineOutlinedIcon /></Recordi>
                
-                <AfterSetting size="small"  ><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
+                <Recordi size="small"  ><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Recordi>
                         
-                       <AfterSetting size='small'><RemoveRedEyeOutlinedIcon /></AfterSetting>
-                <AfterSetting size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
+                       <Recordi size='small'><RemoveRedEyeOutlinedIcon /></Recordi>
+                <Recordi size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Recordi>
        </Buttonbox>
        </Scenario>
        )}
             <Userstep isExpanded={isExpanded}>
                   <Box sx={{display:'flex',alignItems:'center'}}>
-                      <Stext id="outlined-basic" placeholder="Search"  variant="outlined" InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}} />
+                      <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))}  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}} />
                         <Box sx={{display:'flex',ml:'auto',gap:1
                         }}>
                         <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>

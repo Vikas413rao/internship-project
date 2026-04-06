@@ -10,14 +10,15 @@ export default function Editscenariodialog() {
     const OpenEditdialog = useSelector(state =>state.feature.editdialogopen)
   return (
     <div>
-      <Dialog open={OpenEditdialog} onClose={()=>dispatch(closeeditdialog())} >
-              <DialogTitle>Edit Scenario</DialogTitle>
-              <DialogContent>
-                <FormGroup sx={{p:2,gap:2,width:360}}>
+      <Dialog open={OpenEditdialog} onClose={()=>dispatch(closeeditdialog())} width='sm'
+       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:265,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
+              <DialogTitle sx={{height:40}}>Edit Scenario</DialogTitle>
+              <DialogContent sx={{overflow:'hidden',p:1}}>
+                <FormGroup sx={{p:1,gap:1}}>
              <TextField
              placeholder="Enter Scenario Name"
           id="outlined-size-small"
-          size="small"
+          sx={{width:270,'& .MuiInputBase-input':{fontSize:13,height:20}}}
           value={scenarioname}
           onChange={(e)=>dispatch(setScenarioName(e.target.value))}
         />
@@ -26,15 +27,16 @@ export default function Editscenariodialog() {
           placeholder="Scenario Outline"
           required
           multiline
-          rows={4}
+          rows={3}
+          sx={{width:270,'& .MuiInputBase-input':{fontSize:12}}}
           value={scenariooutline}
           onChange={(e)=>dispatch(setScenarioOutline(e.target.value))}
         />
         </FormGroup>
               </DialogContent>
-              <DialogActions>
-                <Button onClick={()=>dispatch(closeeditdialog())} sx={{left:-20,color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-                    <Button onClick={()=>{dispatch(closeeditdialog());dispatch(clearScenario());}} variant='contained' color='info'  sx={{right:10}}>Save</Button>
+              <DialogActions sx={{display:'flex',justifyContent:'space-between'}}>
+                <Button onClick={()=>dispatch(closeeditdialog())} sx={{color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
+                    <Button onClick={()=>{dispatch(closeeditdialog());dispatch(clearScenario());}} variant='contained' color='info'>Save</Button>
               </DialogActions>
             </Dialog>
     </div>

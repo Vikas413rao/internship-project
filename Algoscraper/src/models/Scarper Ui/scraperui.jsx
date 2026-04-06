@@ -8,7 +8,6 @@ import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { InputAdornment } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import DialogContentText from '@mui/material/DialogContentText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
@@ -20,13 +19,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
-import Customdialogbox from '../../component/customdialogbox';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
+import Resetrecorddialog from "../../component/resetrecorddialog";
+import Customdialogbox from '../../component/Stepdetail';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, setnextopen, setSearchterm, setselectcolumns } from "../../featureSlice";
-import useCustomdialogbox from "../../hooks/customdialogboxhooks";
+import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, openresetrecord, setnextopen, setSearchterm, setselectcolumns,openediturl } from "../../featureSlice";
+import Editurl from "../../component/Editurl";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -202,9 +202,6 @@ export default function Scraperui() {
       }
     )
   }
-
-    
-const {open,handleOpen,handleConfirm,handleClose}=useCustomdialogbox();
 const isExpanded = useSelector(state => state.feature.isExpanded);
  useEffect(() => {
     const body = document.body;
@@ -245,11 +242,11 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       }}>
            
           
-    <Linkedit size="small" onClick={handleOpen} >
+    <Linkedit size="small" onClick={()=>dispatch(openediturl())} >
       <LinkIcon sx={{color:'#2F8BCC',fontSize:19}}/>
       <Editicon  />
       </Linkedit>
-       <Customdialogbox open={open}onClose={handleClose} onConfirm={handleConfirm} title='Application URL' confirmlabel='Save'  canclelabel='Cancel' showClose={false}><Edittext id="outlined-basic" placeholder="Edit Link"  variant="outlined"  /></Customdialogbox>
+       <Editurl />
       </Tooltip>
     </Box>
     {/*User Steps */}
@@ -265,10 +262,9 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
           <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))} 
           InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
             <Box sx={{display:'flex',gap:1}}>
-            <Ibutton size="small" onClick={handleOpendialog}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Customdialogbox open={Opendialog} onClose={handleClosedialog} onConfirm={()=>{handleConfirm();handleclosenext()}} title='Confirm Reset' confirmlabel='Yes' canclelabel='No'>
-              <DialogContentText>Are you sure you want to refresh? All unsaved data will be lost.</DialogContentText>
-              </Customdialogbox>
+            <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+          <Resetrecorddialog />
+                                 
             <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
             <Ibutton size="small"  onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
            <Checkdialogbox

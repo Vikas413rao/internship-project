@@ -116,8 +116,8 @@ const StyledTableContainer = styled(TableContainer, {
 
   backgroundColor: theme.palette.background.paper,
 }));
-export default function TableComponent({columns,isExpanded}) {
-  const {currentPage,rowsperPage,rows,selectcolumns,searchterm} = useSelector(state =>state.feature)
+export default function TableComponent({columns,isExpanded,searchterm = ''}) {
+  const {currentPage,rowsperPage,rows,selectcolumns} = useSelector(state =>state.feature)
   const startIndex = (currentPage - 1) * rowsperPage;
   const dispatch = useDispatch();
 const filteredRows =rows.filter(row => row.contentName?.toLowerCase().includes(searchterm.toLowerCase() || ''));

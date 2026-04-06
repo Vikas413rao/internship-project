@@ -56,7 +56,7 @@ const initialState = {
   file:null,
   filename:'',
   filecontent:'',
-
+  editurl:false,
   isExpanded: false,
 };
 
@@ -271,6 +271,10 @@ resetShowfinalReport (state){
   toggleExpanded: (state) => {
   state.isExpanded = !state.isExpanded;
 },
+openediturl:(state)=>{
+  state.editurl=true;
+},
+closeediturl:(state)=>{state.editurl=false;},
 },
 
 });
@@ -328,5 +332,7 @@ closeSession,
   toggleTheme,
   openrecord,
   closerecord,
+  openediturl,
+  closeediturl,
 } = featureSlice.actions;
 export default featureSlice.reducer;

@@ -14,7 +14,7 @@ import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import RecordDialog from '../../component/recorddialog';
 import { openeditdialog, openrecord } from '../../featureSlice';
-import useCustomdialogbox from '../../hooks/customdialogboxhooks';
+
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -33,7 +33,7 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 const Scenario = styled(Box)(({theme})=>({
-backgroundColor:theme.palette.background.paper,
+backgroundColor:theme.palette.grey[100],
 height:30,
 margin:4,
 borderRadius:'5px',
@@ -48,7 +48,7 @@ const List = styled(Box, {
 display:'flex',
 alignItems:'center',
 justifyContent:'space-between',
-border:`1px solid ${theme.palette.grey[100]}`,
+border:`1px solid ${theme.palette.grey[300]}`,
 borderRadius:'6px',
 padding:'6px 8px',
 marginBottom:4,
@@ -60,7 +60,7 @@ backgroundColor:theme.palette.background.paper,
 export default function Scenariolist() {
     const navigate=useNavigate();
     const dispatch =useDispatch();
-    const {open,handleOpen,handleClose,handleConfirm}=useCustomdialogbox();
+
     
           const handleedit = () =>{
            dispatch(openeditdialog());
@@ -106,7 +106,7 @@ export default function Scenariolist() {
             <Button disabled size='small' sx={{minWidth:0,p:2}}><DeleteOutlineOutlinedIcon sx={{fontSize:20}} /></Button>
             </Scenario>
             {/*Scenario list */}  
-          <Box>
+          <Box sx={{p:1}}>
             <List isExpanded={isExpanded}>
                 <Box sx={{display:'flex',alignItems:'center',gap:1}}>
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>

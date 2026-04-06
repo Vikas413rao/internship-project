@@ -150,7 +150,7 @@ const handleClosefile = () =>{
               {/*table */}
               <Tbox isExpanded={isExpanded} >
       <Box sx={{display:'flex',alignItems:'center'}}>
-          <Search id="outlined-basic" placeholder="Search"  variant="outlined" InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),}} />
+          <Search id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))}  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),}} />
             <Box sx={{display:'flex',gap:1 ,marginLeft: 'auto',    marginRight: 1     }}>
             <Ibutton size="small"  onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
             <Resetrecorddialog />
