@@ -9,14 +9,14 @@ export default function Settingdialog() {
     const Opensetting = useSelector(state=>state.feature.settingopen)
   return (
     <div>
-      <Dialog open={Opensetting} onClose={()=>dispatch(closesettingdialog())} width='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:200,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
-              <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between',position:'relative',p:1,height:40}}>
-              <DialogTitle>Edit Scenario</DialogTitle>
+      <Dialog open={Opensetting} onClose={()=>dispatch(closesettingdialog())} width='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:170,display:'flex',flexDirection:'column',overflow:'hidden',width:280})}}>
+              <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between',position:'relative',p:2,height:30}}>
+              <DialogTitle sx={{fontSize:14}}>Edit Scenario</DialogTitle>
               <IconButton onClick={()=>dispatch(closesettingdialog())} ><CloseIcon /></IconButton></Box>
               <DialogContent sx={{overflow:'hidden'}}>
-                <FormGroup sx={{p:2,width:320,mt:-2}}>
-              <FormControlLabel control={<Checkbox defaultChecked />} label="Enable Mouse hover event" />
-               <FormControlLabel  control={<Checkbox />} label="Enable scroll event" />
+                <FormGroup sx={{p:2,width:320,mt:-4,ml:-2}}>
+              <FormControlLabel control={<Checkbox defaultChecked size='small' />} label="Enable Mouse hover event" sx={{'& .MuiFormControlLabel-label':{fontSize:13}}}/>
+               <FormControlLabel  control={<Checkbox size='small' />} label="Enable scroll event" sx={{'& .MuiFormControlLabel-label':{fontSize:13}}} />
                
         </FormGroup>
               </DialogContent>

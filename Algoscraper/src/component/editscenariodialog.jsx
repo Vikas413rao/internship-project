@@ -11,8 +11,8 @@ export default function Editscenariodialog() {
   return (
     <div>
       <Dialog open={OpenEditdialog} onClose={()=>dispatch(closeeditdialog())} width='sm'
-       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:265,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
-              <DialogTitle sx={{height:40}}>Edit Scenario</DialogTitle>
+       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:250,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
+              <DialogTitle sx={{height:25,p:1,fontSize:13}}>Edit Scenario</DialogTitle>
               <DialogContent sx={{overflow:'hidden',p:1}}>
                 <FormGroup sx={{p:1,gap:1}}>
              <TextField
