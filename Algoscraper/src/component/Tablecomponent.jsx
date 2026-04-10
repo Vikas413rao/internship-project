@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRow, updateRow } from '../featureSlice';
 import BPagination from './pagination';
-
+import CustomTextField from './Textfeild';
 const Tablebox = styled(Box)(({theme})=>({
     flex:1,
     overflowY:'auto',
@@ -193,10 +193,11 @@ document.addEventListener('mouseup',onMouseUp)
                     <StyledCell sx={{fontSize:12}} key = {col.key}width={colsWidth[col.key]}>
                       <Resizer onMouseDown={(e)=>handleResize(e,col.key)}/>
                       {col.key === 'contentName' && (
-                    <StyledTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
+                 <CustomTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
                    error={!!validationError[`${row.id}_contentName`]} onChange={(e) =>{validateField(row.id,'contentName',e.target.value);
                     dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}));}}
-                     InputProps={{ disableUnderline: true }}/>)}
+                     InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' expandedHeight='30px' expandedWidth='120px'/>
+                      )}
                     {col.key === 'controlType' && (
                      <FormControl size='small'>
              
@@ -218,24 +219,22 @@ document.addEventListener('mouseup',onMouseUp)
               </Styledselect>
             </FormControl>)}
             {col.key === 'Xpath' && (
-                   <Xpath variant='standard' fullWidth
-                   value={row[col.key] || ''}
-                   error={!!validationError[`${row.id}_Xpath`]}
-                   onChange={(e)=>{validateField(row.id, 'Xpath',e.target.value); dispatch(updateRow({
+                  
+                  <CustomTextField variant='standard' isLink fullWidth value = {row[col.key] || ''} onChange={(e)=>{validateField(row.id, 'Xpath', e.target.value); dispatch(updateRow({
                     id: row.id,
                     key: col.key,
                     value: e.target.value
-                   }));}}
-                  />
+                  }));}} InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' extendedHeight='28px'/>
        )}
         {!['contentName','controlType','Xpath'].includes(col.key) && (
-          <StyledTextField variant='standard' isExpanded={isExpanded}  fullWidth
+          <CustomTextField variant='standard' isExpanded={isExpanded}  fullWidth
           value={row[col.key] || ''}
           onChange={(e)=>dispatch(updateRow({
             id: row.id,
             key: col.key,
             value: e.target.value
-          }))} InputProps={{ disableUnderline: true }}/>
+          }))} InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' expandedHeight='30px' expandedWidth='120px'/>
+        
         )}
       </StyledCell>
             ))}

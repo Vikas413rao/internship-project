@@ -1,5 +1,4 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { InputAdornment, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Customusersteps from '../../component/customusersteps';
 import Loaderprogress from '../../component/loaderprogress';
 import Navcomponent from '../../component/navcomponent';
+import CustomTextField from '../../component/Textfeild';
 import { openLoader, setAnalyzedat, setUrl, setValidUrl } from '../../featureSlice';
 const Beforeurl =[
 ' Enter a valid URL',
@@ -136,8 +136,8 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                  <Container  isExpanded={isExpanded}>
                     <Navcomponent />
                  <Box sx={{display:'flex',alignItems:'center', gap:1}}>
-                  <Textb isExpanded={isExpanded} placeholder="Enter a WebPage url" variant="outlined" value={url} onChange={handleUrlchange} 
-                  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
+                  <CustomTextField isSearch isExpanded={isExpanded} placeholder='Enter a Webpage Url' margin='0px 0px 0px 3px' variant='outlined' value={url} 
+                  onChange={handleUrlchange} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
                 <Analyze disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded}>Analyze</Analyze>
                 <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
                 </Box> 

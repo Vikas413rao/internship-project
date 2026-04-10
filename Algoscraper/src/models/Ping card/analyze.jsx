@@ -1,11 +1,11 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Link, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Loaderprogress from '../../component/loaderprogress.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
+import CustomTextField from '../../component/Textfeild.jsx';
 import { openLoader, setShowfinalReport } from '../../featureSlice.js';
 const Mbox = styled(Box)({
   boxSizing:'border-box',
@@ -169,8 +169,8 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                   <Container  isExpanded={isExpanded}>
                     <Navcomponent />
                     <Box sx={{display:'flex',alignItems:'center', gap:2}}>
-                   <Textb isExpanded={isExpanded} placeholder="Enter a WebPage url" variant="outlined" value={url}  
-                  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
+                 <CustomTextField isExpanded placeholder='Enter a Webpage Url' variant='outlined' value={url} margin='0px 0px 0px 3px'
+                 isSearch={true} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
                  <AnalyzeB variant='contained' isExpanded={isExpanded}>Analyze</AnalyzeB>
                 <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
                 </Box> 

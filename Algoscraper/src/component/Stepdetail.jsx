@@ -1,7 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, Select, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCustomdialog } from '../featureSlice';
+import CustomTextField from './Textfeild';
 export default function Stepdetailbox() {
    const dispatch = useDispatch();
   const open = useSelector((state) => state.feature.customDialogOpen);
@@ -39,32 +40,19 @@ export default function Stepdetailbox() {
     </FormControl>
     </Box>
     <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-      <TextField size="small" defaultValue="Control Value" sx={(theme) => ({
-    '& .MuiInputBase-input': {
-      fontSize: '12px',
-      fontFamily: theme.typography.fontFamily,
-    }
-  })}/>
-      <TextField size="small" defaultValue="Page Name" sx={(theme) => ({
-    '& .MuiInputBase-input': {
-      fontSize: '12px',
-      fontFamily: theme.typography.fontFamily,
-    }
-  })}/>
+      <CustomTextField variant='outlined' defaultValue="Control Value"  fontSize='12px'/>
+      <CustomTextField variant='outlined' defaultValue="Page Name" fontSize='12px'/>
     </Stack>
-    <TextField
-    
-      size="small"
+    <Box sx={{gap:0.5,display:'flex',flexDirection:'column'}}>
+    <CustomTextField
       label="Control Name"
       sx={{ mb: 1,width:'100%' }}
     />
-    <TextField
-    
-      size="small"
+    <CustomTextField
       label="Xpath"
       sx={{width:'100%'}}
     />
-
+</Box>
   </DialogContent>
                <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 2 ,height:25}}>
                 <Button onClick={handleClose} sx={{color:'grey',bgcolor:'grey.200',height:30}}>Cancel</Button>
