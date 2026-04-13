@@ -5,12 +5,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -26,8 +24,8 @@ import RecordDialog from '../../component/recorddialog';
 import Resetrecorddialog from '../../component/resetrecorddialog';
 import Settingdialog from '../../component/settingdialog';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setSearchterm, setselectcolumns } from '../../featureSlice';
-
+import CustomTextField from '../../component/Textfeild';
+import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setsearchtermscenario, setselectcolumns } from '../../featureSlice';
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -133,7 +131,7 @@ export default function Addscenario() {
           body.style.height = '430px';
         }
       }, [isExpanded]);
-   
+   const searchterm = useSelector(state => state.feature.searchtermscenario)
     return (
     <div>
       <Box
@@ -188,7 +186,7 @@ export default function Addscenario() {
        )}
             <Userstep isExpanded={isExpanded}>
                   <Box sx={{display:'flex',alignItems:'center'}}>
-                      <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))}  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}} />
+                      <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermscenario(e.target.value))} isSearch width="200px" height="30px" placeholderSize="13px"/>
                         <Box sx={{display:'flex',ml:'auto',gap:1
                         }}>
                         <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
@@ -210,6 +208,7 @@ export default function Addscenario() {
                                columns={AllColumns}
                                selectedColumns={selectedcolumns}
                                isExpanded={isExpanded}
+                               page="scenario"
                                />
                      </Box>
                  </Userstep>

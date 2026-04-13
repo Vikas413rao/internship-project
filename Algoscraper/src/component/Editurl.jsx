@@ -1,15 +1,15 @@
 import CloseIcon from '@mui/icons-material/Close';
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    TextField
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeediturl } from '../featureSlice';
+import CustomTextField from './Textfeild';
 export default function Editurl() {
     const dispatch = useDispatch();
   const open = useSelector((state) => state.feature.editurl);
@@ -34,7 +34,7 @@ export default function Editurl() {
       }}
     >
      
-      <DialogTitle sx={{ fontSize: 14 }}>
+      <DialogTitle sx={{ fontSize: 14,height:'30px' }}>
         Application URL
       </DialogTitle>
 
@@ -46,15 +46,14 @@ export default function Editurl() {
       </IconButton>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          size="small"
+        <CustomTextField
           placeholder="Edit Link"
+          placeholderSize='12px'
         />
       </DialogContent>
 
       {/* Actions */}
-      <DialogActions sx={{ justifyContent: 'center', gap: 2 }}>
+      <DialogActions sx={{ justifyContent: 'center', gap: 2,height:'25px' }}>
         <Button
           onClick={handleClose}
           sx={{ bgcolor: 'grey.200', color: 'grey' }}

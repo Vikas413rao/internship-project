@@ -1,9 +1,10 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Box, FormControl, IconButton, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, IconButton, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRow, updateRow } from '../featureSlice';
+import CustomDropdown from './dropdown';
 import BPagination from './pagination';
 import CustomTextField from './Textfeild';
 const Tablebox = styled(Box)(({theme})=>({
@@ -116,12 +117,20 @@ const StyledTableContainer = styled(TableContainer, {
 
   backgroundColor: theme.palette.background.paper,
 }));
-export default function TableComponent({columns,isExpanded,searchterm = ''}) {
-  const {currentPage,rowsperPage,rows,selectcolumns} = useSelector(state =>state.feature)
+export default function TableComponent({columns,isExpanded,page}) {
+  const {currentPage,rowsperPage,rows,selectcolumns,searchtermscarper,searchtermscenario,searchtermtable} = useSelector(state =>state.feature)
   const startIndex = (currentPage - 1) * rowsperPage;
   const dispatch = useDispatch();
-const filteredRows =rows.filter(row => row.contentName?.toLowerCase().includes(searchterm.toLowerCase() || ''));
- const paginatedrows = filteredRows.slice(startIndex,startIndex+rowsperPage);
+  const searchterm =
+    page === "scraper" ? searchtermscarper: 
+    page === "scenario" ? searchtermscenario :
+     searchtermtable;
+ const filteredRows = rows.filter((row) =>
+    Object.values(row).some((val) =>
+      String(val || '').toLowerCase().includes((searchterm || '').toLowerCase())
+    )
+  );
+  const paginatedrows = filteredRows.slice(startIndex, startIndex + rowsperPage);
 const [validationError,setvalidationError]=useState({});
  const [colsWidth,setColWidth] = useState({});
 
@@ -152,6 +161,8 @@ const [validationError,setvalidationError]=useState({});
  }
 
 const allError = Object.values(validationError);
+const searcherror = searchterm && filteredRows.length === 0 ? ["No Records Found"] : [];
+const errormessage = searcherror.length >0 ? searcherror : allError;
  const handleResize = (e,key) =>{
   const startX = e.clientX;
   const startWidth = colsWidth[key] || 70;
@@ -170,6 +181,7 @@ const onMouseUp = () =>{
 document.addEventListener('mousemove',onMouseMove);
 document.addEventListener('mouseup',onMouseUp)
  }
+
   return (
 
       <TBbox isExpanded={isExpanded}>
@@ -186,6 +198,13 @@ document.addEventListener('mouseup',onMouseUp)
                 </TableRow>
               </TableHead>
               <TableBody>
+                  {paginatedrows.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={columns.length + 1} align="center">
+                    No records found
+                  </TableCell>
+                </TableRow>
+              )}
                {paginatedrows.map((row) =>(
                 
                   <StyledRow key={row.id} isExpanded={isExpanded}>
@@ -199,25 +218,24 @@ document.addEventListener('mouseup',onMouseUp)
                      InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' expandedHeight='30px' expandedWidth='120px'/>
                       )}
                     {col.key === 'controlType' && (
-                     <FormControl size='small'>
-             
-              <Styledselect
-              value={row[col.key] || ''}
-              displayEmpty
-              onChange={(e) => dispatch(updateRow({
-                id: row.id,
-                key: col.key,
-                value: e.target.value
-              }))}
-              >
-                <MenuItem value=''>Select</MenuItem>
-                <MenuItem value='TextBox'>TextBox</MenuItem>
-                <MenuItem value='DropDown'>DropDown</MenuItem>
-                <MenuItem value='CheckBox'>CheckBox</MenuItem>
-                <MenuItem value='RadioButton'>RadioButton</MenuItem>
-                <MenuItem value='TextArea'>TextArea</MenuItem>
-              </Styledselect>
-            </FormControl>)}
+                     <CustomDropdown
+                      isTable  
+                      value={row[col.key] ?? ''}
+                      onChange={(e) =>dispatch(updateRow({
+                      id: row.id,
+                      key: col.key,
+                      value: e.target.value
+                    }))
+                     }
+                     options={[
+                      { value: 'TextBox', label: 'TextBox' },
+                      { value: 'DropDown', label: 'DropDown' },
+                      { value: 'CheckBox', label: 'CheckBox' },
+                      { value: 'RadioButton', label: 'RadioButton' },
+                      { value: 'TextArea', label: 'TextArea' }
+                    ]}
+                    />
+                    )}
             {col.key === 'Xpath' && (
                   
                   <CustomTextField variant='standard' isLink fullWidth value = {row[col.key] || ''} onChange={(e)=>{validateField(row.id, 'Xpath', e.target.value); dispatch(updateRow({
@@ -245,7 +263,7 @@ document.addEventListener('mouseup',onMouseUp)
             </Styledtable>
           </StyledTableContainer>
           </Tablebox>
-          <BPagination totalRows={filteredRows.length} errorMessage={allError}/>
+          <BPagination totalRows={filteredRows.length} errorMessage={errormessage}/>
           </TBbox>
 
   )

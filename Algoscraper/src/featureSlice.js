@@ -40,7 +40,9 @@ const initialState = {
     sessionType:null,
     currentPage:1,
     rowsperPage:5,
-    searchterm:'',
+    searchtermscarper:'',
+    searchtermscenario:'',
+    searchtermtable:'',
     rows:[],
     selectcolumns:defaultColumns,
     nextOpen:false,
@@ -242,10 +244,18 @@ resetShowfinalReport (state){
   closesettingdialog:(state)=>{
     state.settingopen=false;
   },
-  setSearchterm: (state,action)=>{
-    state.searchterm=action.payload;
-    state.currentPage= 1;
-  },
+setsearchtermscraper:(state,action)=>{
+  state.searchtermscarper=action.payload;
+  state.currentPage=1;
+},
+setsearchtermscenario:(state,action)=>{
+  state.searchtermscenario=action.payload;
+  state.currentPage=1;
+},
+setsearchtermtable:(state,action)=>{
+  state.searchtermtable=action.payload;
+  state.currentPage=1;
+},
   updateTaskprogress:(state)=>{
     state.task=state.task.map((taskss)=>{
       if(taskss.progress >= 100) return taskss;
@@ -325,7 +335,6 @@ closeSession,
   closesettingdialog,
   updateTaskprogress,
   updateRow,
-  setSearchterm,
   setFile,
   setFilecontent,
   clearfile,
@@ -334,5 +343,8 @@ closeSession,
   closerecord,
   openediturl,
   closeediturl,
+  setsearchtermscenario,
+  setsearchtermscraper,
+  setsearchtermtable,
 } = featureSlice.actions;
 export default featureSlice.reducer;

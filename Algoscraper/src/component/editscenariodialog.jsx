@@ -1,7 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearScenario, closeeditdialog, setScenarioName, setScenarioOutline } from '../featureSlice';
-
+import CustomTextField from './Textfeild';
 
 export default function Editscenariodialog() {
     const dispatch=useDispatch();
@@ -11,24 +11,23 @@ export default function Editscenariodialog() {
   return (
     <div>
       <Dialog open={OpenEditdialog} onClose={()=>dispatch(closeeditdialog())} width='sm'
-       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:250,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
+       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:230,display:'flex',flexDirection:'column',overflow:'hidden',width:300})}}>
               <DialogTitle sx={{height:25,p:1,fontSize:13}}>Edit Scenario</DialogTitle>
               <DialogContent sx={{overflow:'hidden',p:1}}>
                 <FormGroup sx={{p:1,gap:1}}>
-             <TextField
+             <CustomTextField
              placeholder="Enter Scenario Name"
-          id="outlined-size-small"
-          sx={{width:270,'& .MuiInputBase-input':{fontSize:13,height:20}}}
+             placeholderSize='12px'
           value={scenarioname}
           onChange={(e)=>dispatch(setScenarioName(e.target.value))}
         />
-           <TextField
-          id="outlined-multiline-static"
+           <CustomTextField
           placeholder="Scenario Outline"
           required
           multiline
           rows={3}
-          sx={{width:270,'& .MuiInputBase-input':{fontSize:12}}}
+          height='90px'
+          placeholderSize='12px'
           value={scenariooutline}
           onChange={(e)=>dispatch(setScenarioOutline(e.target.value))}
         />

@@ -2,8 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
-import SearchIcon from "@mui/icons-material/Search";
-import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,8 @@ import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import Resetrecorddialog from "../../component/resetrecorddialog";
 import TableComponent from "../../component/Tablecomponent";
-import { AllColumns, clearfile, closecheckDialog, openCheckDialog, openLoader, openresetrecord, setselectcolumns } from "../../featureSlice";
+import CustomTextField from "../../component/Textfeild";
+import { AllColumns, clearfile, closecheckDialog, openCheckDialog, openLoader, openresetrecord, setsearchtermtable, setselectcolumns } from "../../featureSlice";
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -123,7 +123,7 @@ const handleClosefile = () =>{
       body.style.height = '430px';
     }
   }, [isExpanded]);
-
+  const searchterm = useSelector(state => state.feature.searchtermtable)
 
     return(
      <div>
@@ -150,7 +150,7 @@ const handleClosefile = () =>{
               {/*table */}
               <Tbox isExpanded={isExpanded} >
       <Box sx={{display:'flex',alignItems:'center'}}>
-          <Search id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))}  InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>),}} />
+          <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermtable(e.target.value))} isSearch width="200px" height="30px" placeholderSize="13px"/>
             <Box sx={{display:'flex',gap:1 ,marginLeft: 'auto',    marginRight: 1     }}>
             <Ibutton size="small"  onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
             <Resetrecorddialog />
@@ -170,7 +170,7 @@ const handleClosefile = () =>{
            columns={AllColumns}
             selectedColumns={selectedcolumns}
             isExpanded={isExpanded}/>
-          
+          page ='table'
           </Box>
      </Tbox>
           </Container>

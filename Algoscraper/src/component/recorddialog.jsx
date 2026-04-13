@@ -1,8 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { closerecord } from '../featureSlice';
+import CustomTextField from './Textfeild';
 export default function RecordDialog({mode}) {
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -42,23 +43,25 @@ export default function RecordDialog({mode}) {
       ml:2
     }}>
           <FormGroup sx={{  gap: 1 }}>
-            <TextField
+            <CustomTextField
               placeholder="Page Name"
               width='small'
               InputProps={{ sx: { fontSize: 13, height: 30 } }}
             />
 
-            <TextField
+            <CustomTextField
               placeholder="Enter Scenario Name"
               width='small'
               InputProps={{ sx: { fontSize: 13, height: 30 } }}
+              placeholderSize='12px'
             />
 
-            <TextField
+            <CustomTextField
               placeholder="Enter Scenario Outline"
               multiline
               rows={3}
               width='small'
+              placeholderSize='12px'
               InputProps={{ sx: { fontSize: 13 } }}
             />
 

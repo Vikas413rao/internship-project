@@ -16,6 +16,8 @@ const CustomTextField = ({
   isSearch = false,
   isLink=false,
   error,
+   multiline = false,
+  rows = 3,
   helperText,
   InputProps,
   ...props
@@ -30,42 +32,54 @@ const CustomTextField = ({
       onChange={onChange}
       error={error}
       helperText={helperText}
+       multiline={multiline}
+      rows={multiline ? rows : undefined}
       {...props}
       InputProps={{
         ...InputProps,
         ...(isSearch && {
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ color: "black" }} />
+              <SearchIcon sx={{ color: "black" ,fontSize:'16px' , margin:'4px 0px 0px 0px'}} />
             </InputAdornment>
           ),
         }),
       }}
-      sx={(theme) => ({
+       sx={(theme) => ({
         width: finalWidth,
         margin: margin,
         transition: "all 0.3s ease",
+
         "& .MuiInputBase-root": {
-          height: finalHeight,
+            height:finalHeight,
+          alignItems:'center',
           fontFamily: theme.typography.fontFamily,
           transition: "all 0.3s ease",
+          backgroundColor: theme.palette.background.paper,
         },
+
         "& .MuiInputBase-input": {
           fontSize: fontSize,
           fontFamily: theme.typography.fontFamily,
-          padding: "8px",
+          padding: multiline ? "10px" : "8px",
+
           ...(isLink && {
             color: theme.palette.primary.main,
             textDecoration: "underline",
             cursor: "pointer",
           }),
         },
-       
+"& .MuiInputBase-inputMultiline": {
+ height: "100% !important",
+  boxSizing: "border-box",
+  overflow: "auto",
+  padding: "6px 8px",
+},
         "& .MuiInputBase-input::placeholder": {
           fontSize: placeholderSize,
           fontFamily: theme.typography.fontFamily,
-          opacity: 1,
         },
+
         "& .MuiInputLabel-root": {
           fontSize: fontSize,
         },
@@ -73,5 +87,4 @@ const CustomTextField = ({
     />
   );
 };
-
 export default CustomTextField;

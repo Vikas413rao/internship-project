@@ -25,8 +25,9 @@ import Pagename from '../../component/pagename';
 import Resetrecorddialog from "../../component/resetrecorddialog";
 import Customdialogbox from '../../component/Stepdetail';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, openresetrecord, setnextopen, setSearchterm, setselectcolumns,openediturl } from "../../featureSlice";
+import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns,openediturl } from "../../featureSlice";
 import Editurl from "../../component/Editurl";
+import CustomTextField from "../../component/Textfeild";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -213,7 +214,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       body.style.height = '430px';
     }
   }, [isExpanded]);
-
+const searchterm = useSelector(state => state.feature.searchtermscraper)
  
   return (
    <Box sx={{ margin: 0, padding: 0 }}>
@@ -259,8 +260,8 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       <>
      <Userstep isExpanded={isExpanded}>
       <Tbox>
-          <Stext id="outlined-basic" placeholder="Search"  variant="outlined" onChange={(e)=>dispatch(setSearchterm(e.target.value))} 
-          InputProps={{startAdornment:(<InputAdornment position='start'><SearchIcon sx={{color:'black'}}/></InputAdornment>)}}/>
+          
+          <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='200px' height='30px'/>
             <Box sx={{display:'flex',gap:1}}>
             <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
           <Resetrecorddialog />
@@ -282,6 +283,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
           columns={AllColumns}
           selectedColumns={selectedcolumns}
           isExpanded={isExpanded}
+          page="scraper"
           />
           </Tcomponent>
      </Userstep>
