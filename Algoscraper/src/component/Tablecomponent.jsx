@@ -1,5 +1,5 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Box, IconButton, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,26 +65,8 @@ const StyledRow = styled(TableRow, {
 })(({ isExpanded }) => ({
   height: isExpanded ? 40 : 32,
 }))
-const StyledTextField = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded'
-})(({ isExpanded }) => ({
-  '& .MuiInputBase-root': {
-    height: isExpanded ? 34 : 28,
-  },
-  '& .MuiInputBase-input': {
-    fontSize: isExpanded ? '12px' : '10px',
-    padding: '2px 0'
-  }
-}));
-const Styledselect = styled (Select)(()=>({
-  fontSize: '10px',
-  height:28,
-   '& .MuiSelect-select':{
-    padding:'4px 8px',
-    display:'flex',
-    alignItems: 'center',
-   }
-}))
+
+
 const SmallIconButton = styled(IconButton)(() => ({
   padding: 4,
 }));
@@ -215,7 +197,7 @@ document.addEventListener('mouseup',onMouseUp)
                  <CustomTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
                    error={!!validationError[`${row.id}_contentName`]} onChange={(e) =>{validateField(row.id,'contentName',e.target.value);
                     dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}));}}
-                     InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' expandedHeight='30px' expandedWidth='120px'/>
+                     InputProps={{ disableUnderline: true }} fontSize='11px' height='18px' expandedHeight='30px' expandedWidth='120px'/>
                       )}
                     {col.key === 'controlType' && (
                      <CustomDropdown
@@ -242,7 +224,7 @@ document.addEventListener('mouseup',onMouseUp)
                     id: row.id,
                     key: col.key,
                     value: e.target.value
-                  }));}} InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' extendedHeight='28px'/>
+                  }));}} InputProps={{ disableUnderline: true }} fontSize='11px' height='18px' extendedHeight='28px'/>
        )}
         {!['contentName','controlType','Xpath'].includes(col.key) && (
           <CustomTextField variant='standard' isExpanded={isExpanded}  fullWidth

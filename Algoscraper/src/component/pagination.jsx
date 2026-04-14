@@ -24,7 +24,7 @@ const Pbox = styled(Box)({
 })
 const Bbox = styled(Box)({
   flexShrink:0,
-  padding:6,
+  padding:4,
   display:'flex',
   alignItems:'center',
   gap:2,

@@ -10,7 +10,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useEffect } from "react";
@@ -24,7 +23,7 @@ import Pagename from '../../component/pagename';
 import Resetrecorddialog from "../../component/resetrecorddialog";
 import TableComponent from '../../component/Tablecomponent';
 import CustomTextField from "../../component/Textfeild";
-import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openediturl, openMainDialog, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
+import { AllColumns, closecheckDialog, openCheckDialog, openediturl, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -83,7 +82,7 @@ const Userstep = styled(Box, {
   padding: isExpanded ? 8 : 4,
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'auto',
+  overflow: 'hidden',
   boxSizing:'border-box'
 }));
 
@@ -195,7 +194,7 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
     <Pagename isExpanded={isExpanded}/>
     <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="100px " height="35px"/>
     </Box>
-       <Box sx={{ display: 'flex', alignItems: 'center', ml:0 }}>
+       <Box sx={{ display: 'flex', alignItems: 'center'}}>
       <MultiXpath >MultiXpath Support</MultiXpath>
           <FormControlLabel control={<SmallSwitch />} />
     <Photobutton size="small" onClick={handleScreenshot}sx={{ml: isExpanded ? 39 : 32}}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC',fontSize:15}}/></Photobutton>
