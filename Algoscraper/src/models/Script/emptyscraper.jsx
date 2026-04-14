@@ -102,7 +102,7 @@ export default function EmptyScraper () {
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
               <Pagename  isExpanded={isExpanded}/>
-              <Custombutton  isExpanded={isExpanded} label='Scraper UI' onClick={()=>navigate('/tablescreen')}/>
+              <Custombutton  isExpanded={isExpanded} label='Scraper UI' onClick={()=>navigate('/tablescreen')} width="100px" height="35px"/>
               </Box>
               {/*file name */}
               <Filebox >

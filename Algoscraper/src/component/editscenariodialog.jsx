@@ -1,8 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, FormGroup } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearScenario, closeeditdialog, setScenarioName, setScenarioOutline } from '../featureSlice';
 import CustomTextField from './Textfeild';
-
+import Custombutton from './custombutton';
 export default function Editscenariodialog() {
     const dispatch=useDispatch();
     const scenarioname=useSelector(state=>state.feature.scenarioName);
@@ -34,8 +34,12 @@ export default function Editscenariodialog() {
         </FormGroup>
               </DialogContent>
               <DialogActions sx={{display:'flex',justifyContent:'space-between'}}>
-                <Button onClick={()=>dispatch(closeeditdialog())} sx={{color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-                    <Button onClick={()=>{dispatch(closeeditdialog());dispatch(clearScenario());}} variant='contained' color='info'>Save</Button>
+                
+                <Custombutton label='Cancel' variant='contained' width='100px' height='35px' fontSize='11px' onClick={()=>dispatch(closeeditdialog())}  sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }}/>
+                    <Custombutton label='Save' variant='contained' width='100px' height='35px' fontSize='11px' onClick={()=>{dispatch(closeeditdialog());dispatch(clearScenario());}} />
               </DialogActions>
             </Dialog>
     </div>

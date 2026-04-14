@@ -1,10 +1,10 @@
 import { Dialog, DialogActions, FormControlLabel } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useCustomizecolumns from '../hooks/Customizecolumns';
+import Custombutton from './custombutton';
 export default function Checkdialogbox({open,handleClose,columns,setSelectedColumns}) {
     const {draftColumns,handleToggle,handleApply}=useCustomizecolumns((updateCols)=>{
         setSelectedColumns(updateCols);
@@ -29,9 +29,13 @@ export default function Checkdialogbox({open,handleClose,columns,setSelectedColu
             ))}
             </Box>
         </DialogContent>
-        <DialogActions sx={{height:40,display:'flex',justifyContent:'space-between',p:1,ml:2,mr:2}}>
-             <Button onClick={handleClose} sx={(theme)=>({backgroundColor: theme.palette.grey[300]})}>Cancel</Button>
-        <Button variant="contained" onClick={handleApply}>Apply</Button>
+        <DialogActions sx={{height:40,display:'flex',justifyContent:'space-between',ml:2,mr:2,mt:-2}}>
+          
+             <Custombutton label='Cancel' variant='contained' width='100px' height='28px' fontSize='11px' onClick={handleClose}  sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }}/>
+        <Custombutton label='Apply' variant='contained' width='100px' height='28px' fontSize='11px' onClick={handleApply} />
         </DialogActions>
       </Dialog>
     </div>

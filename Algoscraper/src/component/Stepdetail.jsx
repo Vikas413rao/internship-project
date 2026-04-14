@@ -1,8 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, Select, Stack } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, Select, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCustomdialog } from '../featureSlice';
 import CustomTextField from './Textfeild';
+import Custombutton from './custombutton';
 export default function Stepdetailbox() {
    const dispatch = useDispatch();
   const open = useSelector((state) => state.feature.customDialogOpen);
@@ -12,7 +13,7 @@ export default function Stepdetailbox() {
   };
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} width='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:255,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
+      <Dialog open={open} onClose={handleClose} width='sm' PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily,height:265,display:'flex',flexDirection:'column',overflow:'hidden',width:320})}}>
               <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between',position:'relative',p:1,height:30}}>
                <DialogTitle sx={{ fontSize: 13 }}>
     Steps details
@@ -54,9 +55,13 @@ export default function Stepdetailbox() {
     />
 </Box>
   </DialogContent>
-               <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 2 ,height:25}}>
-                <Button onClick={handleClose} sx={{color:'grey',bgcolor:'grey.200',height:30}}>Cancel</Button>
-                    <Button onClick={handleConfirm} variant='contained' color='info' sx={{height:30}}>Save</Button>
+               <DialogActions sx={{ justifyContent: "center", gap: 2 ,mt:-2}}>
+                 <Custombutton onClick={handleClose} variant='contained' label='Cancel' width='80px' height='30px' sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }} />
+                <Custombutton onClick={handleConfirm} variant='contained' label='Save' width='80px' height='30px'/>
+               
               </DialogActions>
             </Dialog>
     </div>

@@ -10,32 +10,35 @@ const CustomDropdown = ({
   fontSize = "12px",
   isExpanded = false,
   expandedHeight = "50px",
+  showPlaceholder = true,
   margin = "0px",
   isTable = false,
   ...props
 }) => {
-
   const finalHeight = isExpanded ? expandedHeight : height;
 
   return (
     <FormControl fullWidth sx={{ width, margin }}>
-      {!isTable &&(
-      <InputLabel
-        sx={{
-          fontSize: fontSize,
-          top: value ? 0 : "50%",
-            transform: value
-              ? "translate(14px, -9px) scale(0.75)"
-              : "translate(14px, -50%) scale(1)",
-          ml:2,
-        }}
-      >
-        {label}
-      </InputLabel>
-      )}
+      
+     
+      {!isTable && <InputLabel  sx={(theme) => ({
+      fontSize: fontSize,
+      fontFamily: theme.typography.fontFamily,
+      color: theme.palette.text.primary,
+        top: '-6px',
+      "&.Mui-focused": {
+        color: theme.palette.primary.main,
+      },
+
+      "&.MuiInputLabel-shrink": {
+        fontSize: "11px",
+       
+      },
+    })}>{label}</InputLabel>}
+
       <Select
         value={value ?? ""}
-        label={label}
+        label={!isTable ? label : undefined}
         onChange={onChange}
         displayEmpty
         {...props}
@@ -46,20 +49,25 @@ const CustomDropdown = ({
 
           "& .MuiSelect-select": {
             display: "flex",
-            alignItems: "center", 
-            padding: isTable ? "2px 6px" : "8px", 
+            alignItems: "center",
+           
           },
         })}
-          renderValue={(selected) => {
-    if (!selected) {
-      return <span style={{ color: "#999" }}>Select</span>;
-    }
-    return options.find((opt) => opt.value === selected)?.label;
-  }}
+        renderValue={(selected) => {
+          if (!selected) {
+            return showPlaceholder ? (
+              <span style={{ color: "#999" }}>Select</span>
+            ) : "";
+          }
+          return options.find((opt) => opt.value === selected)?.label;
+        }}
       >
+        {showPlaceholder && (
           <MenuItem value="" disabled>
-          Select
-        </MenuItem>
+            Select
+          </MenuItem>
+        )}
+
         {options.map((opt) => (
           <MenuItem key={opt.value} value={opt.value}>
             {opt.label}

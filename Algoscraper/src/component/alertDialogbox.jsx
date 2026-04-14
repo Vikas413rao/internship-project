@@ -1,8 +1,9 @@
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { Box, Button, DialogActions, DialogContentText } from '@mui/material';
+import { Box, DialogActions, DialogContentText } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Custombutton from './custombutton';
 export default function Closingdialogbox({
   open,
   handleClose,
@@ -24,8 +25,12 @@ export default function Closingdialogbox({
               </DialogContentText>
             </DialogContent>
             <DialogActions sx={{alignItems:'center',justifyContent:'center',gap:4}}>
-              <Button onClick={handleClose} sx={{color:'grey',bgcolor:'grey.200',width:120,height:35}}>Cancel</Button>
-              <Button variant='contained' color='info' onClick={handleConfirm} sx={{width:120,height:35}}>Confirm</Button>
+              <Custombutton label='Cancel' variant='contained' width='100px' height='35px' fontSize='11px' onClick={handleClose}  sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }}/>
+              <Custombutton label='Confirm' variant='contained' width='100px' height='35px' fontSize='11px' onClick={handleConfirm} />
+             
             </DialogActions>
 
           </Dialog>

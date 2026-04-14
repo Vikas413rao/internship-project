@@ -61,6 +61,7 @@ const Userstep = styled(Box, {
     width:"100%",
     backgroundColor:theme.palette.background.paper,
     display:'flex',
+    marginTop:'6px',
     alignItems:'center',
     justifyContent:'space-between',
    padding:'0 8px'
@@ -146,7 +147,7 @@ export default function Addscenario() {
           <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
         
         <Pagename isExpanded={isExpanded} />
-       <Custombutton isExpanded={isExpanded} label='+ Add Scenario'  onClick={()=>dispatch(openrecord())}/>
+       <Custombutton isExpanded={isExpanded} label='+ Add Scenario'  onClick={()=>dispatch(openrecord())} width='130px' fontSize='11px' height='30px'/>
         <RecordDialog mode='addscenario'/>
        </Box>
        {!open ? (

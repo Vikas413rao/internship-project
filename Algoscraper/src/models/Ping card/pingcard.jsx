@@ -1,4 +1,3 @@
-import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -6,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Custombutton from '../../component/custombutton';
 import Customusersteps from '../../component/customusersteps';
 import Loaderprogress from '../../component/loaderprogress';
 import Navcomponent from '../../component/navcomponent';
@@ -49,19 +49,7 @@ const Container = styled(Box, {
   boxSizing: 'border-box',
   transition: 'all 0.3s ease',
 }));
-const Textb = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
-  width: isExpanded ? 380 : 340,  
-  marginTop: 4,
-  marginLeft: 4,
-  transition: 'width 0.3s ease',  
-  '& .MuiOutlinedInput-root': {
-    fontSize: 12,
-    height: isExpanded ? 36 : 30,  
-    backgroundColor: theme.palette.background.paper
-  }
-}))
+
 const Body = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -135,11 +123,11 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       <Mbox>
                  <Container  isExpanded={isExpanded}>
                     <Navcomponent />
-                 <Box sx={{display:'flex',alignItems:'center', gap:1}}>
+                 <Box sx={{display:'flex',alignItems:'center', gap:1,mr:1}}>
                   <CustomTextField isSearch isExpanded={isExpanded} placeholder='Enter a Webpage Url' margin='0px 0px 0px 3px' variant='outlined' value={url} 
                   onChange={handleUrlchange} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
-                <Analyze disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded}>Analyze</Analyze>
-                <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
+                <Custombutton disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded} label='Analyze' width='100px' height='35px'/>
+                <Custombutton variant='outlined' isExpanded={isExpanded} label="Stop" width='100px' height='35px'/>
                 </Box> 
                 <Body isExpanded={isExpanded}>
                      

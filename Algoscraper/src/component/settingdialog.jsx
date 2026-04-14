@@ -1,9 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup, IconButton } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup, IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import { closesettingdialog } from '../featureSlice';
+import Custombutton from './custombutton';
 export default function Settingdialog() {
     const dispatch=useDispatch();
     const Opensetting = useSelector(state=>state.feature.settingopen)
@@ -21,8 +22,12 @@ export default function Settingdialog() {
         </FormGroup>
               </DialogContent>
               <DialogActions sx={{display:'flex',justifyContent:'space-between',p:1}}>
-                <Button onClick={()=>dispatch(closesettingdialog())} sx={{color:'grey',bgcolor:'grey.200',width:90}}>Cancel</Button>
-                    <Button onClick={()=>dispatch(closesettingdialog())} variant='contained' color='info' sx={{width:90}} >save</Button>
+                
+                <Custombutton onClick={()=>dispatch(closesettingdialog())} label='Cancel' width='90px' height='30px' sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }} />
+                    <Custombutton onClick={()=>dispatch(closesettingdialog())} label='Save' width='90px' height='30px' variant='contained' />
               </DialogActions>
             </Dialog>
     </div>

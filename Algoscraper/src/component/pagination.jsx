@@ -1,7 +1,8 @@
-import { Box, Button, Pagination } from '@mui/material';
+import { Box, Pagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRow, setPage } from '../featureSlice';
+import Custombutton from './custombutton';
 const Page=styled(Pagination)(({theme})=>({
     marginLeft:60,
     '& .Mui-selected':{
@@ -45,7 +46,8 @@ export default function BPagination({totalRows, errorMessage}) {
         <Bbox>
         <Pbox>
       <Box sx={{display:'flex',alignItems:'center',gap:1}}>
-    <Button variant='contained' size='small'  onClick={handleAddrow}>+ Row</Button>
+        
+    <Custombutton label='+ Row' variant='contained' width='70px' height='30px' onClick={handleAddrow} fontSize='12px'/>
     {errorMessage && errorMessage.length >0 && (
         <Box>
             {errorMessage.map((err,index)=>(

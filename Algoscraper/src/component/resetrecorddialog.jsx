@@ -1,8 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { closeresetrecord, setnextopen } from '../featureSlice';
+import Custombutton from './custombutton';
 export default function Resetrecorddialog() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -47,8 +48,12 @@ export default function Resetrecorddialog() {
                 )}
               </DialogContent>
               <DialogActions sx={{display:'flex',justifyContent:'space-between',p:2}}>
-                <Button onClick={()=>dispatch(closeresetrecord())} sx={{color:'grey',bgcolor:'grey.200',width:80}}>No</Button>
-                    <Button onClick={handlenav} variant='contained' color='info' >Yes</Button>
+                
+                <Custombutton onClick={()=>dispatch(closeresetrecord())} label='No' width='80px' height='30px' sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }} />
+                    <Custombutton onClick={handlenav} label='Yes' width='80px' height='30px' variant='contained' />
               </DialogActions>
             </Dialog>
     </div>

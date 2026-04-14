@@ -3,9 +3,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
-import SearchIcon from '@mui/icons-material/Search';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
-import { InputAdornment } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -20,14 +18,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
+import Editurl from "../../component/Editurl";
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import Resetrecorddialog from "../../component/resetrecorddialog";
-import Customdialogbox from '../../component/Stepdetail';
 import TableComponent from '../../component/Tablecomponent';
-import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openMainDialog, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns,openediturl } from "../../featureSlice";
-import Editurl from "../../component/Editurl";
 import CustomTextField from "../../component/Textfeild";
+import { AllColumns, closecheckDialog, closeMainDialog, openCheckDialog, openediturl, openMainDialog, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -53,16 +50,7 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 
-  const Edittext=styled(TextField)({
-    width:200,
-    paddingTop:1,
-    '& .MuiOutlinedInput-root':{
-      disableUnderline:true,
-        padding:1,
-        fontSize:12,
-        height:40
-    }
-  })
+ 
   const Photobutton = styled(Button)(({theme})=>({
     backgroundColor:theme.palette.background.paper,
     marginLeft:200,
@@ -99,21 +87,6 @@ const Userstep = styled(Box, {
   boxSizing:'border-box'
 }));
 
-const Stext = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
-  width: isExpanded ? 350 : 250,   
-  paddingTop: 2,
-  marginLeft: 4,
-  fontFamily:theme.typography.fontFamily,
-  '& .MuiOutlinedInput-root': {
-    padding: 1,
-    fontSize: isExpanded ? 14 : 12,
-    height: isExpanded ? 36 : 30,
-    backgroundColor: theme.palette.background.paper,
-     fontFamily:theme.typography.fontFamily,
-  }
-}));
 const Ibutton=styled(Button)(({theme})=>({
 backgroundColor:theme.palette.background.paper,
 marginTop:3,
@@ -179,14 +152,12 @@ export default function Scraperui() {
   const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
   const nextOpen = useSelector(state =>state.feature.nextOpen);
   const dispatch = useDispatch();
-  const Opendialog = useSelector(state =>state.feature.mainDialogOpen);
-  const handleOpendialog = () =>{dispatch(openMainDialog())};
-  const handleClosedialog = () =>{dispatch(closeMainDialog())}
+ 
   const Opencheck =useSelector (state => state.feature.checkDialog);
   const handleOpencheck = () =>{dispatch(openCheckDialog())};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
     const handleClicknext = () =>{dispatch(setnextopen(true))};
-    const handleclosenext = () =>{dispatch(setnextopen(false))}
+    
     const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
   const handleScreenshot=() =>{
     chrome.tabs.captureVisibleTab(null,
@@ -220,11 +191,11 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
    <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
        <Navcomponent />
-    <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
+    <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1,mb:1}}>
     <Pagename isExpanded={isExpanded}/>
-    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext}/>
+    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="100px " height="35px"/>
     </Box>
-       <Box sx={{ display: 'flex', alignItems: 'center', ml:2 }}>
+       <Box sx={{ display: 'flex', alignItems: 'center', ml:0 }}>
       <MultiXpath >MultiXpath Support</MultiXpath>
           <FormControlLabel control={<SmallSwitch />} />
     <Photobutton size="small" onClick={handleScreenshot}sx={{ml: isExpanded ? 39 : 32}}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC',fontSize:15}}/></Photobutton>

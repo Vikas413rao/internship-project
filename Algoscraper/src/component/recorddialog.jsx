@@ -1,9 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { closerecord } from '../featureSlice';
 import CustomTextField from './Textfeild';
+import Custombutton from './custombutton';
 export default function RecordDialog({mode}) {
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -23,7 +24,7 @@ export default function RecordDialog({mode}) {
         open={Openrecord}
         onClose={handleClose}
        maxWidth="xs" 
-       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily, width: 300,height:320,display:'flex',flexDirection:'column',overflow:'hidden'})}}
+       PaperProps={{sx: (theme) => ({fontFamily: theme.typography.fontFamily, width: 300,height:300,display:'flex',flexDirection:'column',overflow:'hidden'})}}
       >
         <Box sx={{ borderBottom:'1px solid #ccc' ,height:40,backgroundColor:'#f1eeee',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <DialogTitle sx={{ fontSize: 16, fontWeight: 600 }}>
@@ -60,7 +61,7 @@ export default function RecordDialog({mode}) {
               placeholder="Enter Scenario Outline"
               multiline
               rows={3}
-              width='small'
+              height='80px'
               placeholderSize='12px'
               InputProps={{ sx: { fontSize: 13 } }}
             />
@@ -72,31 +73,18 @@ export default function RecordDialog({mode}) {
                   Capture Screenshots while recording
                 </Typography>
               }
-            />
+          sx={{marginTop:'-8px'}}/>
           </FormGroup>
         </DialogContent>
 
-        <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 2 }}>
-          <Button
-            onClick={handleClose}
-            sx={{
-              width: 120,
-              height: 30,
-              bgcolor: "grey.200",
-              color: "grey",
-              fontSize: 12,
-            }}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            variant="contained"
-            onClick={handleConfirm}
-            sx={{ width: 125, height: 30 ,fontSize:12}}
-          >
-            Start Recording
-          </Button>
+        <DialogActions sx={{ justifyContent: "center", gap: 2,height:'-10px',mt:-1 }}>
+          
+          <Custombutton onClick={handleClose} label='Cancel' width='120px' height='30px' sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }} />
+          <Custombutton onClick={handleConfirm} label='Start Recording' width='125px' height='30px' variant='contained' />
+             
         </DialogActions>
       </Dialog>
     </div>

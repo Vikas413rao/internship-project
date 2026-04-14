@@ -41,6 +41,7 @@ const Userstep = styled(Box, {
   backgroundColor: theme.palette.grey[200],
   width: '100%',
   flexGrow: 1,
+  marginTop:6,
   minHeight: isExpanded ? 520 : 330,
   padding: isExpanded ? 8 : 4,
   display: 'flex',
@@ -80,7 +81,7 @@ export default function Recording() {
       
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
       <Pagename isExpanded={isExpanded}/>
-      <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' />
+      <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='35px'/>
       <RecordDialog mode='recording' />
        
         </Box>

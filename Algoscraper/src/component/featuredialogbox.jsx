@@ -1,12 +1,12 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { DialogActions, IconButton, Stack } from '@mui/material';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSession, closeFeaturedialog, closeSession, startSession } from '../featureSlice';
+import Custombutton from './custombutton';
 import CustomDropdown from './dropdown';
 export default function Featuredialogbox({ pagelist }) {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export default function Featuredialogbox({ pagelist }) {
     PaperProps: {
       sx: {
         p: 1,
-        width: 290
+        width: 280
       }
     }
   };
@@ -32,21 +32,22 @@ export default function Featuredialogbox({ pagelist }) {
           <IconButton onClick={()=>dispatch(closeFeaturedialog())} sx={{ position: 'absolute', right: 8, top: 8 ,fontSize:13}}><CloseIcon /></IconButton>
         </DialogTitle>
         <DialogContent>
-          <Stack direction="row" spacing={2} mt={2}>
-            <Button variant='outlined' color='success' onClick={() => dispatch(startSession())} sx={{width:'150px',height:'40px',fontSize:'11px'}}>Start Section</Button>
-            <Button variant='outlined' color='info'  onClick={()=>dispatch(closeSession())} sx={{width:'150px',height:'40px',fontSize:'11px'}}>Clear Section</Button>
+          <Stack direction="row" spacing={1} mt={2}>
+            
+            <Custombutton label='Start Section' variant='outlined' color='success' width='150px' height='40px' fontSize='11px' onClick={() => dispatch(startSession())} />
+            <Custombutton label='Clear Section' variant='outlined' color='info' width='150px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} />
           </Stack>
         </DialogContent>
       </Dialog>
      
         <Dialog open={featureSessionOpen} onClose={()=>dispatch(closeSession())} {...dialogProps}>
           <DialogTitle sx={{ pr: 5 ,fontSize:13}}>Create Your Feature</DialogTitle>
-          <DialogContent>
-            <Stack direction='row' spacing={2} mt={2}>
-              <Button color='error' variant='outlined' onClick={()=>dispatch(closeSession())} sx={{width:'120px',height:'40px',fontSize:'11px'}}>Stop Section</Button>
-              <Button color='info' variant='outlined' onClick={()=>dispatch(clearSession())} sx={{width:'120px',height:'40px',fontSize:'11px'}}>Clear Section</Button>
+          <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, overflow: "hidden" }}>
+            <Stack direction='row' spacing={1} mt={2}>
+              <Custombutton label='Stop Section' variant='outlined' color='error' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} />
+              <Custombutton label='Clear Section' variant='outlined' color='info' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(clearSession())} />
             </Stack>
-            <Stack spacing={1.5} mt={2}>
+            <Stack spacing={1.5} >
               <CustomDropdown
                 label='Page List'
                 value={pageValue}
@@ -54,6 +55,7 @@ export default function Featuredialogbox({ pagelist }) {
                height='32px'
                fontSize='13px'
                options={pagelist}
+                showPlaceholder={false}
               />
                <CustomDropdown
                 label='Feature List'
@@ -62,11 +64,12 @@ export default function Featuredialogbox({ pagelist }) {
                height='32px'
                fontSize='13px'
                options={pagelist}
+                showPlaceholder={false}
               />
              
             </Stack>
           </DialogContent >
-          <DialogActions sx={{height:'25px'}}><Button variant='contained'>Proceed</Button></DialogActions>
+          <DialogActions sx={{mt:-3}}><Custombutton label='Proceed' variant='contained' width='120px' height='40px' fontSize='11px' /></DialogActions>
         </Dialog>
     </>
   );

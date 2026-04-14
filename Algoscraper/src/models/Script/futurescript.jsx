@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Custombutton from '../../component/custombutton.jsx';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
 import { setFile } from '../../featureSlice.js';
@@ -145,7 +146,8 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
               <Typo >Drag & Drop your file(S)</Typo>
             <Ficon isExpanded={isExpanded}><CreateNewFolderIcon /></Ficon>
             </Dropfile>
-            <Bbutton isExpanded={isExpanded} variant='outlined' onClick={openFilemanager}>Browse files</Bbutton>
+            <Custombutton isExpanded={isExpanded} variant="outlined" onClick={openFilemanager} label='Browse Files' width='120px' height='35px' fontSize='12px'/>
+          
             </Box>
             <Stepsuser isExpanded={isExpanded}>
               <Customusersteps steps={stepsdata} isExpanded={isExpanded}/>

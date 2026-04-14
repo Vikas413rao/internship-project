@@ -1,20 +1,43 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-const Cusbutton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ isExpanded }) => ({
-  width: isExpanded ? 140 : 120,
-  height: isExpanded ? 44 : 40,
-  fontSize: isExpanded ? 13 : 12,
-  backgroundColor: '#2F8BCC',
-  color: '#fff',
-  marginTop: 5,
-}));
-export default function Custombutton({label,onClick, isExpanded}) {
-    
+import { Button } from "@mui/material";
+
+const Custombutton = ({
+  label,
+  onClick,
+  width = "120px",
+  height = "40px",
+  fontSize = "12px",
+  expandedWidth = "140px",
+  expandedHeight = "44px",
+  isExpanded = false,
+  margin = "5px 0px 0px 0px",
+  variant = "contained",
+  sx, 
+  ...props
+}) => {
+  const finalWidth = isExpanded ? expandedWidth : width;
+  const finalHeight = isExpanded ? expandedHeight : height;
+
   return (
-    <div>
-      <Cusbutton onClick={onClick} isExpanded={isExpanded}>{label}</Cusbutton>
-    </div>
-  )
-}
+    <Button
+      onClick={onClick}
+      variant={variant}
+      {...props}
+      sx={(theme) => ({
+        width: finalWidth,
+        height: finalHeight,
+        fontSize: fontSize,
+        fontFamily: theme.typography.fontFamily,
+        margin: margin,
+        textTransform: "none",
+        transition: "all 0.3s ease",
+
+       
+        ...(typeof sx === "function" ? sx(theme) : sx),
+      })}
+    >
+      {label}
+    </Button>
+  );
+};
+
+export default Custombutton;

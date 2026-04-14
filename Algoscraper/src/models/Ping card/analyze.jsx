@@ -1,8 +1,9 @@
-import { Box, Button, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import Custombutton from '../../component/custombutton.jsx';
 import Loaderprogress from '../../component/loaderprogress.jsx';
 import Navcomponent from '../../component/navcomponent.jsx';
 import CustomTextField from '../../component/Textfeild.jsx';
@@ -22,19 +23,7 @@ const Body = styled(Box, {
   height: isExpanded ? 490 : 390,
   marginTop:4
 }))
-const Textb = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
-  width: isExpanded ? 380 : 340,  
-  marginTop: 4,
-  marginLeft: 4,
-  transition: 'width 0.3s ease',  
-  '& .MuiOutlinedInput-root': {
-    fontSize: 12,
-    height: isExpanded ? 36 : 30,  
-    backgroundColor: theme.palette.background.paper
-  }
-}))
+
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -168,11 +157,13 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       <Mbox>
                   <Container  isExpanded={isExpanded}>
                     <Navcomponent />
-                    <Box sx={{display:'flex',alignItems:'center', gap:2}}>
+                    <Box sx={{display:'flex',alignItems:'center', gap:1,mr:1}}>
                  <CustomTextField isExpanded placeholder='Enter a Webpage Url' variant='outlined' value={url} margin='0px 0px 0px 3px'
                  isSearch={true} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
-                 <AnalyzeB variant='contained' isExpanded={isExpanded}>Analyze</AnalyzeB>
-                <Stop variant="outlined"isExpanded={isExpanded} >Stop</Stop>
+               
+                 <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='35px'/>
+                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='35px'/>
+               
                 </Box> 
                 <Body  isExpanded={isExpanded}>
                 {!showFinalReport &&(

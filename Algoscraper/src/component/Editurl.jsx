@@ -1,6 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,6 +9,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { closeediturl } from '../featureSlice';
 import CustomTextField from './Textfeild';
+import Custombutton from './custombutton';
 export default function Editurl() {
     const dispatch = useDispatch();
   const open = useSelector((state) => state.feature.editurl);
@@ -29,7 +29,7 @@ export default function Editurl() {
       PaperProps={{
         sx: {
           p: 1,
-          width: 300
+          width: 280
         }
       }}
     >
@@ -53,21 +53,15 @@ export default function Editurl() {
       </DialogContent>
 
       {/* Actions */}
-      <DialogActions sx={{ justifyContent: 'center', gap: 2,height:'25px' }}>
-        <Button
-          onClick={handleClose}
-          sx={{ bgcolor: 'grey.200', color: 'grey' }}
-        >
-          Cancel
-        </Button>
+      <DialogActions sx={{ justifyContent: 'center', gap: 2,height:'35px',mt:-1 }}>
+        
+        <Custombutton label='Cancel' variant='contained' width='100px' height='35px' fontSize='11px' onClick={handleClose}  sx={{
+    backgroundColor: 'grey.200',
+    color: 'grey'
+  }}/>
+       
 
-        <Button
-          onClick={handleConfirm}
-          variant="contained"
-          color="info"
-        >
-          Save
-        </Button>
+        <Custombutton label='Save' variant='contained' width='100px' height='35px' fontSize='11px' onClick={handleConfirm} />
       </DialogActions>
     </Dialog>
     </div>

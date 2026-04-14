@@ -139,7 +139,7 @@ const handleClosefile = () =>{
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
             <Pagename  isExpanded={isExpanded} />
-              <Custombutton  isExpanded={isExpanded} label='Scraper Ui'/>
+              <Custombutton  isExpanded={isExpanded} label='Scraper Ui' width='100px' height="35px"/>
               </Box>
               {/*file name */}
               <Filebox>
@@ -169,8 +169,9 @@ const handleClosefile = () =>{
           <TableComponent 
            columns={AllColumns}
             selectedColumns={selectedcolumns}
-            isExpanded={isExpanded}/>
-          page ='table'
+            isExpanded={isExpanded}
+            page ='table'/>
+          
           </Box>
      </Tbox>
           </Container>
