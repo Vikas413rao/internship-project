@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
 import Editscenariodialog from '../../component/editscenariodialog';
+import CustomIconButton from '../../component/iconbutton';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import RecordDialog from '../../component/recorddialog';
@@ -155,33 +156,33 @@ export default function Addscenario() {
                 <Typography color='text.secondary' sx={{p:2,fontSize:13}}>Scenario Name:
                   <span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                   <Buttonbox >
-                <AfterSetting size='small'  onClick={()=>dispatch(opensettingdialog())}><SettingsIcon sx={{color:'#2F8BCC'}}/></AfterSetting>
+                  <CustomIconButton size='small'  onClick={()=>dispatch(opensettingdialog())}><SettingsIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
                  <Settingdialog />
                  
-                <AfterSetting size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></AfterSetting>
-                <AfterSetting size='small'  onClick={()=>dispatch(openeditdialog())}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <CustomIconButton size='small'  ><RadioButtonCheckedIcon sx={{color:'#fe0202'}}/></CustomIconButton>
+                <CustomIconButton size='small'  onClick={()=>dispatch(openeditdialog())}><CropSquareOutlinedIcon sx={{fontSize:24}}/>
                 <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
-                </AfterSetting>
+                </CustomIconButton>
                 <Editscenariodialog />
-                <AfterSetting size='small' ><DeleteOutlineOutlinedIcon /></AfterSetting>
+                <CustomIconButton size='small' ><DeleteOutlineOutlinedIcon /></CustomIconButton>
         </Buttonbox>
        </Scenario>
        ):(
        <Scenario>
                 <Typography  color='text.secondary'  sx={{p:2,fontSize:13}}>Scenario Name:<span style={{color:'#2F8BCC',fontWeight:600}}>Name</span></Typography>
                 <Buttonbox>
-                <Recordi size='small'  ><SettingsIcon sx={{color:'#2F8BCC'}}/></Recordi>
-                 
-                <Recordi size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></Recordi>
-                <Recordi size='small' ><CropSquareOutlinedIcon sx={{fontSize:24}}/>
+                <CustomIconButton size='small'  ><SettingsIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                  <Settingdialog />
+                <CustomIconButton size='small'  ><RadioButtonCheckedIcon sx={{color:'red'}}/></CustomIconButton>
+                <CustomIconButton size='small' ><CropSquareOutlinedIcon sx={{fontSize:24}}/>
                 <EditOutlinedIcon sx={{position:'absolute',left:10,fontSize:20,top:1}}/>
-                </Recordi>
-                <Recordi size='small'><DeleteOutlineOutlinedIcon /></Recordi>
+                </CustomIconButton>
+                <CustomIconButton size='small'><DeleteOutlineOutlinedIcon /></CustomIconButton>
                
-                <Recordi size="small"  ><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Recordi>
+                <CustomIconButton size="small"  ><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
                         
-                       <Recordi size='small'><RemoveRedEyeOutlinedIcon /></Recordi>
-                <Recordi size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Recordi>
+                       <CustomIconButton size='small'><RemoveRedEyeOutlinedIcon /></CustomIconButton>
+                <CustomIconButton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
        </Buttonbox>
        </Scenario>
        )}
@@ -190,11 +191,11 @@ export default function Addscenario() {
                       <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermscenario(e.target.value))} isSearch width="200px" height="30px" placeholderSize="13px"/>
                         <Box sx={{display:'flex',ml:'auto',gap:1
                         }}>
-                        <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-                        <Resetrecorddialog />
-                       
-                        <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-                        <Ibutton size="small" onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+                          <CustomIconButton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                          <Resetrecorddialog />
+                        <CustomIconButton size="small" ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                         <CustomIconButton size="small" onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                     
                        <Checkdialogbox
                                   open={Opencheck}
                                   handleClose={handleClosecheck}

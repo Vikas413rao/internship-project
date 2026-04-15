@@ -2,7 +2,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import DriveFileRenameOutlineSharpIcon from '@mui/icons-material/DriveFileRenameOutlineSharp';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -10,11 +9,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Custombutton from '../../component/custombutton';
+import CustomIconButton from '../../component/iconbutton';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import RecordDialog from '../../component/recorddialog';
 import { openeditdialog, openrecord } from '../../featureSlice';
-
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -102,8 +101,15 @@ export default function Scenariolist() {
             {/*scenario name */}
             <Scenario >
             <Typography sx={{fontSize:12,p:2}}>Scenarios_List</Typography>
-            <Button size='small' color='icon.primary' sx={{minWidth:0,ml:40}}><SaveAltIcon sx={{fontSize:20}}/></Button>
-            <Button disabled size='small' sx={{minWidth:0,p:2}}><DeleteOutlineOutlinedIcon sx={{fontSize:20}} /></Button>
+      <CustomIconButton sx={{ ml: 40 }}>
+  <SaveAltIcon sx={(theme) => ({
+    fontSize: 20,
+    color: theme.palette.icon.primary
+  })} />
+</CustomIconButton>
+<CustomIconButton disabled sx={{ p: 2 }}>
+  <DeleteOutlineOutlinedIcon sx={{ fontSize: 20 }} />
+</CustomIconButton>
             </Scenario>
             {/*Scenario list */}  
           <Box sx={{p:1}}>
@@ -112,10 +118,10 @@ export default function Scenariolist() {
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>
                 <Box>
-                <Button size='small' sx={{minWidth:0}}  onClick={handleedit}>
-                  <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></Button>
-                <Button size='small' sx={{minWidth:0}}>
-                  <DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></Button>
+                  <CustomIconButton size='small'  onClick={handleedit}>
+                  <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></CustomIconButton>
+                <CustomIconButton size='small'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
+                
                 </Box>
                 
                 </List>
@@ -124,9 +130,9 @@ export default function Scenariolist() {
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>
                 <Box>
-                <Button size='small' sx={{minWidth:0}} onClick={handleedit}>
-                  <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></Button>
-                <Button size='small' sx={{minWidth:0}}><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></Button>
+               <CustomIconButton size='small'  onClick={handleedit}>
+                  <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></CustomIconButton>
+                <CustomIconButton size='small'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
                 </Box>
                 
                 </List>

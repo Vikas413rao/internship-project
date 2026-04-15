@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CustomIconButton from "../../component/iconbutton";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import Stepdetailbox from "../../component/Stepdetail";
@@ -65,7 +66,7 @@ justifyContent:'space-between'
 const Edit=styled(EditOutlinedIcon)(({theme})=>({
 position:'absolute',
 bottom:12,
-right:20,
+right:6,
 fontSize:15,
 backgroundColor:theme.palette.common.transparent,
 borderRadius:theme.shape.borderRadius,
@@ -117,10 +118,10 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                {scenarios.map((label,index) =>(
                <Sbox key={index} >
                  <FormControlLabel value={label} control={<Radio  size='small'/>} label={label} sx={(theme)=>({'& .MuiFormControlLabel-label':{color:'red',fontSize:'13px', fontFamily: theme.typography.fontFamily}})}/> 
-                <Button sx={{ml:35}} onClick={()=>dispatch(openCustomdialog())}>
+                <CustomIconButton  sx={{ml:35}} onClick={()=>dispatch(openCustomdialog())}>
                    <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
                    <Edit />
-                </Button>
+                </CustomIconButton>
                 <Stepdetailbox />
                 </Sbox>
                   ))}

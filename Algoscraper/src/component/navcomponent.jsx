@@ -17,6 +17,7 @@ import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, to
 import Closingdialog from '../hooks/alertdialoboxhooks';
 import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
+import CustomIconButton from './iconbutton';
 const isChromeAvailable =
   typeof chrome !== "undefined" &&
   chrome.storage &&
@@ -114,7 +115,7 @@ const Tabunslected=styled(TabUnselectedIcon)(({theme})=>({
 }))
 const Editoutline = styled(EditOutlinedIcon)(({theme})=>({
     position:'absolute',
-    bottom:6,
+    bottom:8,
     right:-5,
     fontSize:18,
     color:theme.palette.icon.primary,
@@ -236,10 +237,10 @@ export default function Navcomponent() {
                 </LinkButton>
             </LinkBox>
             <Iconbox>
-                <Iconbutton  size='small' onClick={()=>dispatch(openFeaturedialog())}>
+                <CustomIconButton  size='small' onClick={()=>dispatch(openFeaturedialog())} sx={{mt:-0.5}}>
                 <Tabunslected/>
                 <Editoutline />
-                </Iconbutton>
+                </CustomIconButton>
                 <Featuredialogbox
                     pagelist={pagelist}
                 />

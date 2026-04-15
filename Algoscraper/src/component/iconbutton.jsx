@@ -26,13 +26,9 @@ const CustomIconButton = ({
         height: finalHeight,
         padding: 0,
         margin: margin,
-        position: "relative", // 🔥 important for overlay icon
+        position: "relative",
         backgroundColor: bgColor || theme.palette.background.paper,
         boxShadow: "0px 2px 6px rgba(0,0,0,0.1)",
-
-        "& svg": {
-          color: "#2F8BCC",
-        },
 
         ...(typeof sx === "function" ? sx(theme) : sx),
       })}

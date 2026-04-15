@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Checkdialogbox from "../../component/checkdialogbox";
 import Custombutton from "../../component/custombutton";
+import CustomIconButton from "../../component/iconbutton";
 import Loaderprogress from "../../component/loaderprogress";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
@@ -151,12 +152,22 @@ const handleClosefile = () =>{
               <Tbox isExpanded={isExpanded} >
       <Box sx={{display:'flex',alignItems:'center'}}>
           <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermtable(e.target.value))} isSearch width="200px" height="30px" placeholderSize="13px"/>
-            <Box sx={{display:'flex',gap:1 ,marginLeft: 'auto',    marginRight: 1     }}>
-            <Ibutton size="small"  onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Resetrecorddialog />
-            <Ibutton size="small"  sx={{bgcolor:'#2F8BCC',color:'white'}}onClick={handleAnalyze}>Auto Mapper</Ibutton>
+            <Box sx={{display:'flex',gap:0.5,marginLeft: 'auto',    marginRight: 1     }}>
+            <CustomIconButton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                       <Resetrecorddialog />
+                
+            <Custombutton
+  label="Auto Mapper"
+  onClick={handleAnalyze}
+  width="100px"
+  height="30px"
+  fontSize='10.6px'
+  sx={{ bgcolor: '#2F8BCC', color: 'white',mt:0.3 }}
+/>
             <Loaderprogress />
-            <Ibutton size="small"  onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton> </Box>
+           <CustomIconButton onClick={handleOpencheck}>
+  <MoreVertIcon />
+</CustomIconButton> </Box>
            <Checkdialogbox 
            open={Opencheck}
            handleClose={handleClosecheck}

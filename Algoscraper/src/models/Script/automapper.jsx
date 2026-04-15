@@ -1,14 +1,14 @@
 import CropSquareOutlinedIcon from "@mui/icons-material/CropSquareOutlined";
 import NorthEastOutlinedIcon from "@mui/icons-material/NorthEastOutlined";
-import { Box, Button, LinearProgress, Typography } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CustomIconButton from "../../component/iconbutton";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
 import { updateTaskprogress } from "../../featureSlice";
-
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -121,10 +121,12 @@ return(
                 <Lprogress variant='determinate' value={task.progress} progress={task.progress}/>
               
               </Box>
-              <Button size='small' sx={{minWidth:0}} onClick={()=>navigate('/scenariofile')}>
+              <CustomIconButton
+  onClick={() => navigate('/scenariofile')}
+>
               <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
-              <NorthEastOutlinedIcon sx={{ position: "absolute",bottom:16,right: 1,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
-              </Button>
+              <NorthEastOutlinedIcon sx={{ position: "absolute",bottom:12,right: 3,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
+              </CustomIconButton>
               </Btask>
              
               ))}
