@@ -5,7 +5,6 @@ import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
@@ -18,6 +17,7 @@ import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Editurl from "../../component/Editurl";
+import CustomIconButton from "../../component/iconbutton";
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import Resetrecorddialog from "../../component/resetrecorddialog";
@@ -49,26 +49,11 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 
- 
-  const Photobutton = styled(Button)(({theme})=>({
-    backgroundColor:theme.palette.background.paper,
-    marginLeft:200,
-    minWidth:0,
-    width:40,
-    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-  }))
-  const Linkedit = styled(Button)(({theme})=>({
-    backgroundColor:theme.palette.background.paper,
-    marginLeft:10,
-    minWidth:0,
-    width:40,
-    boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-  }) )
   const Editicon = styled(EditOutlinedIcon)({
     position:'absolute',
-    bottom:9,
-    right:6,
-    fontSize:14,
+    bottom:10,
+    right:1,
+    fontSize:17,
     backgroundColor:'transparent',
     borderRadius:'50%'
   })
@@ -86,15 +71,6 @@ const Userstep = styled(Box, {
   boxSizing:'border-box'
 }));
 
-const Ibutton=styled(Button)(({theme})=>({
-backgroundColor:theme.palette.background.paper,
-marginTop:3,
-marginRight:1,
-padding:1,
-minWidth:0,
-width:36,
-boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
-}))
 const Tbox = styled(Box)({
   display:'flex',
   alignItems:'center',
@@ -197,8 +173,12 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
        <Box sx={{ display: 'flex', alignItems: 'center'}}>
       <MultiXpath >MultiXpath Support</MultiXpath>
           <FormControlLabel control={<SmallSwitch />} />
-    <Photobutton size="small" onClick={handleScreenshot}sx={{ml: isExpanded ? 39 : 32}}><PhotoCameraOutlinedIcon sx={{color:'#2F8BCC',fontSize:15}}/></Photobutton>
-     
+    <CustomIconButton 
+  onClick={handleScreenshot}
+  sx={{ ml: isExpanded ? 39 : 32 }}
+>
+  <PhotoCameraOutlinedIcon sx={{ fontSize: 17 }} />
+</CustomIconButton>
     <Tooltip title="Edit Link" placement="top"  slotProps={{
         popper: {
           modifiers: [
@@ -213,10 +193,10 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
       }}>
            
           
-    <Linkedit size="small" onClick={()=>dispatch(openediturl())} >
-      <LinkIcon sx={{color:'#2F8BCC',fontSize:19}}/>
-      <Editicon  />
-      </Linkedit>
+     <CustomIconButton onClick={() => dispatch(openediturl())}>
+  <LinkIcon sx={{ fontSize: 22 }} />
+  <Editicon />
+</CustomIconButton>
        <Editurl />
       </Tooltip>
     </Box>
@@ -233,11 +213,11 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
           
           <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='200px' height='30px'/>
             <Box sx={{display:'flex',gap:1}}>
-            <Ibutton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+            <CustomIconButton onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
           <Resetrecorddialog />
-                                 
-            <Ibutton size="small"  ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></Ibutton>
-            <Ibutton size="small"  onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></Ibutton>
+             <CustomIconButton ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
+             <CustomIconButton onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
+            
            <Checkdialogbox
            open={Opencheck}
            handleClose={handleClosecheck}
