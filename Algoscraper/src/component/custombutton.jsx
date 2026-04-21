@@ -27,11 +27,14 @@ const Custombutton = ({
         height: finalHeight,
         fontSize: fontSize,
         fontFamily: theme.typography.fontFamily,
+         fontWeight: 500,
         margin: margin,
         textTransform: "none",
         transition: "all 0.3s ease",
-
-       
+       color: "whitesmoke",
+        "& .MuiButton-label": {
+    fontWeight: 500,
+  },
         ...(typeof sx === "function" ? sx(theme) : sx),
       })}
     >

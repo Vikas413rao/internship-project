@@ -49,14 +49,18 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 
-  const Editicon = styled(EditOutlinedIcon)({
-    position:'absolute',
-    bottom:10,
-    right:1,
-    fontSize:17,
-    backgroundColor:'transparent',
-    borderRadius:'50%'
-  })
+ const Editicon = styled(EditOutlinedIcon)(({ theme }) => ({
+  position: 'absolute',
+  bottom:6,
+  right: 3,
+  backgroundColor: theme.palette.background.paper, 
+  borderRadius: '50%',
+  minWidth: 0,
+  minHeight: 0,
+  width: 12,
+  height: 12,
+ 
+}));
 const Userstep = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -168,14 +172,14 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
        <Navcomponent />
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1,mb:1}}>
     <Pagename isExpanded={isExpanded}/>
-    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="100px " height="35px"/>
+    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="120px " height="30px"/>
     </Box>
        <Box sx={{ display: 'flex', alignItems: 'center'}}>
       <MultiXpath >MultiXpath Support</MultiXpath>
           <FormControlLabel control={<SmallSwitch />} />
     <CustomIconButton 
   onClick={handleScreenshot}
-  sx={{ ml: isExpanded ? 39 : 32 }}
+  sx={{ ml: isExpanded ? 39 : 36 }}
 >
   <PhotoCameraOutlinedIcon sx={{ fontSize: 17 }} />
 </CustomIconButton>
@@ -211,12 +215,12 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
      <Userstep isExpanded={isExpanded}>
       <Tbox>
           
-          <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='200px' height='30px'/>
-            <Box sx={{display:'flex',gap:1}}>
-            <CustomIconButton onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+          <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='260px' height='25px'/>
+            <Box sx={{display:'flex',gap:0.1}}>
+            <CustomIconButton onClick={()=>dispatch(openresetrecord())} height='25px'><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
           <Resetrecorddialog />
-             <CustomIconButton ><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
-             <CustomIconButton onClick={handleOpencheck} ><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
+             <CustomIconButton height='25px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
+             <CustomIconButton onClick={handleOpencheck} height='25px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
             
            <Checkdialogbox
            open={Opencheck}

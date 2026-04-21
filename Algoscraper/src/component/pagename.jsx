@@ -6,7 +6,8 @@ const Pagetextfield = styled(TextField, {
   width: isExpanded ? 330 : 300,
   '& .MuiOutlinedInput-root': {
     fontSize: isExpanded ? 13 : 11,
-    height: isExpanded ? '40px' : '35px',
+    height: '30px',
+    marginTop:'1px',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     '& fieldset': {
@@ -20,7 +21,8 @@ const Pagetypography = styled(Typography, {
   backgroundColor: theme.palette.primary.main,
   fontFamily: theme.typography.fontFamily,
   color: 'white',
-  height: isExpanded ? '40px' : '35px',
+  height:'30px',
+  marginTop:'1px',
   padding: '0 12px',
   borderTopLeftRadius: 5,
   borderBottomLeftRadius: 5,
