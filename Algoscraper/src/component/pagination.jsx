@@ -31,7 +31,7 @@ const Bbox = styled(Box)({
   borderTop:'1px solid rgba(0,0,0,0.25)'
 })
 
-export default function BPagination({totalRows, errorMessage}) {
+export default function BPagination({totalRows, errorMessage,page}) {
     const dispatch = useDispatch();
     const {currentPage,rowsperPage} = useSelector(state =>state.feature);
     const totalPages = Math.ceil(totalRows/rowsperPage);
@@ -39,7 +39,7 @@ export default function BPagination({totalRows, errorMessage}) {
         dispatch(setPage(value))
     }
     const handleAddrow = () =>{
-        dispatch(addRow());
+        dispatch(addRow(page));
     }
   return (
     <div>

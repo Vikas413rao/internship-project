@@ -23,7 +23,25 @@ const isChromeAvailable =
   chrome.storage &&
   chrome.action &&
   chrome.tabs;
+const routeToPage = (pathname) => {
+    if (pathname === '/emptyscraper')  return 'scraper';
+    if (pathname === '/recording')     return 'record';
+    if (pathname === '/tablescreen')   return 'table';
+    return null;
+};
+const storageKey = (page) => `rows_${page}`;
 
+const saveToStorage = (page, rows) => new Promise((resolve) => {
+    if (!isChromeAvailable) { resolve(); return; }
+    chrome.storage.local.set({ [storageKey(page)]: rows }, resolve);
+});
+
+const loadFromStorage = (page) => new Promise((resolve) => {
+    if (!isChromeAvailable) { resolve([]); return; }
+    chrome.storage.local.get([storageKey(page)], (result) => {
+        resolve(result[storageKey(page)] || []);
+    });
+});
 const Titlesection = styled(Box)(({theme})=>({
     padding:8,
     backgroundColor: theme.palette.primary.main,

@@ -55,7 +55,7 @@ const StyledCell = styled(TableCell, {
 })(({theme,width})=>({
   fontSize:'10px',
   padding:'4px 6px',
-  width: width || 123,
+  width: width || 137,
   position:'relative',
  borderRight: `1px solid ${theme.palette.common.white}`,
   
@@ -100,13 +100,15 @@ const StyledTableContainer = styled(TableContainer, {
   backgroundColor: theme.palette.background.paper,
 }));
 export default function TableComponent({columns,isExpanded,page}) {
-  const {currentPage,rowsperPage,rows,selectcolumns,searchtermscarper,searchtermscenario,searchtermtable} = useSelector(state =>state.feature)
+  const {currentPage,rowsperPage,selectcolumns,searchtermscarper,searchtermscenario,searchtermtable,scraperRows,recordRows,tableRows} = useSelector(state =>state.feature)
   const startIndex = (currentPage - 1) * rowsperPage;
   const dispatch = useDispatch();
-  const searchterm =
-    page === "scraper" ? searchtermscarper: 
-    page === "scenario" ? searchtermscenario :
-     searchtermtable;
+       const rows = page === 'scraper' ? scraperRows
+               : page === 'record'  ? recordRows
+               : tableRows;
+  const searchterm = page === 'scraper' ? searchtermscarper
+                     : page === 'record'  ? searchtermscenario
+                     : searchtermtable;
  const filteredRows = rows.filter((row) =>
     Object.values(row).some((val) =>
       String(val || '').toLowerCase().includes((searchterm || '').toLowerCase())
@@ -175,7 +177,7 @@ document.addEventListener('mouseup',onMouseUp)
                 {columns.filter(col=> selectcolumns.includes(col.key)).map(col => (
                   <StyledCell sx={{color:'white',fontSize:12}}width={colsWidth[col.key]} key={col.key}>{col.label}<Resizer onMouseDown={(e)=>handleResize(e,col.key)}/></StyledCell>
                 ))}
-                  <StyledCell sx={{color:'white',fontSize:12 }}>Action
+                  <StyledCell sx={{color:'white',fontSize:12 ,width:80}}>Action
                   </StyledCell>
                 </TableRow>
               </TableHead>
@@ -196,7 +198,7 @@ document.addEventListener('mouseup',onMouseUp)
                       {col.key === 'contentName' && (
                  <CustomTextField variant='standard'  isExpanded={isExpanded}  fullWidth value={row[col.key] || ''}
                    error={!!validationError[`${row.id}_contentName`]} onChange={(e) =>{validateField(row.id,'contentName',e.target.value);
-                    dispatch(updateRow({id: row.id,key: col.key,value: e.target.value}));}}
+                    dispatch(updateRow({id: row.id,key: col.key,value: e.target.value,page}));}}
                      InputProps={{ disableUnderline: true }} fontSize='11px' height='18px' expandedHeight='30px' expandedWidth='120px'/>
                       )}
                     {col.key === 'controlType' && (
@@ -206,7 +208,8 @@ document.addEventListener('mouseup',onMouseUp)
                       onChange={(e) =>dispatch(updateRow({
                       id: row.id,
                       key: col.key,
-                      value: e.target.value
+                      value: e.target.value,
+                      page
                     }))
                      }
                      options={[
@@ -223,7 +226,8 @@ document.addEventListener('mouseup',onMouseUp)
                   <CustomTextField variant='standard' isLink fullWidth value = {row[col.key] || ''} onChange={(e)=>{validateField(row.id, 'Xpath', e.target.value); dispatch(updateRow({
                     id: row.id,
                     key: col.key,
-                    value: e.target.value
+                    value: e.target.value,
+                    page
                   }));}} InputProps={{ disableUnderline: true }} fontSize='11px' height='18px' extendedHeight='28px'/>
        )}
         {!['contentName','controlType','Xpath'].includes(col.key) && (
@@ -232,20 +236,21 @@ document.addEventListener('mouseup',onMouseUp)
           onChange={(e)=>dispatch(updateRow({
             id: row.id,
             key: col.key,
-            value: e.target.value
+            value: e.target.value,
+            page
           }))} InputProps={{ disableUnderline: true }} fontSize='11px' height='20px' expandedHeight='30px' expandedWidth='120px'/>
         
         )}
       </StyledCell>
             ))}
-                    <StyledCell sx={{fontSize:12}}><SmallIconButton onClick={()=>dispatch(deleteRow(row.id))}><SmallDeleteIcon sx={{color:'red'}}/></SmallIconButton></StyledCell>
+                    <StyledCell sx={{fontSize:12,width:80}}><SmallIconButton onClick={()=>dispatch(deleteRow(row.id))}><SmallDeleteIcon sx={{color:'red'}}/></SmallIconButton></StyledCell>
                   </StyledRow> 
                ))}
               </TableBody>
             </Styledtable>
           </StyledTableContainer>
           </Tablebox>
-          <BPagination totalRows={filteredRows.length} errorMessage={errormessage}/>
+          <BPagination totalRows={filteredRows.length} errorMessage={errormessage} page={page}/>
           </TBbox>
 
   )

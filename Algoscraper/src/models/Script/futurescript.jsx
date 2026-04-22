@@ -146,7 +146,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
               <Typo >Drag & Drop your file(S)</Typo>
             <Ficon isExpanded={isExpanded}><CreateNewFolderIcon /></Ficon>
             </Dropfile>
-            <Custombutton isExpanded={isExpanded} variant="outlined" onClick={openFilemanager} label='Browse Files' width='120px' height='35px' fontSize='12px'/>
+            <Custombutton isExpanded={isExpanded} variant="outlined" onClick={openFilemanager} label='Browse Files' width='120px' height='35px' fontSize='12px' sx={{color:'#2F8BCC'}}/>
           
             </Box>
             <Stepsuser isExpanded={isExpanded}>

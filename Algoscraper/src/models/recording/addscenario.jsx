@@ -210,7 +210,7 @@ export default function Addscenario() {
                                columns={AllColumns}
                                selectedColumns={selectedcolumns}
                                isExpanded={isExpanded}
-                               page="scenario"
+                               page="record"
                                />
                      </Box>
                  </Userstep>

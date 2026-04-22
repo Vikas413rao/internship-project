@@ -37,13 +37,17 @@ const initialState = {
    customDialogOpen: false,
    featureDialogOpen:false,
     featureSessionOpen:false,
-    sessionType:null,
     currentPage:1,
     rowsperPage:5,
     searchtermscarper:'',
     searchtermscenario:'',
     searchtermtable:'',
-    rows:[],
+    scraperRows: [],
+    recordRows: [],
+    tableRows: [],
+    scraperSaved: true,
+    recordSaved: true,
+    tableSaved: true,
     selectcolumns:defaultColumns,
     nextOpen:false,
   closingDialogopen:false,
@@ -60,49 +64,105 @@ const initialState = {
   filecontent:'',
   editurl:false,
   isExpanded: false,
+   unsavedDialogOpen: false,
+    pendingNavRoute: null,
 };
 
 const featureSlice = createSlice({
   name: 'feature',
   initialState,
  reducers: {
-  addRow:(state)=>{
-    const newId=state.rows.length +1;
-    state.rows.push({id:newId,
-       contentName: `Name`,
-    controlType: '',
-    Xpath: 'Xpath',
-    pageName: 'HomePage',
-    controlValue: 'control value',
-    appUrl: 'https://example.com',
-    featureName: 'LoginFeature',
-    nodeName: 'Node1',
-    });
+  addRow:(state,action)=>{
+    const page = action.payload;
+    const rowsKey = page === 'scraper' ? 'scraperRows' :
+                    page === 'record' ? 'recordRows' :
+                    'tableRows';
+      const savedKey = page === 'scraper' ? 'scraperSaved'
+                           : page === 'record'  ? 'recordSaved'
+                           : 'tableSaved';
 
-    const totalPages = Math.ceil(state.rows.length / state.rowsperPage);
-    state.currentPage=totalPages;
-  },
+            const rows = state[rowsKey];
+            const newId = rows.length > 0 ? Math.max(...rows.map(r => r.id)) + 1 : 1;
+            rows.push({
+                id: newId,
+                contentName: 'Name',
+                controlType: '',
+                Xpath: 'Xpath',
+                pageName: 'HomePage',
+                controlValue: 'control value',
+                appUrl: 'https://example.com',
+                featureName: 'LoginFeature',
+                nodeName: 'Node1',
+            });
+
+            state[savedKey] = false;
+            const totalPages = Math.ceil(rows.length / state.rowsperPage);
+            state.currentPage = totalPages;
+        },
   toggleTheme:(state)=>{
     state.themMode = state.themMode === 'light' ? 'dark' :'light';
   },
-  deleteRow:(state,action) =>{
-    state.rows=state.rows.filter(row=>row.id != action.payload);
-    const totalPages = Math.ceil(state.rows.length/state.rowsperPage);
-    if (state.currentPage > totalPages && totalPages > 0){
-      state.currentPage = totalPages;
-    }
-    if(state.rows.length === 0){
-      state.currentPage = 1;
-    }
-  },
-  updateRow:(state,action) =>{
-    const {id,key,value}=action.payload;
-    const row=state.rows.find(r=>r.id === id);
-    if(row){
-      row[key]=value;
-    }
-  },
+    deleteRow: (state, action) => {
+            const { id, page } = action.payload;
+            const rowsKey = page === 'scraper' ? 'scraperRows'
+                          : page === 'record'  ? 'recordRows'
+                          : 'tableRows';
+            const savedKey = page === 'scraper' ? 'scraperSaved'
+                           : page === 'record'  ? 'recordSaved'
+                           : 'tableSaved';
 
+            state[rowsKey] = state[rowsKey].filter(row => row.id !== id);
+            state[savedKey] = false;
+
+            const totalPages = Math.ceil(state[rowsKey].length / state.rowsperPage);
+            if (state.currentPage > totalPages && totalPages > 0) {
+                state.currentPage = totalPages;
+            }
+            if (state[rowsKey].length === 0) {
+                state.currentPage = 1;
+            }
+        },
+   updateRow: (state, action) => {
+            const { id, key, value, page } = action.payload;
+            const rowsKey = page === 'scraper' ? 'scraperRows'
+                          : page === 'record'  ? 'recordRows'
+                          : 'tableRows';
+            const savedKey = page === 'scraper' ? 'scraperSaved'
+                           : page === 'record'  ? 'recordSaved'
+                           : 'tableSaved';
+
+            const row = state[rowsKey].find(r => r.id === id);
+            if (row) {
+                row[key] = value;
+                state[savedKey] = false;
+            }
+        },
+    markSaved: (state, action) => {
+            const page = action.payload;
+            if (page === 'scraper') state.scraperSaved = true;
+            else if (page === 'record') state.recordSaved = true;
+            else if (page === 'table') state.tableSaved = true;
+        },
+        loadRows: (state, action) => {
+            const { page, rows } = action.payload;
+            if (page === 'scraper') { state.scraperRows = rows; state.scraperSaved = true; }
+            else if (page === 'record') { state.recordRows = rows; state.recordSaved = true; }
+            else if (page === 'table') { state.tableRows = rows; state.tableSaved = true; }
+        },
+          openUnsavedDialog: (state, action) => {
+            state.unsavedDialogOpen = true;
+            state.pendingNavRoute = action.payload || null;
+        },
+        closeUnsavedDialog: (state) => {
+            state.unsavedDialogOpen = false;
+            state.pendingNavRoute = null;
+        },
+         discardUnsavedRows: (state, action) => {
+            const page = action.payload;
+            if (page === 'scraper') state.scraperSaved = true;
+            else if (page === 'record') state.recordSaved = true;
+            else if (page === 'table') state.tableSaved = true;
+        },
     openFeaturedialog(state){
         state.featureDialogOpen=true;
     },
@@ -290,8 +350,6 @@ closeediturl:(state)=>{state.editurl=false;},
 });
 
 export const {
-    openDialog,
-    closeDialog,
   openLoader,
   setProgress,
   resetPingcard,
@@ -346,5 +404,10 @@ closeSession,
   setsearchtermscenario,
   setsearchtermscraper,
   setsearchtermtable,
+  markSaved,
+  loadRows,
+  openUnsavedDialog,
+  closeUnsavedDialog,
+  discardUnsavedRows,
 } = featureSlice.actions;
 export default featureSlice.reducer;
