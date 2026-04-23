@@ -243,7 +243,7 @@ document.addEventListener('mouseup',onMouseUp)
         )}
       </StyledCell>
             ))}
-                    <StyledCell sx={{fontSize:12,width:80}}><SmallIconButton onClick={()=>dispatch(deleteRow(row.id))}><SmallDeleteIcon sx={{color:'red'}}/></SmallIconButton></StyledCell>
+                    <StyledCell sx={{fontSize:12,width:80}}><SmallIconButton onClick={()=>dispatch(deleteRow({id: row.id,page}))}><SmallDeleteIcon sx={{color:'red'}}/></SmallIconButton></StyledCell>
                   </StyledRow> 
                ))}
               </TableBody>

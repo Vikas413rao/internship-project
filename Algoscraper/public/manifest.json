@@ -1,20 +1,47 @@
 {
-    "manifest_version":3,
-    "name":"AlgoScraper",
-    "version":"1.0",
-    "description":"A Chrome extension to scrape algorithm problems from various coding platforms.",
-     "action": {
-    "default_popup": "index.html"
+  "manifest_version": 3,
+  "name": "AlgoScraper",
+  "version": "1.0",
+  "description": "Algo scraper extension",
+
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "AlgoScraper"
   },
-    "permissions": [
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
     "storage",
     "activeTab",
     "tabs",
-    "downloads"
+    "scripting"
   ],
 
-    "host_permissions": [
-    "<all_urls>",
-    "http://localhost:5000/*"
-  ]
+  "host_permissions": [
+    "<all_urls>"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/download.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "icons": {
+    "16": "assets/download.png",
+    "48": "assets/download.png",
+    "128": "assets/download.png"
+  }
 }

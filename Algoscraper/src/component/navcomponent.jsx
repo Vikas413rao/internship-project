@@ -8,12 +8,12 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
-import { Box, Button, IconButton, Link, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { openFeaturedialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
+import { closeUnsavedDialog, loadRows, markSaved, openFeaturedialog, openUnsavedDialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
 import Closingdialog from '../hooks/alertdialoboxhooks';
 import Closingdialogbox from './alertDialogbox';
 import Featuredialogbox from './featuredialogbox';
@@ -22,11 +22,12 @@ const isChromeAvailable =
   typeof chrome !== "undefined" &&
   chrome.storage &&
   chrome.action &&
-  chrome.tabs;
+  chrome.tabs &&
+  chrome.scripting;
 const routeToPage = (pathname) => {
-    if (pathname === '/emptyscraper')  return 'scraper';
-    if (pathname === '/recording')     return 'record';
-    if (pathname === '/tablescreen')   return 'table';
+    if (pathname === '/scraperui')   return 'scraper';  // ← was '/emptyscraper'
+    if (pathname === '/addscenario') return 'record';
+    if (pathname === '/tablescreen') return 'table';
     return null;
 };
 const storageKey = (page) => `rows_${page}`;
@@ -172,9 +173,71 @@ const ArrowBackIcon =styled(ArrowBackIosIcon)({
 })
 
 export default function Navcomponent() {
+    const dispatch = useDispatch();
     const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
+     const pagelist=[{value:'Page List',label:'Page List'}]
+    const mode= useSelector((state)=>state.feature.themMode)
+     const isExpanded = useSelector(state => state.feature.isExpanded); 
+     const scraperSaved = useSelector(state => state.feature.scraperSaved);
+     const recordSaved = useSelector(state => state.feature.recordSaved);
+     const tableSaved = useSelector(state => state.feature.tableSaved);
+     const unsavedDialogOpen = useSelector(state => state.feature. unsavedDialogOpen);
+     const pendingNavroute = useSelector(state =>state.feature. pendingNavRoute);
+    const scraperRows = useSelector(state => state.feature. scraperRows);
+    const recordRows = useSelector(state => state.feature.recordRows);
+    const tableRows =useSelector (state => state.feature.tableRows);
     const navigate=useNavigate();
     const location=useLocation();
+     const currentPage = routeToPage(location.pathname);
+     useEffect(()=> {
+        ['scraper','record','table'].forEach(async (page)=>{
+            const saved = await loadFromStorage(page);
+            dispatch(loadRows({page, rows:saved}));
+        });
+     },[dispatch]);
+     useEffect(() => {
+  if (!isChromeAvailable) return;
+
+  chrome.storage.local.get(['isMinimized', 'lastRoute'], (result) => {
+
+    
+    ['scraper','record','table'].forEach(async (page) => {
+      const saved = await loadFromStorage(page);
+      dispatch(loadRows({ page, rows: saved }));
+    });
+
+   
+    if (result?.lastRoute && result.lastRoute !== location.pathname) {
+      setTimeout(() => {
+        navigate(result.lastRoute, { replace: true });
+      }, 100);
+
+    
+      chrome.storage.local.set({ lastRoute: null });
+    }
+
+    
+    if (result?.isMinimized) {
+      chrome.storage.local.set({ isMinimized: false });
+
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach(tab => {
+          chrome.tabs.sendMessage(tab.id, {
+            action: 'removeFloatIcon'
+          }).catch(() => {});
+        });
+      });
+    }
+
+  });
+
+}, [dispatch]);
+        const iscurrentpageunsaved = () =>{
+        if(currentPage === 'scraper') return !scraperSaved;
+        if(currentPage === 'record') return !recordSaved;
+        if(currentPage === 'table') return !tableSaved;
+        return false;
+     };
     const handleBackNavigation = () =>{
         dispatch(setnextopen(false))
         const currentPath = location.pathname;
@@ -194,24 +257,34 @@ export default function Navcomponent() {
             '/scenariofile':'/tablescreen'
         };
         const nextRoute=navigationMap[currentPath] || '/';
-
+        if(iscurrentpageunsaved()){
+            dispatch(openUnsavedDialog(nextRoute));
+            return;
+        }
         navigate(nextRoute);
 
     }
-     useEffect(() => {
-    if (!isChromeAvailable) return;
-
-    chrome.storage.local.get(['isMinimized'], (result) => {
-      if (result?.isMinimized) {
-        chrome.action.setBadgeText({ text: '' });
-        chrome.storage.local.set({ isMinimized: false });
-      }
-    });
-  }, []);
-    const dispatch = useDispatch();
-    const pagelist=[{value:'Page List',label:'Page List'}]
-    const mode= useSelector((state)=>state.feature.themMode)
-     const isExpanded = useSelector(state => state.feature.isExpanded); 
+    
+   const handleSaveandnav = async () =>{
+    if(currentPage){
+        const rowsMap = {scraper: scraperRows, record: recordRows, table:tableRows};
+        await saveToStorage(currentPage,rowsMap[currentPage]);
+        dispatch(markSaved(currentPage));
+    }
+    const route = pendingNavroute;
+    dispatch(closeUnsavedDialog());
+    if(route) navigate(route);
+   };
+   const handleDiascardandnav = async () =>{
+    if(currentPage){
+        const saved = await loadFromStorage(currentPage);
+        dispatch(loadRows({page:currentPage, rows:saved}));
+    }
+    const route = pendingNavroute;
+    dispatch(closeUnsavedDialog());
+    if(route) navigate(route);
+   }
+   
 
   
   useEffect(() => {
@@ -220,21 +293,48 @@ export default function Navcomponent() {
     body.style.height = isExpanded ? '530px' : '430px';
   }, [isExpanded]);
 
-   const handleMinimize = () => {
+    const handleCtrlS = useCallback(async (e) =>{
+        if(!(e.ctrlKey && e.key === 's')) return;
+        e.preventDefault();
+        if(!currentPage) return;
+        const rowsMap = {scraper: scraperRows, record: recordRows, table: tableRows};
+        const rows = rowsMap[currentPage];
+        await saveToStorage(currentPage,rows);
+        dispatch(markSaved(currentPage));
+    },[currentPage,scraperRows,recordRows,tableRows,dispatch]);
 
-     if (isChromeAvailable) {
-    chrome.storage.local.set({
-      isMinimized: true,
-      lastRoute: location.pathname   
+    useEffect(()=>{
+        document.addEventListener('keydown', handleCtrlS);
+        return () => document.removeEventListener('keydown',handleCtrlS);
+    },[handleCtrlS]);
+
+  
+ const handleMinimize = () => {
+  chrome.storage.local.set({
+    isMinimized: true,
+    lastRoute: location.pathname
+  });
+
+  console.log("Saving route:", location.pathname);
+
+  
+  chrome.tabs.query({}, (tabs) => {
+    tabs.forEach(tab => {
+      if (!tab.id) return;
+
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ["content.js"]
+      }).then(() => {
+        chrome.tabs.sendMessage(tab.id, {
+          action: "showFloatIcon"
+        });
+      }).catch(() => {});
     });
+  });
 
-    chrome.action.setBadgeText({ text: '●' });
-    chrome.action.setBadgeBackgroundColor({ color: '#1976d2' });
-  }
-
-
-    window.close();
-  };
+  window.close();
+};
   return (
     <div>
       
@@ -282,6 +382,19 @@ export default function Navcomponent() {
             </Closingbox>
             </Box>
         </Box>
+        <Dialog open={unsavedDialogOpen} onClose={() =>dispatch(closeUnsavedDialog())}>
+            <DialogTitle>Unsaved Data</DialogTitle>
+            <DialogContent>
+                You have unsaved changes. Do you want to save before leaving?
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => dispatch(closeUnsavedDialog())} color='inherit'>
+                    Cancel
+                </Button>
+                <Button onClick={handleDiascardandnav} color='error'>Discard & Leave</Button>
+                <Button onClick={handleSaveandnav} variant='contained'>Save & Leave</Button>
+            </DialogActions>
+        </Dialog>
     </div>
   )
 }
