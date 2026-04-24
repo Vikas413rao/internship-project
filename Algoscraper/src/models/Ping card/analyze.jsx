@@ -162,7 +162,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                  isSearch={true} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
                
                  <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='35px'/>
-                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='35px'/>
+                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='35px' sx={{color:'#1976d2'}}/>
                
                 </Box> 
                 <Body  isExpanded={isExpanded}>

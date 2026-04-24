@@ -1,3 +1,9 @@
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
@@ -5,11 +11,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import Custombutton from '../../component/custombutton';
+import CustomDialog from '../../component/customdialog';
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
-import RecordDialog from '../../component/recorddialog';
-import { openrecord } from '../../featureSlice';
+import { closerecord, openrecord } from '../../featureSlice';
+
+import CustomTextField from '../../component/Textfeild';
 const stepsdata = [
   'Enter Scenario details.',
   <>To record the action as you perform the actions, click <b>start recording</b></>,
@@ -42,7 +50,7 @@ const Userstep = styled(Box, {
   width: '100%',
   flexGrow: 1,
   marginTop:6,
-  minHeight: isExpanded ? 520 : 330,
+  minHeight: isExpanded ? 520 : 350,
   padding: isExpanded ? 8 : 4,
   display: 'flex',
   flexDirection: 'column',
@@ -64,7 +72,15 @@ export default function Recording() {
           body.style.height = '430px';
         }
       }, [isExpanded]);
-    
+    const openrecordstate = useSelector(state => state.feature.recordopen);
+    const handleClose = () => {
+  dispatch(closerecord());
+};
+
+const handleConfirm = () => {
+  navigate('/addscenario');
+  dispatch(closerecord());
+};
     return (
     <div>
        <Box
@@ -82,7 +98,71 @@ export default function Recording() {
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
       <Pagename isExpanded={isExpanded}/>
       <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='35px'/>
-      <RecordDialog mode='recording' />
+      <CustomDialog
+  open={openrecordstate}
+  onClose={handleClose}
+  showHeader={true}
+  showCloseIcon={true}
+  title="Record Scenario"
+  width={280}
+  height={295}
+  buttons={[
+    {
+      label: 'Cancel',
+      onClick: handleClose,
+      sx: {
+        backgroundColor: 'grey.200',
+        color: 'grey',
+        height: 28,
+
+      }
+    },
+    {
+      label: 'Start Recording',
+      onClick: handleConfirm,
+      width: '125px',
+      height: 28
+    }
+  ]}
+  contentSx={{
+    justifyContent: 'space-between',
+    px: 2,
+    py: 1
+  }}
+>
+  <FormGroup sx={{ gap: 0.5 }}>
+    <CustomTextField
+      placeholder="Page Name"
+      InputProps={{ sx: { fontSize: 12, height: 25 } }}
+       placeholderSize="12px"
+    />
+
+    <CustomTextField
+      placeholder="Enter Scenario Name"
+      InputProps={{ sx: { fontSize: 12 , height: 25 } }}
+      placeholderSize="12px"
+    />
+
+    <CustomTextField
+      placeholder="Enter Scenario Outline"
+      multiline
+      rows={3}
+      height="80px"
+      placeholderSize="12px"
+      InputProps={{ sx: { fontSize: 13 } }}
+    />
+
+    <FormControlLabel
+      control={<Checkbox />}
+      label={
+        <Typography fontSize={11}>
+          Capture Screenshots while recording
+        </Typography>
+      }
+      sx={{ mt: -1 }}
+    />
+  </FormGroup>
+</CustomDialog>
        
         </Box>
         <Userstep  isExpanded={isExpanded}>

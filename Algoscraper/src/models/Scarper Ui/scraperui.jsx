@@ -15,15 +15,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Checkdialogbox from '../../component/checkdialogbox';
 import Custombutton from '../../component/custombutton';
+import CustomDialog from "../../component/customdialog";
 import Customusersteps, { AlgoQA } from '../../component/customusersteps';
-import Editurl from "../../component/Editurl";
 import CustomIconButton from "../../component/iconbutton";
 import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
-import Resetrecorddialog from "../../component/resetrecorddialog";
 import TableComponent from '../../component/Tablecomponent';
 import CustomTextField from "../../component/Textfeild";
-import { AllColumns, closecheckDialog, openCheckDialog, openediturl, openresetrecord, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
+import { AllColumns, closecheckDialog, closeediturl, closeresetrecord, openCheckDialog, openediturl, openresetrecord, resetUnsavedRows, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -131,7 +130,7 @@ export default function Scraperui() {
   const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
   const nextOpen = useSelector(state =>state.feature.nextOpen);
   const dispatch = useDispatch();
- 
+ const openedit = useSelector(state => state.feature.editurl);
   const Opencheck =useSelector (state => state.feature.checkDialog);
   const handleOpencheck = () =>{dispatch(openCheckDialog())};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
@@ -165,7 +164,15 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
     }
   }, [isExpanded]);
 const searchterm = useSelector(state => state.feature.searchtermscraper)
- 
+ const handleCloseedit= () =>{dispatch(closeediturl());}
+ const handleConfirmedit=() =>{dispatch(closeediturl());}
+ const resetrecordopen = useSelector(state => state.feature.resetrecordopen);
+ const handleResetConfirm = () => {
+    dispatch(closeresetrecord());
+    dispatch(resetUnsavedRows('scraper'));
+    dispatch(setnextopen(false));
+};
+
   return (
    <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
@@ -201,7 +208,37 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
   <LinkIcon sx={{ fontSize: 22 }} />
   <Editicon />
 </CustomIconButton>
-       <Editurl />
+      <CustomDialog
+  open={openedit}
+  onClose={handleCloseedit}
+  showHeader={true}
+  showCloseIcon={true}
+  title="Application URL"
+  width={280}
+  height={150}
+  buttons={[
+    {
+      label: 'Cancel',
+      onClick: handleCloseedit,
+      sx: {
+        backgroundColor: 'grey.200',
+        color: 'grey'
+      }
+    },
+    {
+      label: 'Save',
+      onClick: handleConfirmedit
+    }
+  ]}
+  contentSx={{
+    justifyContent: 'center'
+  }}
+>
+  <CustomTextField
+    placeholder="Edit Link"
+    placeholderSize="12px"
+  />
+</CustomDialog>
       </Tooltip>
     </Box>
     {/*User Steps */}
@@ -218,7 +255,31 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
           <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='260px' height='25px'/>
             <Box sx={{display:'flex',gap:0.1}}>
             <CustomIconButton onClick={()=>dispatch(openresetrecord())} height='25px'><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
-          <Resetrecorddialog />
+        <CustomDialog
+    open={resetrecordopen}
+    onClose={() => dispatch(closeresetrecord())}
+    showHeader={true}
+    showCloseIcon={true}
+    title="Reset Record"
+    width={250}
+    height={150}
+    buttons={[
+        {
+            label: 'No',
+            onClick: () => dispatch(closeresetrecord()),
+            sx: { backgroundColor: 'grey.200', color: 'grey' }
+        },
+        {
+            label: 'Yes',
+            onClick: handleResetConfirm,
+        }
+    ]}
+    actionssx={{ justifyContent: 'space-between', px: 2 }}
+>
+    <Typography sx={{ color: 'text.secondary', fontSize: 12 }}>
+        Are you sure you want to refresh? All unsaved data will be lost.
+    </Typography>
+</CustomDialog>
              <CustomIconButton height='25px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
              <CustomIconButton onClick={handleOpencheck} height='25px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
             

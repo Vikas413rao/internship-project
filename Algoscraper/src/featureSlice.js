@@ -66,6 +66,9 @@ const initialState = {
   isExpanded: false,
    unsavedDialogOpen: false,
     pendingNavRoute: null,
+    scraperSavedRows: [],  
+recordSavedRows: [],
+tableSavedRows: [],
 };
 
 const featureSlice = createSlice({
@@ -138,17 +141,33 @@ const featureSlice = createSlice({
             }
         },
     markSaved: (state, action) => {
-            const page = action.payload;
-            if (page === 'scraper') state.scraperSaved = true;
-            else if (page === 'record') state.recordSaved = true;
-            else if (page === 'table') state.tableSaved = true;
-        },
-        loadRows: (state, action) => {
-            const { page, rows } = action.payload;
-            if (page === 'scraper') { state.scraperRows = rows; state.scraperSaved = true; }
-            else if (page === 'record') { state.recordRows = rows; state.recordSaved = true; }
-            else if (page === 'table') { state.tableRows = rows; state.tableSaved = true; }
-        },
+    const page = action.payload;
+    if (page === 'scraper') {
+        state.scraperSaved = true;
+        state.scraperSavedRows = [...state.scraperRows]; 
+    } else if (page === 'record') {
+        state.recordSaved = true;
+        state.recordSavedRows = [...state.recordRows];
+    } else if (page === 'table') {
+        state.tableSaved = true;
+        state.tableSavedRows = [...state.tableRows];
+    }
+},loadRows: (state, action) => {
+    const { page, rows } = action.payload;
+    if (page === 'scraper') {
+        state.scraperRows = rows;
+        state.scraperSavedRows = [...rows]; 
+        state.scraperSaved = true;
+    } else if (page === 'record') {
+        state.recordRows = rows;
+        state.recordSavedRows = [...rows];
+        state.recordSaved = true;
+    } else if (page === 'table') {
+        state.tableRows = rows;
+        state.tableSavedRows = [...rows];
+        state.tableSaved = true;
+    }
+},
           openUnsavedDialog: (state, action) => {
             state.unsavedDialogOpen = true;
             state.pendingNavRoute = action.payload || null;
@@ -345,6 +364,20 @@ openediturl:(state)=>{
   state.editurl=true;
 },
 closeediturl:(state)=>{state.editurl=false;},
+resetUnsavedRows: (state, action) => {
+    const page = action.payload;
+    if (page === 'scraper') {
+        state.scraperRows = [...state.scraperSavedRows]; 
+        state.scraperSaved = true;
+    } else if (page === 'record') {
+        state.recordRows = [...state.recordSavedRows];
+        state.recordSaved = true;
+    } else if (page === 'table') {
+        state.tableRows = [...state.tableSavedRows];
+        state.tableSaved = true;
+    }
+    state.currentPage = 1;
+},
 },
 
 });
@@ -409,5 +442,6 @@ closeSession,
   openUnsavedDialog,
   closeUnsavedDialog,
   discardUnsavedRows,
+  resetUnsavedRows,
 } = featureSlice.actions;
 export default featureSlice.reducer;

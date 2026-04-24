@@ -26,7 +26,10 @@ import Resetrecorddialog from '../../component/resetrecorddialog';
 import Settingdialog from '../../component/settingdialog';
 import TableComponent from '../../component/Tablecomponent';
 import CustomTextField from '../../component/Textfeild';
-import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setsearchtermscenario, setselectcolumns } from '../../featureSlice';
+import { AllColumns, closecheckDialog, openCheckDialog, openeditdialog, openrecord, openresetrecord, opensettingdialog, setsearchtermscenario, setselectcolumns,closerecord } from '../../featureSlice';
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
+import CustomDialog from '../../component/customdialog';
+import CustomTextField from '../../component/Textfeild';
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({

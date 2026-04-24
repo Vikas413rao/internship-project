@@ -8,14 +8,14 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import TabUnselectedIcon from '@mui/icons-material/TabUnselected';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Typography } from '@mui/material';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { Box, Button, DialogContentText, IconButton, Link, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { closeUnsavedDialog, loadRows, markSaved, openFeaturedialog, openUnsavedDialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
-import Closingdialog from '../hooks/alertdialoboxhooks';
-import Closingdialogbox from './alertDialogbox';
+import { closeClosingdialog, closeUnsavedDialog, loadRows, markSaved, openclosingdialog, openFeaturedialog, openUnsavedDialog, resetPingcard, resetShowfinalReport, setnextopen, toggleExpanded, toggleTheme } from '../featureSlice';
+import CustomDialog from './customdialog';
 import Featuredialogbox from './featuredialogbox';
 import CustomIconButton from './iconbutton';
 const isChromeAvailable =
@@ -25,7 +25,7 @@ const isChromeAvailable =
   chrome.tabs &&
   chrome.scripting;
 const routeToPage = (pathname) => {
-    if (pathname === '/scraperui')   return 'scraper';  // ← was '/emptyscraper'
+    if (pathname === '/scraperui')   return 'scraper';  
     if (pathname === '/addscenario') return 'record';
     if (pathname === '/tablescreen') return 'table';
     return null;
@@ -174,7 +174,7 @@ const ArrowBackIcon =styled(ArrowBackIosIcon)({
 
 export default function Navcomponent() {
     const dispatch = useDispatch();
-    const{open,handleClose,handleConfirm,handleCloseclick}=Closingdialog();
+   
      const pagelist=[{value:'Page List',label:'Page List'}]
     const mode= useSelector((state)=>state.feature.themMode)
      const isExpanded = useSelector(state => state.feature.isExpanded); 
@@ -186,6 +186,7 @@ export default function Navcomponent() {
     const scraperRows = useSelector(state => state.feature. scraperRows);
     const recordRows = useSelector(state => state.feature.recordRows);
     const tableRows =useSelector (state => state.feature.tableRows);
+    const closingdialogopen = useSelector(state => state.feature. closingDialogopen);
     const navigate=useNavigate();
     const location=useLocation();
      const currentPage = routeToPage(location.pathname);
@@ -335,6 +336,18 @@ export default function Navcomponent() {
 
   window.close();
 };
+const handleCloseclick = () => {
+  dispatch(openclosingdialog());
+};
+
+const handleClose = () => {
+  dispatch(closeClosingdialog());
+};
+
+const handleConfirm = () => {
+  dispatch(closeClosingdialog());
+  navigate('/');
+};
   return (
     <div>
       
@@ -374,27 +387,93 @@ export default function Navcomponent() {
                     {isExpanded ? <FilterNoneIcon sx={(theme)=>({color:theme.palette.icon.primary})} /> : <CropFreeIcon sx={(theme)=>({color:theme.palette.icon.primary})}/>}
                 </Ibutton>
                 <Ibutton onClick={handleCloseclick}><CloseIcon sx={(theme)=>({color:theme.palette.icon.primary})}/></Ibutton>
-                <Closingdialogbox 
-                open={open}
-                handleClose={handleClose}
-                handleConfirm={handleConfirm}
-                />
+               <CustomDialog
+  open={closingdialogopen}
+  onClose={handleClose}
+  showHeader={true}
+   showCloseIcon={true}
+  title="Alert"
+  headerBgColor="#fdb9b9"
+  titleColor="red"
+  titleIcon={<WarningAmberIcon fontSize="small" />}
+  height={160}
+  width={250}
+  buttons={[
+    {
+      label: 'Cancel',
+      onClick: handleClose,
+      sx: {
+        backgroundColor: 'grey.200',
+        color: 'grey'
+      }
+    },
+    {
+      label: 'Confirm',
+      onClick: handleConfirm
+    }
+  ]}
+  contentSx={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  }}
+>
+  <DialogContentText sx={{ fontSize: 13 }}>
+    Are You Sure?
+  </DialogContentText>
+
+  <DialogContentText sx={{ fontSize: 11, color: 'text.secondary' }}>
+    You will not be able to recover Data.
+  </DialogContentText>
+</CustomDialog>
             </Closingbox>
             </Box>
         </Box>
-        <Dialog open={unsavedDialogOpen} onClose={() =>dispatch(closeUnsavedDialog())}>
-            <DialogTitle>Unsaved Data</DialogTitle>
-            <DialogContent>
-                You have unsaved changes. Do you want to save before leaving?
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={() => dispatch(closeUnsavedDialog())} color='inherit'>
-                    Cancel
-                </Button>
-                <Button onClick={handleDiascardandnav} color='error'>Discard & Leave</Button>
-                <Button onClick={handleSaveandnav} variant='contained'>Save & Leave</Button>
-            </DialogActions>
-        </Dialog>
+      <CustomDialog
+  open={unsavedDialogOpen}
+  onClose={() => dispatch(closeUnsavedDialog())}
+  showHeader={true}
+  title="Unsaved Data"
+  height={170}
+  width={280}
+  buttons={[
+    {
+      label: 'Cancel',
+      onClick: () => dispatch(closeUnsavedDialog()),
+      variant: 'contained',
+      sx: {
+        backgroundColor: 'grey.200',
+        color: 'grey'
+      }
+    },
+    {
+      label: 'Discard',
+      onClick: handleDiascardandnav,
+      variant: 'contained',
+      sx: {
+        backgroundColor: 'error.main'
+      }
+    },
+    {
+      label: 'Save',
+      onClick: handleSaveandnav,
+      variant: 'contained'
+    }
+  ]}
+  contentSx={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  }}
+>
+  <DialogContentText sx={{ fontSize: 13 }}>
+    You have unsaved changes.
+  </DialogContentText>
+
+  <DialogContentText sx={{ fontSize: 12, color: 'text.secondary' }}>
+    Do you want to save before leaving?
+  </DialogContentText>
+</CustomDialog>
     </div>
   )
 }
