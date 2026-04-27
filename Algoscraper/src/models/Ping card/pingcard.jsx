@@ -125,9 +125,9 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                     <Navcomponent />
                  <Box sx={{display:'flex',alignItems:'center', gap:1,mr:1}}>
                   <CustomTextField isSearch isExpanded={isExpanded} placeholder='Enter a Webpage Url' margin='0px 0px 0px 3px' variant='outlined' value={url} 
-                  onChange={handleUrlchange} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
-                <Custombutton disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded} label='Analyze' width='100px' height='35px'/>
-                <Custombutton variant='outlined' isExpanded={isExpanded} label="Stop" width='100px' height='35px' sx={{color:'#1976d2'}}/>
+                  onChange={handleUrlchange} height="30px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
+                <Custombutton disabled={!isValidurl} variant='contained' onClick={handleAnalyze} isExpanded={isExpanded} label='Analyze' width='100px' height='30px'/>
+                <Custombutton variant='outlined' isExpanded={isExpanded} label="Stop" width='100px' height='30px' sx={{color:'#1976d2'}}/>
                 </Box> 
                 <Body isExpanded={isExpanded}>
                      

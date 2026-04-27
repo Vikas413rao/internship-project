@@ -10,6 +10,7 @@ const CustomIconButton = ({
   isExpanded = false,
   margin = "2px 4px 0px 0px",
   bgColor,
+   disableBg = false,
   sx,
   ...props
 }) => {
@@ -27,8 +28,12 @@ const CustomIconButton = ({
         padding: 0,
         margin: margin,
         position: "relative",
-        backgroundColor: bgColor || theme.palette.background.paper,
-        boxShadow: "0px 2px 6px rgba(0,0,0,0.1)",
+        backgroundColor: disableBg
+          ? "transparent"
+          : bgColor || theme.palette.background.paper,
+           boxShadow: disableBg
+          ? "none"
+          : "0px 2px 6px rgba(0,0,0,0.1)",
 
         ...(typeof sx === "function" ? sx(theme) : sx),
       })}

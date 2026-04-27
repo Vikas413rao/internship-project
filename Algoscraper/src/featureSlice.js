@@ -69,6 +69,7 @@ const initialState = {
     scraperSavedRows: [],  
 recordSavedRows: [],
 tableSavedRows: [],
+resetSaveChecked: true,
 };
 
 const featureSlice = createSlice({
@@ -182,6 +183,9 @@ const featureSlice = createSlice({
             else if (page === 'record') state.recordSaved = true;
             else if (page === 'table') state.tableSaved = true;
         },
+        setResetSaveChecked: (state, action) => {
+  state.resetSaveChecked = action.payload;
+},
     openFeaturedialog(state){
         state.featureDialogOpen=true;
     },
@@ -306,7 +310,8 @@ resetShowfinalReport (state){
     state.editdialogopen=false;
   },
   openresetrecord:(state)=>{
-    state.resetrecordopen=true;
+    state.resetrecordopen = true;
+  state.resetSaveChecked = true;
   },
   closeresetrecord:(state)=>{
     state.resetrecordopen=false;
@@ -369,9 +374,9 @@ resetUnsavedRows: (state, action) => {
     if (page === 'scraper') {
         state.scraperRows = [...state.scraperSavedRows]; 
         state.scraperSaved = true;
-    } else if (page === 'record') {
-        state.recordRows = [...state.recordSavedRows];
-        state.recordSaved = true;
+    }  else if (page === 'record') {
+    state.recordRows = [...state.recordSavedRows]; 
+    state.recordSaved = true;
     } else if (page === 'table') {
         state.tableRows = [...state.tableSavedRows];
         state.tableSaved = true;
@@ -443,5 +448,6 @@ closeSession,
   closeUnsavedDialog,
   discardUnsavedRows,
   resetUnsavedRows,
+  setResetSaveChecked,
 } = featureSlice.actions;
 export default featureSlice.reducer;

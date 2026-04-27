@@ -53,7 +53,7 @@ export const lightTheme = createTheme({
     },
 
     background: {
-      default: "#eaeaea",
+      default: "rgb(248, 244, 244)",
       paper: "#ffffff",
     },
 
@@ -66,7 +66,9 @@ export const lightTheme = createTheme({
       primary: "#000000",
       secondary: "#555555"
     },
-
+    scenario:{
+      bgcolor:'#a7daff'
+    },
     grey: {
       100: "#f5f5f5",
       200: "#9f9f9f3c",
@@ -105,7 +107,9 @@ export const darkTheme = createTheme({
       primary: "#ffffff",
       secondary: "#e8dcdc"
     },
-
+scenario:{
+      bgcolor:'#000000'
+    },
     grey: {
       100: "#2a2a2a",
       200: "#3b3b3bb5",

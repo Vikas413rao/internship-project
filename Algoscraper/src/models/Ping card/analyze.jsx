@@ -159,10 +159,10 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                     <Navcomponent />
                     <Box sx={{display:'flex',alignItems:'center', gap:1,mr:1}}>
                  <CustomTextField isExpanded placeholder='Enter a Webpage Url' variant='outlined' value={url} margin='0px 0px 0px 3px'
-                 isSearch={true} height="25px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
+                 isSearch={true} height="30px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
                
-                 <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='35px'/>
-                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='35px' sx={{color:'#1976d2'}}/>
+                 <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='30px'/>
+                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='30px' sx={{color:'#1976d2'}}/>
                
                 </Box> 
                 <Body  isExpanded={isExpanded}>

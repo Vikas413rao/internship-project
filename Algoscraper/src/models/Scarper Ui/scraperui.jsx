@@ -254,7 +254,7 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
           
           <CustomTextField isSearch placeholder="Search"  variant="outlined" value={searchterm} onChange={(e)=>dispatch(setsearchtermscraper(e.target.value))}  placeholderSize="12px" width='260px' height='25px'/>
             <Box sx={{display:'flex',gap:0.1}}>
-            <CustomIconButton onClick={()=>dispatch(openresetrecord())} height='25px'><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+            <CustomIconButton onClick={()=>dispatch(openresetrecord())} height='25px' width='28px'><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
         <CustomDialog
     open={resetrecordopen}
     onClose={() => dispatch(closeresetrecord())}
@@ -280,8 +280,8 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
         Are you sure you want to refresh? All unsaved data will be lost.
     </Typography>
 </CustomDialog>
-             <CustomIconButton height='25px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
-             <CustomIconButton onClick={handleOpencheck} height='25px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
+             <CustomIconButton height='25px' width='28px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
+             <CustomIconButton onClick={handleOpencheck} height='25px' width='28px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
             
            <Checkdialogbox
            open={Opencheck}

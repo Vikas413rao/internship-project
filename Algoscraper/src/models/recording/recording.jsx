@@ -97,7 +97,7 @@ const handleConfirm = () => {
       
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
       <Pagename isExpanded={isExpanded}/>
-      <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='35px'/>
+      <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='30px'/>
       <CustomDialog
   open={openrecordstate}
   onClose={handleClose}

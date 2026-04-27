@@ -32,7 +32,7 @@ const Container = styled(Box, {
   transition: 'all 0.3s ease',
 }));
 const Scenario = styled(Box)(({theme})=>({
-backgroundColor:theme.palette.grey[100],
+backgroundColor:theme.palette.scenario.bgcolor,
 height:30,
 margin:4,
 borderRadius:'5px',
@@ -51,6 +51,7 @@ border:`1px solid ${theme.palette.grey[300]}`,
 borderRadius:'6px',
 padding:'6px 8px',
 marginBottom:4,
+height:30,
 backgroundColor:theme.palette.background.paper,
  width: isExpanded ? '560px' : '500px', 
   marginLeft: 4,
@@ -93,7 +94,7 @@ export default function Scenariolist() {
           <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
       
         <Pagename isExpanded={isExpanded}/>
-        <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='35px'/>
+        <Custombutton isExpanded={isExpanded} onClick={()=>dispatch(openrecord())} label='Record Action' width='120px' height='30px'/>
               <RecordDialog mode='scenario' />
          
         </Box>
@@ -101,26 +102,26 @@ export default function Scenariolist() {
             {/*scenario name */}
             <Scenario >
             <Typography sx={{fontSize:12,p:2}}>Scenarios_List</Typography>
-      <CustomIconButton sx={{ ml: 40 }}>
+      <CustomIconButton sx={{ ml: 42 }} height='25px' disableBg>
   <SaveAltIcon sx={(theme) => ({
-    fontSize: 20,
+    fontSize: 17,
     color: theme.palette.icon.primary
   })} />
 </CustomIconButton>
-<CustomIconButton disabled sx={{ p: 2 }}>
-  <DeleteOutlineOutlinedIcon sx={{ fontSize: 20 }} />
+<CustomIconButton disabled sx={{ p: 2 }} disableBg height='28px'>
+  <DeleteOutlineOutlinedIcon sx={{ fontSize: 17 }} />
 </CustomIconButton>
             </Scenario>
             {/*Scenario list */}  
           <Box sx={{p:1}}>
             <List isExpanded={isExpanded}>
                 <Box sx={{display:'flex',alignItems:'center',gap:1}}>
-            <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
+            <Checkbox size='small' height='25px' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>
                 <Box>
-                  <CustomIconButton size='small'  onClick={handleedit}>
+                  <CustomIconButton size='small'  onClick={handleedit} height='20px' width='25px'>
                   <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></CustomIconButton>
-                <CustomIconButton size='small'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
+                <CustomIconButton size='small' height='20px' width='25px'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
                 
                 </Box>
                 
@@ -130,9 +131,9 @@ export default function Scenariolist() {
             <Checkbox size='small' /> <Typography fontSize={13}>Scenario_Outline will be shown here</Typography>
                 </Box>
                 <Box>
-               <CustomIconButton size='small'  onClick={handleedit}>
+               <CustomIconButton size='small'  onClick={handleedit} height='20px' width='25px'>
                   <DriveFileRenameOutlineSharpIcon sx={{color:'#2F8BCC',fontSize:20}}/></CustomIconButton>
-                <CustomIconButton size='small'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
+                <CustomIconButton size='small' height='20px' width='25px'><DeleteOutlineOutlinedIcon color='red' sx={{fontSize:20}}/></CustomIconButton>
                 </Box>
                 
                 </List>
