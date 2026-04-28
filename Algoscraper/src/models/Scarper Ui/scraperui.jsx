@@ -132,7 +132,7 @@ export default function Scraperui() {
   const dispatch = useDispatch();
  const openedit = useSelector(state => state.feature.editurl);
   const Opencheck =useSelector (state => state.feature.checkDialog);
-  const handleOpencheck = () =>{dispatch(openCheckDialog())};
+  const handleOpencheck = () =>{dispatch(openCheckDialog("scraper"))};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
     const handleClicknext = () =>{dispatch(setnextopen(true))};
     
@@ -179,7 +179,7 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
        <Navcomponent />
     <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1,mb:1}}>
     <Pagename isExpanded={isExpanded}/>
-    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="120px " height="30px"/>
+    <Custombutton isExpanded={isExpanded} label='Scraper UI' onClick={handleClicknext} width="120px " height="30px" expandedHeight="30px"/>
     </Box>
        <Box sx={{ display: 'flex', alignItems: 'center'}}>
       <MultiXpath >MultiXpath Support</MultiXpath>
@@ -289,6 +289,7 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
            columns={AllColumns}
            selectedcolumn={selectedcolumns}
            setSelectedColumns={setselectedcolumnshandle} 
+           page="scraper" 
            />
       </Box>
       

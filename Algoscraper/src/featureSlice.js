@@ -29,7 +29,11 @@ const initialState = {
   onComplete:null,
   analyzedAt:null,
   showFinalReport:false,
-  draftColumns: defaultColumns,
+  draftColumns: {
+  scraper: defaultColumns,
+  record: defaultColumns,
+  table: defaultColumns,
+},
   mainDialogOpen: false,
   checkDialog:false,
   sessionDialogOpen: false,
@@ -48,7 +52,11 @@ const initialState = {
     scraperSaved: true,
     recordSaved: true,
     tableSaved: true,
-    selectcolumns:defaultColumns,
+   selectcolumns: {
+  scraper: defaultColumns,
+  record: defaultColumns,
+  table: defaultColumns,
+},
     nextOpen:false,
   closingDialogopen:false,
   customicondialogopen:false,
@@ -241,23 +249,33 @@ resetShowfinalReport (state){
   resetPage:(state)=>{
     state.currentPage=1
   },
-  toggleDraftcolumn:(state,action) =>{
-    const key=action.payload;
-    if(state.draftColumns.includes(key)){
-      state.draftColumns = state.draftColumns.filter(item => item !== key);
-    }
-    else{
-      state.draftColumns.push(key);
-    }
-  },
-  openCheckDialog(state){
-    state.checkDialog=true;
-    state.draftColumns=[...state.selectcolumns]
-  },
+toggleDraftcolumn: (state, action) => {
+  const { page, key } = action.payload;
+
+  const pageCols = state.draftColumns[page] || [];
+
+  if (pageCols.includes(key)) {
+    state.draftColumns[page] = pageCols.filter(item => item !== key);
+  } else {
+    state.draftColumns[page] = [...pageCols, key];
+  }
+},
+ openCheckDialog(state, action){
+  const page = action.payload;
+
+  state.checkDialog = true;
+
+  state.draftColumns[page] = [
+    ...(state.selectcolumns[page] || [])
+  ];
+},
   closecheckDialog(state){
     state.checkDialog=false;
   },
-  setselectcolumns:(state,action) =>{state.selectcolumns = action.payload},
+  setselectcolumns: (state, action) => {
+  const { page, columns } = action.payload;
+  state.selectcolumns[page] = columns;
+},
   setnextopen : (state,action) =>{state.nextOpen = action.payload},
   openLoader:(state,action)=>{
     state.open=true;

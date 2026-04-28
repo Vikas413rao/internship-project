@@ -1,7 +1,6 @@
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import { Icon } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import { useEffect, useRef } from 'react';
@@ -42,7 +41,8 @@ const Dropfile = styled(Box, {
   display: 'flex',
   alignItems: 'center',
   backgroundColor: theme.palette.grey[200],
-  width: isExpanded ? 460 : 380,  
+  width: isExpanded ? 460 : 400,  
+  height:'30px',
   padding: 4,
   marginLeft: 4,
   marginTop: 4,
@@ -57,28 +57,17 @@ const Typo=styled(Box)(({theme})=>({
 const Ficon = styled(Icon, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
-  marginLeft: isExpanded ? '250px' : '170px', 
+  marginLeft: isExpanded ? '270px' : '210px', 
   color: theme.palette.primary.main,
   transition: 'all 0.3s ease',
 }));
-const Bbutton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
-  color: theme.palette.primary.main,
-  fontSize: 11,
-  width: isExpanded ? 130 : 120,   
-  height: 40,
-  marginTop: 8,
-  fontWeight: 600,
-  fontFamily:theme.typography.fontFamily,
-  transition: 'all 0.3s ease',
-}));
+
 const Stepsuser = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
   backgroundColor: theme.palette.grey[200],
-  width: isExpanded ? 598 : 528,   // ← expands with container
-  height: isExpanded ? '476px' : '386px',  // ← grows taller
+  width: isExpanded ? 598 : 528,   
+  height: isExpanded ? '476px' : '386px',  
   marginLeft: 3,
   marginTop: 2,
   transition: 'all 0.3s ease',
@@ -146,7 +135,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
               <Typo >Drag & Drop your file(S)</Typo>
             <Ficon isExpanded={isExpanded}><CreateNewFolderIcon /></Ficon>
             </Dropfile>
-            <Custombutton isExpanded={isExpanded} variant="outlined" onClick={openFilemanager} label='Browse Files' width='120px' height='35px' fontSize='12px' sx={{color:'#2F8BCC'}}/>
+            <Custombutton isExpanded={isExpanded} variant="outlined" onClick={openFilemanager} label='Browse Files' width='110px' height='30px' expandedHeight='30px' expandedWidth='120px' fontSize='12px' sx={{color:'#2F8BCC'}}/>
           
             </Box>
             <Stepsuser isExpanded={isExpanded}>

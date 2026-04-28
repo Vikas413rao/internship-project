@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 const CustomDropdown = ({
   label,
   value,
@@ -41,17 +41,32 @@ const CustomDropdown = ({
         label={!isTable ? label : undefined}
         onChange={onChange}
         displayEmpty
-        {...props}
+        IconComponent={isTable ? KeyboardArrowDownRoundedIcon : undefined}
+  {...props}
         sx={(theme) => ({
           height: finalHeight,
           fontSize: fontSize,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: isTable
+      ? theme.palette.grey[200]
+      : theme.palette.background.paper,
+      borderRadius: isTable ? "4px" : undefined,
 
           "& .MuiSelect-select": {
-            display: "flex",
-            alignItems: "center",
-           
-          },
+      display: "flex",
+      alignItems: "center",
+      padding: isTable ? "4px 8px" : undefined,
+    },
+      "& .MuiOutlinedInput-notchedOutline": {
+      border: isTable ? "none" : undefined,
+    },
+
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      border: isTable ? "none" : undefined,
+    },
+
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: isTable ? "none" : undefined,
+    },
         })}
         renderValue={(selected) => {
           if (!selected) {

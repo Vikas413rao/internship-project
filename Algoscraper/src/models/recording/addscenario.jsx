@@ -63,7 +63,7 @@ const Userstep = styled(Box, {
   backgroundColor: theme.palette.grey[200],
   width: '100%',
   flexGrow: 1,
-  minHeight: isExpanded ? 520 : 330,
+ minHeight: isExpanded ? 520 : 330,
   padding: isExpanded ? 8 : 4,
   display: 'flex',
   flexDirection: 'column',
@@ -99,6 +99,13 @@ const Userstep = styled(Box, {
     height:25,
     boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
   }))
+  const Tcomponent=styled(Box)({
+    flex:1,
+    minHeight:0,
+    overflow:'auto',
+    boxSizing:'border-box',
+    paddingBottom:1
+  })
   const Stext = styled(TextField)(({theme})=>({
     width:250,
     paddingTop:2,
@@ -122,7 +129,13 @@ minWidth:0,
 width:36,
 boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
 }))
-  
+  const Tbox = styled(Box)({
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'space-between',
+  padding:1,
+  width:'100%'
+})
 export default function Addscenario() {
  
       const navigate = useNavigate(); 
@@ -132,7 +145,7 @@ export default function Addscenario() {
    const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
        const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
   const Opencheck =useSelector (state => state.feature.checkDialog);
-  const handleOpencheck = () =>{dispatch(openCheckDialog())};
+  const handleOpencheck = () =>{dispatch(openCheckDialog("record"))};
   const handleClosecheck = () => {dispatch(closecheckDialog())}
     const isExpanded = useSelector(state => state.feature.isExpanded);
      useEffect(() => {
@@ -168,12 +181,10 @@ const resetChecked = useSelector(state => state.feature.resetSaveChecked);
 const recordRows = useSelector(state => state.feature.recordRows);
 const handleResetConfirm = () => {
   if (resetChecked) {
-    // ✅ Save Data CHECKED → write to chrome storage with correct key, then mark saved
     chrome.storage.local.set({ ['rows_record']: recordRows }, () => {
       dispatch(markSaved('record'));
     });
   } else {
-    // ☐ Save Data UNCHECKED → restore to last saved state from chrome storage
     chrome.storage.local.get(['rows_record'], (result) => {
       const saved = result['rows_record'] || [];
       dispatch(loadRows({ page: 'record', rows: saved }));
@@ -198,7 +209,7 @@ const handleResetConfirm = () => {
           <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
         
         <Pagename isExpanded={isExpanded} />
-       <Custombutton isExpanded={isExpanded} label='+ Add Scenario'  onClick={()=>dispatch(openrecord())} width='120px' fontSize='11px' height='30px'/>
+       <Custombutton isExpanded={isExpanded} label='+ Add Scenario'  onClick={()=>dispatch(openrecord())} width='120px' fontSize='11px' height='30px' expandedHeight='30px'/>
        <CustomDialog
          open={openrecordstate}
          onClose={handleClose}
@@ -328,7 +339,7 @@ const handleResetConfirm = () => {
                  
                 <CustomIconButton size='small' disableBg  height='20px'width='30px'><RadioButtonCheckedIcon sx={{color:'#fe0202',fontSize:18}}/></CustomIconButton>
                 <CustomIconButton size='small'  onClick={()=>dispatch(openeditdialog())} disableBg height='20px'width='30px'><CropSquareOutlinedIcon sx={{fontSize:20}}/>
-                <EditOutlinedIcon sx={{position:'absolute',left:12,fontSize:19,top:-1,backgroundColor:'background.paper',width:'11px',height:'15px'}}/>
+                <EditOutlinedIcon sx={{position:'absolute',left:12,fontSize:19,top:-2,backgroundColor:'background.paper',width:'12px',height:'17px'}}/>
                 </CustomIconButton>
                  <CustomDialog
       open={OpenEditdialog}
@@ -410,7 +421,7 @@ const handleResetConfirm = () => {
        </Scenario>
        )}
             <Userstep isExpanded={isExpanded}>
-                  <Box sx={{display:'flex',alignItems:'center'}}>
+                  <Tbox isExpanded={isExpanded} >
                       <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermscenario(e.target.value))} isSearch width="260px" height="25px" placeholderSize="13px"/>
                         <Box sx={{display:'flex',ml:'auto'
                         }}>
@@ -480,17 +491,18 @@ const handleResetConfirm = () => {
                                   columns={AllColumns}
                                   selectedcolumn={selectedcolumns}
                                   setSelectedColumns={setselectedcolumnshandle} 
+                                  page="record"
                                   />
                                    </Box>
-                        </Box>
-                      <Box sx={{flexGrow:1,minHeight:250}}>
+                        </Tbox>
+                      <Tcomponent>
                      <TableComponent 
                                columns={AllColumns}
                                selectedColumns={selectedcolumns}
                                isExpanded={isExpanded}
                                page="record"
                                />
-                     </Box>
+                     </Tcomponent>
                  </Userstep>
           </Container>
           </Box>

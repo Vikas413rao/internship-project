@@ -2,21 +2,30 @@ import CloseIcon from "@mui/icons-material/Close";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, IconButton, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Checkdialogbox from "../../component/checkdialogbox";
 import Custombutton from "../../component/custombutton";
+import CustomDialog from "../../component/customdialog";
 import CustomIconButton from "../../component/iconbutton";
 import Loaderprogress from "../../component/loaderprogress";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
-import Resetrecorddialog from "../../component/resetrecorddialog";
 import TableComponent from "../../component/Tablecomponent";
 import CustomTextField from "../../component/Textfeild";
-import { AllColumns, clearfile, closecheckDialog, openCheckDialog, openLoader, openresetrecord, setsearchtermtable, setselectcolumns } from "../../featureSlice";
+import {
+  AllColumns, clearfile, closecheckDialog,
+  closeresetrecord,
+  loadRows,
+  markSaved,
+  openCheckDialog, openLoader, openresetrecord,
+  setnextopen,
+  setResetSaveChecked,
+  setsearchtermtable, setselectcolumns
+} from "../../featureSlice";
 const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -38,6 +47,7 @@ const Filebox = styled(Box)(({theme})=>({
 backgroundColor:theme.palette.grey[300],
 padding:'2px 8px',
 marginTop:4,
+height:25,
 marginLeft:4,
 borderRadius:theme.shape.borderRadius,
 display:'inline-flex',
@@ -66,7 +76,6 @@ const Tbox = styled(Box, {
   width: '100%',  
 
   marginLeft: 2,
-  marginTop: 2,
   overflow: 'hidden',
   transition: 'all 0.3s ease'
 }));
@@ -91,13 +100,20 @@ padding:1,
 minWidth:0,
 boxShadow:'0px 2px 6px rgba(0,0,0,0.1)'
 }))
+const Tcomponent=styled(Box)({
+  flex:1,
+  minHeight:0,
+  overflow:'auto',
+  boxSizing:'border-box',
+  paddingBottom:1
+})
 export default function TableScreen (){
     const navigate = useNavigate();
 const dispatch = useDispatch();              
    const selectedcolumns = useSelector(state =>state.feature.selectcolumns)
        const setselectedcolumnshandle= (cols)=>{dispatch(setselectcolumns(cols));}
   const Opencheck =useSelector (state => state.feature.checkDialog);
-  const handleOpencheck = () =>{dispatch(openCheckDialog())};
+  const handleOpencheck = () =>{dispatch(openCheckDialog("table"))};
   const handleClosecheck = () => {dispatch(closecheckDialog())}          
 
         const handleAnalyze=() =>{
@@ -125,7 +141,33 @@ const handleClosefile = () =>{
     }
   }, [isExpanded]);
   const searchterm = useSelector(state => state.feature.searchtermtable)
+  const location = useLocation();
 
+const isscraper = location.pathname === '/scraperui';
+  const resetOpen = useSelector(state => state.feature.resetrecordopen);
+const resetChecked = useSelector(state => state.feature.resetSaveChecked);
+const tableRows = useSelector(state => state.feature.tableRows);
+const handleConfirmReset = () => {
+  if (resetChecked) {
+    chrome.storage.local.set({ ['rows_table']: tableRows }, () => {
+      dispatch(markSaved('table'));
+    });
+  } else {
+    chrome.storage.local.get(['rows_table'], (result) => {
+      const saved = result['rows_table'] || [];
+      dispatch(loadRows({ page: 'table', rows: saved }));
+    });
+  }
+
+  dispatch(setResetSaveChecked(true));
+  dispatch(closeresetrecord());
+
+  if (isscraper) {
+    dispatch(setnextopen(false));
+  } else {
+    navigate('/scraperui');
+  }
+};
     return(
      <div>
           <Box
@@ -140,21 +182,76 @@ const handleClosefile = () =>{
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
             <Pagename  isExpanded={isExpanded} />
-              <Custombutton  isExpanded={isExpanded} label='Scraper Ui' width='100px' height="35px"/>
+              <Custombutton  isExpanded={isExpanded} label='Scraper Ui' width='120px' height="30px" expandedHeight="30px"/>
               </Box>
               {/*file name */}
               <Filebox>
                 <InsertDriveFileOutlinedIcon fontSize='small' />
-                <Filename>{filename || ''}</Filename>
+                <Filename>{filename || 'File.txt'}</Filename>
                 <IconButton size="small" onClick={handleClosefile}><CloseIcon sx={{color:'black',ml:2}} fontSize='small' /></IconButton>
               </Filebox>
               {/*table */}
               <Tbox isExpanded={isExpanded} >
       <Box sx={{display:'flex',alignItems:'center'}}>
-          <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermtable(e.target.value))} isSearch width="200px" height="30px" placeholderSize="13px"/>
-            <Box sx={{display:'flex',gap:0.5,marginLeft: 'auto',    marginRight: 1     }}>
+          <CustomTextField placeholder='Search ' variant='outlined' value={searchterm} onChange={(e)=>dispatch(setsearchtermtable(e.target.value))} isSearch width="300px" height="30px" placeholderSize="13px"/>
+            <Box sx={{display:'flex',marginLeft: 'auto'    }}>
             <CustomIconButton size="small" onClick={()=>dispatch(openresetrecord())}><RefreshRoundedIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
-                       <Resetrecorddialog />
+                       <CustomDialog
+                       open={resetOpen}
+                       onClose={() => dispatch(closeresetrecord())}
+                       showHeader={true}
+                       showCloseIcon={true}
+                       title="Reset Record"
+                       width={280}
+                       height={202}
+                       actionssx={{
+                         justifyContent: 'space-between',
+                         p: 2
+                       }}
+                       buttons={[
+                         {
+                           label: 'No',
+                           onClick: () => dispatch(closeresetrecord()),
+                           width: '80px',
+                           height: '25px',
+                           sx: {
+                             backgroundColor: 'grey.200',
+                             color: 'grey'
+                           }
+                         },
+                         {
+                           label: 'Yes',
+                           onClick: handleConfirmReset,
+                           width: '80px',
+                           height: '25px'
+                         }
+                       ]}
+                     >
+                       <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                         Are You Sure?
+                       </Typography>
+                     
+                       <Typography sx={{ fontSize: 12, color: 'text.secondary', mt: 0.5 }}>
+                         Do you really want to reset these records
+                       </Typography>
+                     
+                       <FormGroup>
+                         <FormControlLabel
+                           control={
+                             <Checkbox
+                               checked={resetChecked}
+                               onChange={(e) => dispatch(setResetSaveChecked(e.target.checked))}
+                               size="small"
+                               sx={{ p: 0.5 }}
+                             />
+                           }
+                           label="Save Data"
+                           sx={{
+                             '& .MuiFormControlLabel-label': { fontSize: 13 }
+                           }}
+                         />
+                       </FormGroup>
+                     </CustomDialog>
                 
             <Custombutton
   label="Auto Mapper"
@@ -162,7 +259,7 @@ const handleClosefile = () =>{
   width="100px"
   height="30px"
   fontSize='10.6px'
-  sx={{ bgcolor: '#2F8BCC', color: 'white',mt:0.3 }}
+  sx={{ bgcolor: '#2F8BCC', color: 'white',mt:0.3,mr:0.5 }}
 />
             <Loaderprogress />
            <CustomIconButton onClick={handleOpencheck}>
@@ -174,16 +271,17 @@ const handleClosefile = () =>{
            columns={AllColumns}
            selectedcolumn={selectedcolumns}
             setSelectedColumns={setselectedcolumnshandle} 
+            page="table"
            />
             </Box>
-          <Box sx={{flexGrow:1,mr:1,minHeight:0}}>
+          <Tcomponent>
           <TableComponent 
            columns={AllColumns}
             selectedColumns={selectedcolumns}
             isExpanded={isExpanded}
             page ='table'/>
           
-          </Box>
+          </Tcomponent>
      </Tbox>
           </Container>
           </Box>

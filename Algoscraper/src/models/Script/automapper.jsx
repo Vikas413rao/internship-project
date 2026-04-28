@@ -28,8 +28,8 @@ const Container = styled(Box, {
 }));
 const Scenariob=styled(Box)(({theme})=>({
 backgroundColor:theme.palette.primary.main,
-height:30,
-padding:4,
+height:35,
+padding:'4px 3px 2px',
 marginLeft:5,
 marginRight:5,
 marginTop:2,
@@ -37,14 +37,14 @@ borderTopLeftRadius:'5px',
 borderTopRightRadius:'5px'
 }))
 const Btask = styled(Box)(({theme})=>({
-    backgroundColor:theme.palette.background.paper,
-    boxShadow:'2px 1px 3px rgba(0,0,0,0.2)',
-    height:40,
-    padding:1,
+    backgroundColor:theme.palette.background.default,
+    boxShadow:' 3px 4px 5px rgba(0,0,0,0.2)',
+    height:35,
+    padding: '4px 6px',
     borderRadius:theme.shape.borderRadius,
-    marginTop:2,
+    marginTop:5,
     display:'flex',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
 }))
 const Lprogress = styled(LinearProgress)(({theme,progress})=>({
     height:6,
@@ -107,14 +107,14 @@ return(
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1}}>
               <Box sx={{display:'flex',alignItems:'center'}}>
-               <Pagename isExpanded={isExpanded} />
+               <Pagename isExpanded={isExpanded} width='420px' expandedWidth='480px'/>
               </Box>
               </Box>
               {/*scenario */}
               <Scenariob ><Typography sx={{color:'white',fontSize:'13px',p:1}}>Scenario Name</Typography>
               {tasks.map((task) =>(
               <Btask key={task.id}>
-                <Typography sx={{fontSize:13,pl:1,color:'text.secondary'}}>{task.name}</Typography>
+                <Typography sx={{fontSize:13,p:1,color:'text.secondary'}}>{task.name}</Typography>
                 <Box sx={{right:0}}>
                 <Typography fontSize={12} color='text.secondary'><b style={{color:getColor(task.progress)}}>{task.progress}%</b>{task.progress === 100 ? 'Completed' : 'Mapping...'}</Typography>
                 
@@ -123,9 +123,11 @@ return(
               </Box>
               <CustomIconButton
   onClick={() => navigate('/scenariofile')}
+  height='20px'
+  sx={{mt:1}}
 >
               <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
-              <NorthEastOutlinedIcon sx={{ position: "absolute",bottom:12,right: 3,fontSize: 15,backgroundColor:'transparent',borderRadius: "50%",color:'#2F8BCC' }}/>
+              <NorthEastOutlinedIcon sx={{ position: "absolute",bottom:8,right: 7,fontSize: 12,backgroundColor:'background.paper',borderRadius: "50%",color:'#2F8BCC' }}/>
               </CustomIconButton>
               </Btask>
              

@@ -190,48 +190,46 @@ export default function Navcomponent() {
     const navigate=useNavigate();
     const location=useLocation();
      const currentPage = routeToPage(location.pathname);
-     useEffect(()=> {
-        ['scraper','record','table'].forEach(async (page)=>{
-            const saved = await loadFromStorage(page);
-            dispatch(loadRows({page, rows:saved}));
-        });
-     },[dispatch]);
-     useEffect(() => {
+    //  useEffect(()=> {
+    //     ['scraper','record','table'].forEach(async (page)=>{
+    //         const saved = await loadFromStorage(page);
+    //         dispatch(loadRows({page, rows:saved}));
+    //     });
+    //  },[dispatch]);
+   useEffect(() => {
   if (!isChromeAvailable) return;
 
-  chrome.storage.local.get(['isMinimized', 'lastRoute'], (result) => {
-
-    
-    ['scraper','record','table'].forEach(async (page) => {
-      const saved = await loadFromStorage(page);
-      dispatch(loadRows({ page, rows: saved }));
-    });
-
-   
-    if (result?.lastRoute && result.lastRoute !== location.pathname) {
-      setTimeout(() => {
-        navigate(result.lastRoute, { replace: true });
-      }, 100);
-
-    
-      chrome.storage.local.set({ lastRoute: null });
-    }
-
-    
-    if (result?.isMinimized) {
-      chrome.storage.local.set({ isMinimized: false });
-
-      chrome.tabs.query({}, (tabs) => {
-        tabs.forEach(tab => {
-          chrome.tabs.sendMessage(tab.id, {
-            action: 'removeFloatIcon'
-          }).catch(() => {});
-        });
+  chrome.storage.local.get(
+    ['isMinimized', 'lastRoute', 'unsaved_scraper', 'unsaved_record', 'unsaved_table'],
+    (result) => {
+      ['scraper', 'record', 'table'].forEach(async (page) => {
+        const unsavedKey = `unsaved_${page}`;
+        if (result[unsavedKey] && result[unsavedKey].length > 0) {
+          dispatch(loadRows({ page, rows: result[unsavedKey] }));
+          chrome.storage.local.remove(unsavedKey);
+        } else {
+          const saved = await loadFromStorage(page);
+          dispatch(loadRows({ page, rows: saved }));
+        }
       });
+
+      if (result?.lastRoute && result.lastRoute !== location.pathname) {
+        setTimeout(() => {
+          navigate(result.lastRoute, { replace: true });
+        }, 100);
+        chrome.storage.local.set({ lastRoute: null });
+      }
+
+      if (result?.isMinimized) {
+        chrome.storage.local.set({ isMinimized: false });
+        chrome.tabs.query({}, (tabs) => {
+          tabs.forEach(tab => {
+            chrome.tabs.sendMessage(tab.id, { action: 'removeFloatIcon' }).catch(() => {});
+          });
+        });
+      }
     }
-
-  });
-
+  );
 }, [dispatch]);
         const iscurrentpageunsaved = () =>{
         if(currentPage === 'scraper') return !scraperSaved;
@@ -266,16 +264,17 @@ export default function Navcomponent() {
 
     }
     
-   const handleSaveandnav = async () =>{
-    if(currentPage){
-        const rowsMap = {scraper: scraperRows, record: recordRows, table:tableRows};
-        await saveToStorage(currentPage,rowsMap[currentPage]);
-        dispatch(markSaved(currentPage));
-    }
-    const route = pendingNavroute;
-    dispatch(closeUnsavedDialog());
-    if(route) navigate(route);
-   };
+  const handleSaveandnav = async () => {
+  if (currentPage) {
+    const rowsMap = { scraper: scraperRows, record: recordRows, table: tableRows };
+    await saveToStorage(currentPage, rowsMap[currentPage]);
+    chrome.storage.local.remove(`unsaved_${currentPage}`);
+    dispatch(markSaved(currentPage));
+  }
+  const route = pendingNavroute;
+  dispatch(closeUnsavedDialog());
+  if (route) navigate(route);
+};
    const handleDiascardandnav = async () =>{
     if(currentPage){
         const saved = await loadFromStorage(currentPage);
@@ -294,47 +293,52 @@ export default function Navcomponent() {
     body.style.height = isExpanded ? '530px' : '430px';
   }, [isExpanded]);
 
-    const handleCtrlS = useCallback(async (e) =>{
-        if(!(e.ctrlKey && e.key === 's')) return;
-        e.preventDefault();
-        if(!currentPage) return;
-        const rowsMap = {scraper: scraperRows, record: recordRows, table: tableRows};
-        const rows = rowsMap[currentPage];
-        await saveToStorage(currentPage,rows);
-        dispatch(markSaved(currentPage));
-    },[currentPage,scraperRows,recordRows,tableRows,dispatch]);
+  const handleCtrlS = useCallback(async (e) => {
+  if (!(e.ctrlKey && e.key === 's')) return;
+  e.preventDefault();
+  if (!currentPage) return;
+  const rowsMap = { scraper: scraperRows, record: recordRows, table: tableRows };
+  const rows = rowsMap[currentPage];
+  await saveToStorage(currentPage, rows);
+  chrome.storage.local.remove(`unsaved_${currentPage}`);
+  dispatch(markSaved(currentPage));
+}, [currentPage, scraperRows, recordRows, tableRows, dispatch]);
 
-    useEffect(()=>{
-        document.addEventListener('keydown', handleCtrlS);
-        return () => document.removeEventListener('keydown',handleCtrlS);
-    },[handleCtrlS]);
-
+// ✅ THIS was missing — without it, handleCtrlS is defined but never attached
+useEffect(() => {
+  document.addEventListener('keydown', handleCtrlS);
+  return () => document.removeEventListener('keydown', handleCtrlS);
+}, [handleCtrlS]);
   
  const handleMinimize = () => {
+  // Save ALL rows (saved or not) to storage before closing
+  const allRows = {
+    scraper: scraperRows,
+    record: recordRows,
+    table: tableRows,
+  };
+
   chrome.storage.local.set({
     isMinimized: true,
-    lastRoute: location.pathname
-  });
-
-  console.log("Saving route:", location.pathname);
-
-  
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach(tab => {
-      if (!tab.id) return;
-
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ["content.js"]
-      }).then(() => {
-        chrome.tabs.sendMessage(tab.id, {
-          action: "showFloatIcon"
-        });
-      }).catch(() => {});
+    lastRoute: location.pathname,
+    unsaved_scraper: allRows.scraper,
+    unsaved_record: allRows.record,
+    unsaved_table: allRows.table,
+  }, () => {
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach(tab => {
+        if (!tab.id) return;
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ["content.js"]
+        }).then(() => {
+          chrome.tabs.sendMessage(tab.id, { action: "showFloatIcon" });
+        }).catch(() => {});
+      });
     });
-  });
 
-  window.close();
+    window.close();
+  });
 };
 const handleCloseclick = () => {
   dispatch(openclosingdialog());

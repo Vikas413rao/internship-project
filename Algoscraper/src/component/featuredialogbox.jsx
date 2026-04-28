@@ -34,8 +34,8 @@ export default function Featuredialogbox({ pagelist }) {
         <DialogContent>
           <Stack direction="row" spacing={1} mt={2}>
             
-            <Custombutton label='Start Section' variant='outlined' color='success' width='150px' height='40px' fontSize='11px' onClick={() => dispatch(startSession())} />
-            <Custombutton label='Clear Section' variant='outlined' color='info' width='150px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} />
+            <Custombutton label='Start Section' variant='outlined' color='success' width='150px' height='40px' fontSize='11px' onClick={() => dispatch(startSession())} sx={{color: 'success.main'}}/>
+            <Custombutton label='Clear Section' variant='outlined' color='info' width='150px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} sx={{color:'info.main'}}/>
           </Stack>
         </DialogContent>
       </Dialog>
@@ -44,8 +44,8 @@ export default function Featuredialogbox({ pagelist }) {
           <DialogTitle sx={{ pr: 5 ,fontSize:13}}>Create Your Feature</DialogTitle>
           <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, overflow: "hidden" }}>
             <Stack direction='row' spacing={1} mt={2}>
-              <Custombutton label='Stop Section' variant='outlined' color='error' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} />
-              <Custombutton label='Clear Section' variant='outlined' color='info' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(clearSession())} />
+              <Custombutton label='Stop Section' variant='outlined' color='error' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(closeSession())} sx={{color:'error.main'}}/>
+              <Custombutton label='Clear Section' variant='outlined' color='info' width='120px' height='40px' fontSize='11px' onClick={()=>dispatch(clearSession())} sx={{color:'info.main'}}/>
             </Stack>
             <Stack spacing={1.5} >
               <CustomDropdown
@@ -69,7 +69,7 @@ export default function Featuredialogbox({ pagelist }) {
              
             </Stack>
           </DialogContent >
-          <DialogActions sx={{mt:-3}}><Custombutton label='Proceed' variant='contained' width='120px' height='40px' fontSize='11px' /></DialogActions>
+          <DialogActions sx={{mt:-3}}><Custombutton label='Proceed' variant='contained' width='120px' height='40px' fontSize='11px' onClick={() => dispatch(closeSession())}/></DialogActions>
         </Dialog>
     </>
   );

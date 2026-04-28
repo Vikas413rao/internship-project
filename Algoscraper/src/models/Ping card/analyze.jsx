@@ -54,58 +54,61 @@ const Reportbox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
   width: isExpanded ? 560 : 480,   
-  height: isExpanded ? 140 : 120,  
+  height: isExpanded ? 120 : 90,  
   marginLeft: 20,
   marginTop: 5,
-  borderRadius: '10px',
+  borderRadius: '6px',
   backgroundColor: theme.palette.background.paper
 }))
 
 const Reporthead = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
-  height: 45,
+  height: 35,
   width: isExpanded ? 560 : 480,   
   backgroundColor: theme.palette.primary.main,
-  borderTopLeftRadius: '10px',
-  borderTopRightRadius: '10px',
+  borderTopLeftRadius: '6px',
+  borderTopRightRadius: '6px',
   display: 'flex',
   alignItems: 'center'
 }))
-const Urltype = styled(Typography)({
-position:'absolute',
-marginTop:20,
-marginLeft:8,
-fontWeight:600
-})
+const Urltype = styled(Typography)(({ theme }) => ({
+  position: 'absolute',
+  marginTop: 20,
+  marginLeft: 8,
+  fontWeight: 600,
+  fontSize: 16,
+  fontFamily: theme.typography.fontFamily,
+}));
 const Sbox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
   width: isExpanded ? 175 : 145,   
-  height: isExpanded ? 140 : 120,  
+  height: isExpanded ? 120 : 90,  
   marginLeft: 20,
   marginTop: 4,
-  borderRadius: '10px',
+  borderRadius: '6px',
   backgroundColor: theme.palette.background.paper
 }))
 
 const Shead = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
-  height: 45,
+  height: 35,
   width: isExpanded ? 175 : 145,  
   backgroundColor: theme.palette.primary.main,
-  borderTopLeftRadius: '10px',
-  borderTopRightRadius: '10px',
+  borderTopLeftRadius: '6px',
+  borderTopRightRadius: '6px',
   display: 'flex',
   alignItems: 'center'
 }))
-const Typehead = styled(Typography)(({theme})=>({
-  color:theme.palette.common.white,
-  fontFamily:theme.typography.fontFamily,
-  fontSize:17,
-  padding:2
-}))
+const Typehead = styled(Typography)(({ theme }) => ({
+  color: theme.palette.common.white,
+  fontFamily: theme.typography.fontFamily,
+  fontSize: '15px',
+  padding: '2px',
+  marginLeft: 10
+}));
 const AnalyzeB = styled(Button,{
   shouldForwardProp: (prop) => prop !== 'isExpanded',
 })(({ theme, isExpanded }) => ({
@@ -161,8 +164,8 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                  <CustomTextField isExpanded placeholder='Enter a Webpage Url' variant='outlined' value={url} margin='0px 0px 0px 3px'
                  isSearch={true} height="30px" width='340px' expandedWidth='380px' expandedHeight='30px' fontSize='12px' placeholderSize='12px'/>
                
-                 <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='30px'/>
-                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='30px' sx={{color:'#1976d2'}}/>
+                 <Custombutton label='Analyze'  isExpanded={isExpanded} width='100px' height='30px' expandedHeight='30px'/>
+                 <Custombutton  variant="outlined" label='Stop' isExpanded={isExpanded} width='100px' height='30px' sx={{color:'#1976d2'}} expandedHeight='30px'/>
                
                 </Box> 
                 <Body  isExpanded={isExpanded}>
@@ -174,12 +177,12 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                     <Reportbox isExpanded={isExpanded}>
                       <Reporthead isExpanded={isExpanded}>
                         <Typehead >Your Report</Typehead>
-                        <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
+                        <Typography sx={{color:'white',ml:22}}>{analyzedAt && 
                           `${new Date(analyzedAt).toLocaleDateString('en-IN',{
                             day:'2-digit',
-                            month:'short',
+                            month:'numeric',
                             year:'numeric'
-                          })}
+                          })} |
                           ${new Date(analyzedAt).toLocaleTimeString('en-IN',{
                             hour:'2-digit',
                             minute:'2-digit',
@@ -189,24 +192,24 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                       </Reporthead>
                       <Urltype>Given URL:<Link href={url} >{url}</Link></Urltype>
                       </Reportbox>
-                      <Box sx={{display:'flex',alignItems:'center'}}>
+                      <Box sx={{display:'flex',alignItems:'center',mt:1}}>
                        <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded} >
                       <Typehead>Status</Typehead>
                       </Shead>
-                       <Typography fontSize={30} sx={{p:2}}>200</Typography>
+                       <Typography fontSize={30} sx={{p:1}}>200</Typography>
                       </Sbox >
                       <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded}>
                       <Typehead>Response Time</Typehead>
                       </Shead>
-                      <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
+                      <Typography fontSize={30} sx={{p:1}}>0.58 s</Typography>
                       </Sbox>
                       <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded}>
                       <Typehead>Load Time</Typehead>
                       </Shead>
-                      <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>
+                      <Typography fontSize={30} sx={{p:1}}>2.41 s</Typography>
                       </Sbox>
                       </Box>
                   </Box>
@@ -220,12 +223,12 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                     <Reportbox isExpanded={isExpanded}>
                       <Reporthead isExpanded={isExpanded}>
                         <Typehead>Your Report</Typehead>
-                         <Typography sx={{color:'white',ml:20}}>{analyzedAt && 
+                         <Typography sx={{color:'white',ml:22}}>{analyzedAt && 
                           `${new Date(analyzedAt).toLocaleDateString('en-IN',{
                             day:'2-digit',
-                            month:'short',
+                            month:'numeric',
                             year:'numeric'
-                          })}
+                          })} | 
                           ${new Date(analyzedAt).toLocaleTimeString('en-IN',{
                             hour:'2-digit',
                             minute:'2-digit',
@@ -235,24 +238,24 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                       </Reporthead>
                       <Urltype>Given URL:<Link href={url} >{url}</Link></Urltype>
                       </Reportbox>
-                      <Box sx={{display:'flex',alignItems:'center'}}>
+                      <Box sx={{display:'flex',alignItems:'center',mt:1}}>
                        <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded}>
                       <Typehead>Status</Typehead>
                       </Shead>
-                       <Typography fontSize={30} sx={{p:2}}>200</Typography>
+                       <Typography fontSize={30} sx={{p:1}}>200</Typography>
                       </Sbox>
                       <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded}>
                       <Typehead>Response Time</Typehead>
                       </Shead>
-                      <Typography fontSize={30} sx={{p:2}}>0.58 s</Typography>
+                      <Typography fontSize={30} sx={{p:1}}>0.58 s</Typography>
                       </Sbox>
                       <Sbox isExpanded={isExpanded}>
                       <Shead isExpanded={isExpanded}>
                       <Typehead>Load Time</Typehead>
                       </Shead>
-                      <Typography fontSize={30} sx={{p:2}}>2.41 s</Typography>
+                      <Typography fontSize={30} sx={{p:1}}>2.41 s</Typography>
                       </Sbox>
                       </Box>
                   </Box>

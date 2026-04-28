@@ -1,16 +1,17 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CropSquareOutlinedIcon from "@mui/icons-material/CropSquareOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Box, Button, FormControlLabel, Radio, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, InputLabel, Radio, Select, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CustomDialog from "../../component/customdialog";
 import CustomIconButton from "../../component/iconbutton";
 import Navcomponent from "../../component/navcomponent";
 import Pagename from "../../component/pagename";
-import Stepdetailbox from "../../component/Stepdetail";
-import { openCustomdialog } from "../../featureSlice";
+import CustomTextField from "../../component/Textfeild";
+import { closeCustomdialog, openCustomdialog } from "../../featureSlice";
 const Buttonarrow=styled(Button)(({theme})=>({
     minWidth:0,
     width:'24px',
@@ -41,11 +42,11 @@ const Container = styled(Box, {
 }));
 const Scenariob=styled(Box)(({theme})=>({
 backgroundColor:theme.palette.primary.main,
-height:40,
+height:35,
 padding:2,
 marginLeft:3,
 marginRight:3,
-marginTop:2,
+marginTop:4,
 borderTopLeftRadius:'10px',
 borderTopRightRadius:'10px',
 display:'flex',
@@ -53,11 +54,11 @@ alignItems:'center'
 }))
 const Sbox = styled(Box)(({theme})=>({
 backgroundColor:theme.palette.background.paper,
-boxShadow:'2px 1px 3px rgba(0,0,0,0.3)',
+boxShadow:'2px 1px 5px rgba(0,0,0,0.3)',
 height:35,
 padding:2,
 borderRadius:theme.shape.borderRadius,
-marginTop:2,
+marginTop:8,
 marginLeft:8,
 marginRight:4,
 display:'flex',
@@ -67,8 +68,8 @@ const Edit=styled(EditOutlinedIcon)(({theme})=>({
 position:'absolute',
 bottom:12,
 right:6,
-fontSize:15,
-backgroundColor:theme.palette.common.transparent,
+fontSize:12,
+backgroundColor:theme.palette.background.paper,
 borderRadius:theme.shape.borderRadius,
 color:theme.palette.primary.main
 
@@ -93,6 +94,9 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
       body.style.height = '430px';
     }
   }, [isExpanded]);
+  const open = useSelector(state => state.feature.customDialogOpen);
+const handleClose = () => dispatch(closeCustomdialog());
+const handleConfirm = () => {dispatch(closeCustomdialog());};
               return(
                 <div>
     <Box
@@ -107,7 +111,7 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1}}>
               <Box sx={{display:'flex',alignItems:'center'}}>
-                <Pagename isExpanded={isExpanded}/>
+                    <Pagename isExpanded={isExpanded} width='420px' expandedWidth='480px'/>
               </Box>
               </Box>
                <Scenariob >
@@ -117,12 +121,62 @@ const isExpanded = useSelector(state => state.feature.isExpanded);
                </Scenariob>
                {scenarios.map((label,index) =>(
                <Sbox key={index} >
-                 <FormControlLabel value={label} control={<Radio  size='small'/>} label={label} sx={(theme)=>({'& .MuiFormControlLabel-label':{color:'red',fontSize:'13px', fontFamily: theme.typography.fontFamily}})}/> 
+                 <FormControlLabel value={label} control={<Radio  size='small' sx={{ml:2}}/>} label={label} sx={(theme)=>({'& .MuiFormControlLabel-label':{color:'red',fontSize:'13px', fontFamily: theme.typography.fontFamily}})}/> 
                 <CustomIconButton  sx={{ml:35}} onClick={()=>dispatch(openCustomdialog())}>
                    <CropSquareOutlinedIcon sx={{ fontSize: 19,color:'#2F8BCC' }}/>
                    <Edit />
                 </CustomIconButton>
-                <Stepdetailbox />
+                <CustomDialog
+  open={open}
+  onClose={handleClose}
+  showHeader={true}
+  showCloseIcon={true}
+  title="Steps details"
+  width={300}
+  height={275}
+  actionssx={{ justifyContent: 'center', gap: 1,mt:-2 }}
+  buttons={[
+    {
+      label: 'Cancel',
+      onClick: handleClose,
+      width: '80px',
+      height: '25px',
+      sx: {
+        backgroundColor: 'grey.200',
+        color: 'grey'
+      }
+    },
+    {
+      label: 'Save',
+      onClick: handleConfirm,
+      width: '80px',
+      height: '25px'
+    }
+  ]}
+>
+ 
+  <Box sx={{ display: 'flex', gap: 1 ,mt:-1}}>
+    <FormControl size="small">
+      <InputLabel sx={{ fontSize: 13 }}>Control Type</InputLabel>
+      <Select sx={{ width: 120 }} native defaultValue="" />
+    </FormControl>
+
+    <FormControl size="small">
+      <InputLabel sx={{ fontSize: 13 }}>Control Action</InputLabel>
+      <Select sx={{ width: 125 }} defaultValue="" />
+    </FormControl>
+  </Box>
+
+  <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+    <CustomTextField defaultValue="Control Value" />
+    <CustomTextField defaultValue="Page Name" />
+  </Stack>
+
+  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
+    <CustomTextField label="Control Name" />
+    <CustomTextField label="Xpath" />
+  </Box>
+</CustomDialog>
                 </Sbox>
                   ))}
                 </Container>

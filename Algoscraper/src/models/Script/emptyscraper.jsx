@@ -32,6 +32,7 @@ backgroundColor:theme.palette.grey[300],
 padding:'2px 8px',
 marginTop:4,
 marginLeft:4,
+height:25,
 borderRadius:theme.shape.borderRadius,
 display:'inline-flex',
 alignItems:'center',
@@ -102,7 +103,7 @@ export default function EmptyScraper () {
           {/*page name */}
            <Box sx={{display:'flex',alignItems:'center',ml:1,gap:1}}>
               <Pagename  isExpanded={isExpanded}/>
-              <Custombutton  isExpanded={isExpanded} label='Scraper UI' onClick={()=>navigate('/tablescreen')} width="100px" height="35px"/>
+              <Custombutton  isExpanded={isExpanded} label='Scraper UI' onClick={()=>navigate('/tablescreen')} width="120px" height="30px" expandedHeight="30px"/>
               </Box>
               {/*file name */}
               <Filebox >

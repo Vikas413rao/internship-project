@@ -98,9 +98,13 @@ const StyledTableContainer = styled(TableContainer, {
   msOverflowStyle: 'none',
 
   backgroundColor: theme.palette.background.paper,
+  borderRadius: '5px'
 }));
 export default function TableComponent({columns,isExpanded,page}) {
-  const {currentPage,rowsperPage,selectcolumns,searchtermscarper,searchtermscenario,searchtermtable,scraperRows,recordRows,tableRows} = useSelector(state =>state.feature)
+  const {currentPage,rowsperPage,searchtermscarper,searchtermscenario,searchtermtable,scraperRows,recordRows,tableRows} = useSelector(state =>state.feature)
+  const selectcolumns = useSelector(
+  state => state.feature.selectcolumns[page] || []
+);
   const startIndex = (currentPage - 1) * rowsperPage;
   const dispatch = useDispatch();
        const rows = page === 'scraper' ? scraperRows
