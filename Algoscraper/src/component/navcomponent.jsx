@@ -304,14 +304,14 @@ export default function Navcomponent() {
   dispatch(markSaved(currentPage));
 }, [currentPage, scraperRows, recordRows, tableRows, dispatch]);
 
-// ✅ THIS was missing — without it, handleCtrlS is defined but never attached
+
 useEffect(() => {
   document.addEventListener('keydown', handleCtrlS);
   return () => document.removeEventListener('keydown', handleCtrlS);
 }, [handleCtrlS]);
   
  const handleMinimize = () => {
-  // Save ALL rows (saved or not) to storage before closing
+ 
   const allRows = {
     scraper: scraperRows,
     record: recordRows,
