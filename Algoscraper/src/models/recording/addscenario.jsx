@@ -5,8 +5,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -181,9 +181,10 @@ const resetChecked = useSelector(state => state.feature.resetSaveChecked);
 const recordRows = useSelector(state => state.feature.recordRows);
 const handleResetConfirm = () => {
   if (resetChecked) {
-    chrome.storage.local.set({ ['rows_record']: recordRows }, () => {
-      dispatch(markSaved('record'));
-    });
+   chrome.storage.local.set({ ['rows_record']: recordRows }, () => {
+  chrome.storage.local.remove('unsaved_record'); 
+  dispatch(markSaved('record'));
+});
   } else {
     chrome.storage.local.get(['rows_record'], (result) => {
       const saved = result['rows_record'] || [];
@@ -194,6 +195,17 @@ const handleResetConfirm = () => {
   dispatch(setResetSaveChecked(true));
   dispatch(closeresetrecord());
   navigate('/scraperui');
+};
+const handleSaveRecord = async () => {
+  if (typeof chrome === "undefined" || !chrome.storage) return;
+
+  await new Promise((resolve) => {
+    chrome.storage.local.set({ ['rows_record']: recordRows }, resolve);
+  });
+
+  chrome.storage.local.remove('unsaved_record');
+
+  dispatch(markSaved('record'));
 };
     return (
     <div>
@@ -482,7 +494,7 @@ const handleResetConfirm = () => {
     />
   </FormGroup>
 </CustomDialog>
-                        <CustomIconButton size="small" height='25px' width='28px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
+                        <CustomIconButton size="small" height='25px' width='28px' onClick={handleSaveRecord}><SaveAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
                          <CustomIconButton size="small" onClick={handleOpencheck} height='25px' width='28px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>
                      
                        <Checkdialogbox

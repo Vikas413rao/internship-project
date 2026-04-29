@@ -3,7 +3,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
@@ -22,7 +22,7 @@ import Navcomponent from '../../component/navcomponent';
 import Pagename from '../../component/pagename';
 import TableComponent from '../../component/Tablecomponent';
 import CustomTextField from "../../component/Textfeild";
-import { AllColumns, closecheckDialog, closeediturl, closeresetrecord, openCheckDialog, openediturl, openresetrecord, resetUnsavedRows, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
+import { AllColumns, closecheckDialog, closeediturl, closeresetrecord, markSaved, openCheckDialog, openediturl, openresetrecord, resetUnsavedRows, setnextopen, setsearchtermscraper, setselectcolumns } from "../../featureSlice";
 const stepsData =[
   'To fetch all locators in one go,click on Scrape UI.',
   'Right click on UI control to fetch individual locators.',
@@ -172,7 +172,18 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
     dispatch(resetUnsavedRows('scraper'));
     dispatch(setnextopen(false));
 };
+const scraperRows = useSelector(state => state.feature.scraperRows);
+const handleSave = async () => {
+  if (typeof chrome === "undefined" || !chrome.storage) return;
 
+  await new Promise((resolve) => {
+    chrome.storage.local.set({ ['rows_scraper']: scraperRows }, resolve);
+  });
+
+  chrome.storage.local.remove('unsaved_scraper');
+
+  dispatch(markSaved('scraper'));
+};
   return (
    <Box sx={{ margin: 0, padding: 0 }}>
             <Container  isExpanded={isExpanded}>
@@ -280,7 +291,7 @@ const searchterm = useSelector(state => state.feature.searchtermscraper)
         Are you sure you want to refresh? All unsaved data will be lost.
     </Typography>
 </CustomDialog>
-             <CustomIconButton height='25px' width='28px'><SystemUpdateAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
+             <CustomIconButton height='25px' width='28px' onClick={handleSave}><SaveAltIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>  
              <CustomIconButton onClick={handleOpencheck} height='25px' width='28px'><MoreVertIcon sx={{color:'#2F8BCC'}}/></CustomIconButton>                  
             
            <Checkdialogbox
