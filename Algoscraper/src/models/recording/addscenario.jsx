@@ -304,7 +304,7 @@ const handleSaveRecord = async () => {
   onClose={handleclosesetting}
   showHeader={true}
   showCloseIcon={true}
-  title="Edit Scenario"
+  title="Settings"
   width={250}
   height={160}
   headerBgColor="#fff"
